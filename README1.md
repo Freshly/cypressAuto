@@ -16,5 +16,5 @@ We use Chrome as our default browser.
 ### Code Conventions
 :heavy_check_mark: Camel case fo
 :heavy_check_mark: Kebab-case for file names and directories </br>
-:heavy_check_mark: Use FakerJStion </br>
+:heavy_check_mark: Use FakerJSchtion </br>
 
