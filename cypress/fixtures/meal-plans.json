@@ -19,15 +19,6 @@
 		"description": "Choice of any combination of 9 meals",
 		"id": 423,
 		"trait": "flex9",
-		"meals": 9,
-
-	},
-	{
-		"name": "12 meals / week",
-		"description": "Choice of any combination of 12 meals",
-		"id": 424,
-		"trait": "flex12",
-		"meals": 12,
-
+		"meals": 9
 	}
 ]
