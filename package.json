@@ -1,0 +1,9 @@
+{
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "cypress": "3.4.1",
+    "cypress-plugin-retries": "^1.2.2",
+    "faker": "^4.1.0"
+  }
+}
