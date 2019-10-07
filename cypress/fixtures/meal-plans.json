@@ -1,13 +1,5 @@
 [
 	{
-		"name": "4 meals / week",
-		"description": "Choice of any combination of 4 meals",
-		"id": 421,
-		"trait": "flex4",
-		"meals": 4,
-
-	},
-	{
 		"name": "6 meals / week",
 		"description": "Choice of any combination of 6 meals",
 		"id": 422,
