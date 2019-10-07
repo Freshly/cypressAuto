@@ -1,0 +1,33 @@
+[
+	{
+		"name": "4 meals / week",
+		"description": "Choice of any combination of 4 meals",
+		"id": 421,
+		"trait": "flex4",
+		"meals": 4,
+
+	},
+	{
+		"name": "6 meals / week",
+		"description": "Choice of any combination of 6 meals",
+		"id": 422,
+		"trait": "flex6",
+		"meals": 6,
+	},
+	{
+		"name": "9 meals / week",
+		"description": "Choice of any combination of 9 meals",
+		"id": 423,
+		"trait": "flex9",
+		"meals": 9,
+
+	},
+	{
+		"name": "12 meals / week",
+		"description": "Choice of any combination of 12 meals",
+		"id": 424,
+		"trait": "flex12",
+		"meals": 12,
+
+	}
+]
