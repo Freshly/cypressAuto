@@ -136,20 +136,20 @@ export default {
         },
         fillRegistrationData: {
             fillUserData: (userData, address) => {
-                cy.get("[id='checkout_first_name']")
+                cy.get("[name='firstName']")
                     .type(userData.firstName)
-                cy.get("[id='checkout_last_name']")
+                cy.get("[name='lastName']")
                     .type(userData.lastName)
-                cy.get("[id='checkout_password']")
+                cy.get("[name='password']")
                     .type(userData.password)
 
-                cy.get("[id='checkout_line1']")
+                cy.get("[name='line1']")
                     .should("be.visible")
-                cy.get("[id='checkout_line1']")
+                cy.get("[name='line1']")
                     .type(address.line1)
-                cy.get("[id='checkout_phone']")
+                cy.get("[name='phone']")
                     .type(userData.phoneNumber)
-                cy.get("[value='Next']").click()
+                cy.get("[class='btn btn-primary btn-block btn-lg btn btn-secondary']").click()
 
 
             },
@@ -252,10 +252,7 @@ export default {
         },
 
         getFirstNameHeader: () => {
-            return cy.get('[data-test='
-            header - first - name
-            ']'
-        )
+            return cy.get("[data-test='header-first-name']")
         },
 
         getCancelSubscriptionButton: () => {
@@ -295,12 +292,14 @@ export default {
 
 
         dismissSelfAttributionForm2: () => {
-            cy.get("[id='snacks-promotion-modal']")
+            /*cy.get("[id='snacks-promotion-modal']")
                 .find("[id='cta-primary']")
                 .should("be.visible")
             cy.get("[id='snacks-promotion-modal']")
                 .find("[id='cta-close']")
-                .click()
+                .click()*/
+            cy.xpath("//*[@id = 'change-meals-modal']/div/div/div[1]/button|//*[@data-meal-planner--raf-modal-raf-path='/refer_a_friend']/div/div/div[1]/button").should("be.visible").click()
+            //cy.get("//*[@id = 'change-meals-modal']/div/div/div[1]/button|//*[@data-meal-planner--raf-modal-raf-path=\"/refer_a_friend\"]/div/div/div[1]/button").should("be.visible")
         },
 
         skipBothAttributionForms: () => {
@@ -312,12 +311,7 @@ export default {
                 .find(".modal-footer")
                 .find("[id='cta-secondary']")
                 .click()
-            cy.get("[id='snacks-promotion-modal']")
-                .find("[id='cta-primary']")
-                .should("be.visible")
-            cy.get("[id='snacks-promotion-modal']")
-                .find("[id='cta-close']")
-                .click()
+            cy.xpath("//*[@id = 'change-meals-modal']/div/div/div[1]/button|//*[@data-meal-planner--raf-modal-raf-path='/refer_a_friend']/div/div/div[1]/button").should("be.visible").click()
         },
 
         visitSubscriptionSettingsPage: () => {

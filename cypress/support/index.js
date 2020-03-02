@@ -17,6 +17,7 @@
 import "./commands"
 
 require("cypress-plugin-retries")
+require('cypress-xpath')
 Cypress.on("uncaught:exception", () => {
     // returning false here prevents Cypress from
     // failing the test
