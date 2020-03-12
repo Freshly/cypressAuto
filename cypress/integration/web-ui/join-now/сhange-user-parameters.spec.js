@@ -42,7 +42,7 @@ describe("Change account information ", () => {
 
     })
 
-    it("user is able to log in with new password", () => {
+    it.skip("user is able to log in with new password", () => {
 
         let newPassword = "Cypress123"
         joinNow.getStarted.fillOutGetStartedForm(user, address);

@@ -4,6 +4,7 @@ import faker from "faker"
 
 
 class User {
+
     constructor({email, password, firstName, lastName, phoneNumber} = {}) {
         this.email = email || faker.name.firstName().toLowerCase() + faker.name.lastName().toLowerCase() + faker.random.number({
             min: 10000,
@@ -12,9 +13,11 @@ class User {
         this.password = password || faker.internet.password()
         this.firstName = firstName || faker.name.firstName()
         this.lastName = lastName || faker.name.lastName()
-        this.phoneNumber = phoneNumber || faker.phone.phoneNumberFormat()
+        var phoneNumberPure = faker.phone.phoneNumberFormat()
+        this.phoneNumber = phoneNumber || phoneNumberPure.split('1').join('2')
 
     }
+
 }
 
 

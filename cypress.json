@@ -7,8 +7,9 @@
   "viewportHeight": 1024,
   "env": {
     "credentialDemo": "freshly:FreshAvocado@",
-    "PromoCode" : "rad40"
-
+    "PromoCode" : "radspring30",
+    "incorrectPromo" : "radspring40",
+    "typeOfMealsSelecting" : "new"
 
 
   }

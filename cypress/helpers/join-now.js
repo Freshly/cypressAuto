@@ -6,6 +6,9 @@ export default {
             cy.get(".logo-wrapper > a > img")
                 .first()
                 .click()
+        },
+        clickOnDeliveries: () => {
+            cy.get("[data-test='meal-planner-header-link']").click()
         }
     },
     getStarted: {
@@ -83,33 +86,54 @@ export default {
     },
     mealsPicker: {
         chooseMealsFromMealPlanner: (times, selectDifferentMeals = false) => {
-            if (selectDifferentMeals) {
-                for (let i = 0; i < times; i++) {
-                    cy.get(".meal-card")
-                        .first()
-                        .find("[data-test='add-meal-button']")
-                        .click()
-                }
+            if ((Cypress.env('typeOfMealsSelecting'))=="new") {
+                 for (let i = 0; i < times; i++) {
+                        if ((i % 2) != 0) {
+                            cy.get(".meal-card__container")
+                                .last()
+                                .find("[data-test='add-meal']")
+                                .click({force: true})
+                        }
+                        else {
+                            cy.get(".meal-card__container")
+                                .first()
+                                .find("[data-test='add-meal']")
+                                .click({force: true})
+                        }
+                    }
+
+            cy.get(".cart-layout>header button").click()
             }
             else {
-                for (let i = 0; i < times; i++) {
-                    if ((i % 2) != 0) {
-                        cy.get(".meal-card")
-                            .last()
-                            .find("[data-test='add-meal-button']")
-                            .click()
-                    }
-                    else {
+                if (selectDifferentMeals) {
+                    for (let i = 0; i < times; i++) {
                         cy.get(".meal-card")
                             .first()
                             .find("[data-test='add-meal-button']")
-                            .click()
+                            .click({force: true})
                     }
                 }
+                else {
+                    for (let i = 0; i < times; i++) {
+                        if ((i % 2) != 0) {
+                            cy.get(".meal-card")
+                                .last()
+                                .find("[data-test='add-meal-button']")
+                                .click({force: true})
+                        }
+                        else {
+                            cy.get(".meal-card")
+                                .first()
+                                .find("[data-test='add-meal-button']")
+                                .click({force: true})
+                        }
+                    }
+
+                }
+                cy.get(".meals-review-cont > .btn-update-meals-cont > .btn")
+                    .click()
 
             }
-            cy.get(".meals-review-cont > .btn-update-meals-cont > .btn")
-                .click()
         }
     },
     checkOut: {
@@ -166,13 +190,13 @@ export default {
 
 
             submitDeliveryForm: () => {
-                cy.get("[value='Next']").click()
+                cy.get("[type='submit']").contains('Next').click()
             },
 
             verifyAddress: () => {
-                cy.get("[data-target='checkout--address.verification']").find("div")
-                    .contains("We were unable to verify this address").should("be.visible")
-                cy.get("[id='checkout_verified_by_user']")
+                cy.get("[class='text-danger ml-2']")
+                    .contains("We were unable to verify").should("be.visible")
+                cy.xpath("//*[@class='p-0 mb-2 opacity_height_transition_wrapper col-md-10 offset-md-1 opacity_height_transition_wrapper-exit-done']/div/div/label")
                     .click({force: true})
             },
 
@@ -202,17 +226,19 @@ export default {
             },
 
             getPaymentPanel: () => {
-                return cy.get("[class='list-delivery-discounts list-group list-group-flush']")
+                return cy.get("[class='promo-discount-item list-group-item']")
             },
 
 
             submitPaymentForm: () => {
-                cy.get("[class='btn btn-primary btn-lg btn-block']")
-                    .click()
+                cy.get("[class='btn btn-primary btn-lg btn-block']").click() //click to Submit button
+                cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click() //click to View my deliveries
+
+
             },
 
             addPromoCode: promoCode => {
-                cy.get("[class='pl-0 btn btn-link btn-sm']")
+                cy.get("[class='pl-0 font-weight-normal btn btn-link']")
                     .click()
                 cy.get("[name='checkoutPromoCode']")
                     .type(promoCode)
@@ -364,8 +390,13 @@ export default {
     },
     toastMessage: {
         checkMessage: message => {
-            cy.get("[class='toast toast-success']").should("be.visible").contains(message)
-            cy.get("[class='toast-close-button']").click()
+            cy.get("[class='toast toast-success']").should("be.visible").contains(message);
+            cy.get("[class='toast-close-button']").click({multiple: true})
+        },
+
+        checkErrorMessage: message => {
+            cy.get("[class='toast toast-error']").should("be.visible").contains(message);
+            cy.get("[class='toast-close-button']").click({multiple: true})
         },
 
 
