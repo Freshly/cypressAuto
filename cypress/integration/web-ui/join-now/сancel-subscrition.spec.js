@@ -24,7 +24,7 @@ describe("User is able to change parameters of subscrition ", () => {
     })
 
 
-    it.skip("User is able to cancel subscription with any parameters", () => {
+    it("User is able to cancel subscription with any parameters", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -47,7 +47,7 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.toastMessage.checkMessage("Subscription successfully reactivated");
     })
 
-    it.skip("User is able to change email and log in with new email", () => {
+    it("User is able to change email and log in with new email", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -71,7 +71,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("User is able to change password and log in with new it", () => {
+    it("User is able to change password and log in with new it", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -90,7 +90,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("User is able to cancel subscription registered with Promo code", () => {
+    it("User is able to cancel subscription registered with Promo code", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -116,7 +116,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("User is able to skip up to eight weeks", () => {
+    it("User is able to skip up to eight weeks", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -138,7 +138,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("User is able to change a plan at Subscription setting page", () => {
+    it("User is able to change a plan at Subscription setting page", () => {
         mealPlan.id = 421
         mealPlan.meals = 4
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -157,7 +157,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("User is able to change a default delivery day from Subscription setting page", () => {
+    it("User is able to change a default delivery day from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -175,7 +175,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.skip("User is able to select available delivery day from Calendar Subscription setting page", () => {
+    it("User is able to select available delivery day from Calendar Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -198,7 +198,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.skip("User is able to add/select/delete new payment card from Subscription setting page", () => {
+    it("User is able to add/select/delete new payment card from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -238,7 +238,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.skip("User is able to add/select/delete address from Subscription setting page", () => {
+    it("User is able to add/select/delete address from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -319,7 +319,7 @@ describe("User is able to change parameters of subscrition ", () => {
         //will added after adding tests for delivery page
     })
 
-    it.skip("User is able to delete/add Promo code from Subscription setting page", () => {
+    it("User is able to delete/add Promo code from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
