@@ -173,7 +173,8 @@ export default {
                     .type(address.line1)
                 cy.get("[name='phone']")
                     .type(userData.phoneNumber)
-                cy.get("[class='btn btn-primary btn-block btn-lg btn btn-secondary']").click()
+                //cy.get("[class='btn btn-primary btn-block btn-lg btn btn-secondary']").click()
+                cy.get("[class='same-height-as-paypal-button btn btn-primary btn-lg btn-block']").click()
 
 
             },
@@ -442,6 +443,28 @@ export default {
         }
 
     },
+
+    deliveryPage: {
+        dayOfFirstWeek: () => {
+            return cy.get("[class='component card weekly-order-card'] > header > article > h2 > span").first().should("be.visible").invoke('text')
+
+        },
+
+        dayOfSecondWeek: () => {
+            return cy.xpath("(//*[@class = 'component card weekly-order-card']/header/article/h2/span)[3]").should("be.visible").invoke('text')
+
+
+        },
+
+        cancelChangingName: newName => {
+            cy.get("[id='new_subscription_name']").should("be.visible").focus().clear()
+            cy.get("[id='new_subscription_name']").type(newName);
+            cy.get("[data-fe='cancel-btn]").should("be.visible").click()
+
+        }
+
+    },
+
     changeSubscritionName: {
         changeName: newName => {
             cy.get("[id='new_subscription_name']").should("be.visible").focus().clear()

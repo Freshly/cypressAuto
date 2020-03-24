@@ -47,6 +47,49 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.toastMessage.checkMessage("Subscription successfully reactivated");
     })
 
+    it.skip("User is able to change email and log in with new email", () => {
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.subscription.skipBothAttributionForms();
+        cy.visitSubscriptionSettingsPage();
+        var randomEmailNumber = (Math.floor(Math.random() * 9999)).toString();
+        let newEmail = 'NewUserEmail' + randomEmailNumber + '@gmail.com'
+        subscription.changeInfo.getEmail().invoke('text').then((emailBeforeChanging) => {
+            subscription.changeInfo.changeEmail(newEmail, user.password)
+            joinNow.toastMessage.checkMessage("Email successfully updated")
+            subscription.changeInfo.getEmail().invoke('text').should((emailAfterChanging) => {
+                expect(emailBeforeChanging).not.to.eq(emailAfterChanging)
+            })
+        })
+        joinNow.logOut.logOutFromDelivery()
+        joinNow.logIn.fillLogInFormWithExistingUser(newEmail, user.password)
+        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
+
+    })
+
+    it.skip("User is able to change password and log in with new it", () => {
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.subscription.skipBothAttributionForms();
+        cy.visitSubscriptionSettingsPage();
+        var randomPasswordNumber = (Math.floor(Math.random() * 9999)).toString();
+        let newPassword = 'NewUserPassword' + randomPasswordNumber
+        subscription.changeInfo.changePassword(newPassword, user.password)
+        joinNow.toastMessage.checkMessage("Password successfully updated")
+        joinNow.logOut.logOutFromDelivery()
+        joinNow.logIn.fillLogInFormWithExistingUser(user.email, newPassword)
+        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
+
+    })
+
     it.skip("User is able to cancel subscription registered with Promo code", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
@@ -114,8 +157,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it("User is able to change a default delivery day from Subscription setting page", () => {
-
+    it.skip("User is able to change a default delivery day from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -131,7 +173,150 @@ describe("User is able to change parameters of subscrition ", () => {
                 expect(dayBeforeChanging).not.to.eq(newDay)
                 })
         })
+    })
 
+    it.skip("User is able to select available delivery day from Calendar Subscription setting page", () => {
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        subscription.subscription.skipBothAttributionForms();
+        joinNow.deliveryPage.dayOfSecondWeek().then((dayF) => {
+            var day1 = (dayF.split(','))[0]
+            cy.log(day1)
+            cy.visitSubscriptionSettingsPage();
+            subscription.calendar.changeDeliveryDay()
+            subscription.calendar.selectAnyAvailableDayInCalendar()
+            joinNow.navBar.clickOnDeliveries();
+            joinNow.deliveryPage.dayOfSecondWeek().then((dayS) => {
+                var day2 = (dayS.split(','))[0]
+                cy.log(day2)
+                expect(day1).to.not.equal(day2)
+            })
+        })
+    })
+
+    it.skip("User is able to add/select/delete new payment card from Subscription setting page", () => {
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        subscription.subscription.skipBothAttributionForms();
+        cy.visitSubscriptionSettingsPage();
+        subscription.changePayment.cardEnd().then((cardNumberOld) => {
+            subscription.changePayment.changePaymentMethod()
+            subscription.changePayment.addNewPaymentMethod()
+            subscription.changePayment.fillNewPaymentForm(user, address)
+            subscription.changePayment.savePaymentMethod()
+            joinNow.toastMessage.checkMessage("Payment method successfully updated");
+            subscription.changePayment.cardEnd().then((cardNumberNew) => {
+                expect(cardNumberOld.substring(cardNumberOld.length - 4)).to.not.equal(cardNumberNew.substring(cardNumberNew.length - 4))
+            })
+        })
+        //set as default
+        subscription.changePayment.cardEnd().then((cardNumberOld) => {
+            subscription.changePayment.changePaymentMethod()
+            subscription.changePayment.setAsDefault()
+            joinNow.toastMessage.checkMessage("Payment method successfully updated");
+            subscription.changePayment.cardEnd().then((cardNumberNew) => {
+                expect(cardNumberOld.substring(cardNumberOld.length - 4)).to.not.equal(cardNumberNew.substring(cardNumberNew.length - 4))
+            })
+        })
+        // delete default method
+        subscription.changePayment.cardEnd().then((cardNumberOld) => {
+            subscription.changePayment.changePaymentMethod()
+            subscription.changePayment.deleteDefaultMethod()
+            subscription.changePayment.yesDeleteButton();
+            joinNow.toastMessage.checkMessage("Payment method successfully deleted");
+            subscription.changePayment.cardEnd().then((cardNumberNew) => {
+                expect(cardNumberOld.substring(cardNumberOld.length - 4)).to.equal(cardNumberNew.substring(cardNumberNew.length - 4))
+            })
+        })
+    })
+
+    it.skip("User is able to add/select/delete address from Subscription setting page", () => {
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        subscription.subscription.skipBothAttributionForms();
+        cy.visitSubscriptionSettingsPage();
+        address.line1 = '1118 W Amber St'
+        address.city = 'San Antonio'
+        address.zip = '78221'
+        user.phone_number = '9008007006'
+        subscription.deliveryAddress.getSubscriptionAddress().invoke('text').then((addressBeforeChanging) => {
+            subscription.deliveryAddress.changeDeliveryAddress();
+            subscription.deliveryAddress.addNewAddress();
+            subscription.deliveryAddress.fillNewAddress(user, address);
+            subscription.deliveryAddress.saveDeliveryAddress();
+            joinNow.toastMessage.checkMessage("Default delivery address successfully updated");
+            subscription.deliveryAddress.getSubscriptionAddress().invoke('text').should((newDay) => {
+                expect(addressBeforeChanging).not.to.eq(newDay)
+            })
+        })
+        //select address added address
+        subscription.deliveryAddress.getSubscriptionAddress().invoke('text').then((addressBeforeChanging) => {
+            subscription.deliveryAddress.changeDeliveryAddress();
+            subscription.deliveryAddress.selectAddress();
+            joinNow.toastMessage.checkMessage("Default delivery address successfully updated");
+            subscription.deliveryAddress.getSubscriptionAddress().invoke('text').should((newDay) => {
+                expect(addressBeforeChanging).not.to.eq(newDay)
+            })
+        })
+        //delete earlier added address
+        subscription.deliveryAddress.getSubscriptionAddress().invoke('text').then((addressBeforeChanging) => {
+            subscription.deliveryAddress.changeDeliveryAddress();
+            subscription.deliveryAddress.deleteAddress()
+            subscription.deliveryAddress.yesDeleteButton();
+            joinNow.toastMessage.checkMessage("Delivery address successfully deleted");
+            subscription.deliveryAddress.getSubscriptionAddress().invoke('text').should((newDay) => {
+                expect(addressBeforeChanging).to.eq(newDay)
+            })
+        })
+    })
+
+    it("User is able to select Dietary Preferencies", () => {
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
+        joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
+        joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
+        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.subscription.skipBothAttributionForms();
+        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
+        subscription.dietaryPreferencies.moveToDietaryPreferencies()
+        subscription.dietaryPreferencies.launchQuestionarie()
+        var selectedPrefernciesList = [0, 0, 0]
+        selectedPrefernciesList = subscription.dietaryPreferencies.selectPreferencesFullList()
+        cy.log(selectedPrefernciesList)
+        subscription.dietaryPreferencies.selectedAvoid().then((selectedAvoid) => {
+            expect(selectedAvoid).to.have.lengthOf(selectedPrefernciesList[0])
+
+        })
+        subscription.dietaryPreferencies.selectedNeutral().then((selectedNeutral) => {
+            expect(selectedNeutral).to.have.lengthOf(selectedPrefernciesList[1])
+
+        })
+        subscription.dietaryPreferencies.selectedEnjoy().then((selectedEnjoy) => {
+            expect(selectedEnjoy).to.have.lengthOf(selectedPrefernciesList[2])
+
+        })
+        //start editing and finish  earlier selected preferencies
+        subscription.dietaryPreferencies.editDietaryPreferencies().click()
+        subscription.dietaryPreferencies.finishDietaryPreferencies().click()
+        joinNow.navBar.clickOnDeliveries()
+        //check avoid mark is presented
+        //will added after adding tests for delivery page
     })
 
     it.skip("User is able to delete/add Promo code from Subscription setting page", () => {

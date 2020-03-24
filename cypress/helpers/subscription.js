@@ -227,6 +227,218 @@ export default {
         }
 
     },
+    changeInfo: {
+        changeEmail: (newEmail, userPassword) => {
+            cy.get("[data-target='#change-email']").should("be.visible").click()
+            cy.get("[id='user_email']").should("be.visible").focus().clear()
+            cy.get("[id='user_email']").type(newEmail);
+            cy.get("[id='change-email-password']").type(userPassword);
+            cy.xpath("//div[@id='change-email']//button[contains(text(),'Change Email')]").should("be.visible").click()
+
+        },
+        getEmail: () => {
+            return cy.xpath("//*[@data-fe='user-email']/p").should("be.visible")
+
+        },
+
+        cancelChangingName: newName => {
+            cy.get("[id='new_subscription_name']").should("be.visible").focus().clear()
+            cy.get("[id='new_subscription_name']").type(newName);
+            cy.get("[data-fe='cancel-btn]").should("be.visible").click()
+
+        },
+        changePassword: (newPassword, userPassword) => {
+            cy.get("[data-target='#change-password']").should("be.visible").click()
+            cy.get("[id='user_password']").should("be.visible").focus().clear()
+            cy.get("[id='user_password']").type(newPassword)
+            cy.get("[id='user_current_password']").type(userPassword);
+            cy.xpath("//div[@id='change-password']//button[contains(text(),'Change Password')]").should("be.visible").click()
+
+        },
+
+    },
+
+
+    dietaryPreferencies: {
+        moveToDietaryPreferencies: () => {
+            cy.get("[data-test='header-first-name']").should("be.visible").click()
+            cy.xpath("//*[contains(@href,'food-preferences')]").should("be.visible").click();
+
+
+        },
+        launchQuestionarie: () => {
+            cy.get("[data-action='users--dietary-preferences--summary#onLaunch']").should("be.visible").click()
+
+        },
+        editDietaryPreferencies: () => {
+            return cy.get("[data-action='users--dietary-preferences--summary#onLaunch']").should("be.visible")
+
+        },
+        finishDietaryPreferencies: () => {
+            return cy.get("[data-action='users--dietary-preferences--form#onSkip']").should("be.visible")
+
+        },
+        selectedAvoid: () => {
+            return cy.xpath("//*[@class='dietary-preferences__summary']/ul/li[1]/ul/li").should("be.visible")
+
+        },
+        selectedNeutral: () => {
+            return cy.xpath("//*[@class='dietary-preferences__summary']/ul/li[2]/ul/li").should("be.visible")
+
+        },
+        selectedEnjoy: () => {
+            return cy.xpath("//*[@class='dietary-preferences__summary']/ul/li[3]/ul/li").should("be.visible")
+
+        },
+
+        selectPreferencesFullList: () => {
+            cy.get("[value='Next']").should("be.visible")
+            var randomNumber;
+            let N_avoid = 0;
+            let N_neutral = 0;
+            let N_enjoy = 0;
+            for (var i = 1; i < 11; i++) {
+                cy.wait(3000)
+                randomNumber = (Math.floor(Math.random() * 3) + 1).toString()
+
+                switch (randomNumber) {
+                    case '1':
+                        cy.get("[for='users_food_preference_score_-1']").should("be.visible").click()
+                        N_avoid++;
+                        break;
+
+                    case '2':
+                        N_neutral++;
+                        break;
+                    case '3':
+                        cy.get("[for='users_food_preference_score_1']").should("be.visible").click()
+                        N_enjoy++
+                        break;
+
+                    default:
+
+                        break;
+                }
+
+                cy.get("[value='Next']").click()
+            }
+            cy.get("[value='Finish']").should("be.visible").click()
+            N_neutral++
+            return [N_avoid, N_neutral, N_enjoy]
+
+        }
+    },
+
+    changePayment: {
+        cardEnd: () => {
+            return cy.xpath("//*[@data-fe='payment-method']/main/p").should("be.visible").invoke('text')
+
+        },
+        changePaymentMethod: () => {
+            cy.get("[data-target='#change-payment-method']").should("be.visible").click()
+
+        },
+        addNewPaymentMethod: () => {
+            cy.xpath("//button[contains(text(),'+ New Payment Method')]").should("be.visible").click()
+
+        },
+        fillNewPaymentForm: (userData, address) => {
+            //cy.get("[name='__privateStripeFrame5']").should("be.visible").type("4242424242424242")
+            //cy.get("[name='__privateStripeFrame6']").should("be.visible").type("1222")
+            //cy.get("[name='__privateStripeFrame7']").should("be.visible").type("222")
+
+            cy.get("[name='__privateStripeFrame5']")
+                .click({force: true})
+            cy.get("iframe[name='__privateStripeFrame5']")
+                .iframe()
+                .find("input[name='cardnumber']")
+                .click()
+                .type("4242424242424242")
+            cy.get("iframe[name='__privateStripeFrame6']")
+                .iframe()
+                .find("input[name='exp-date']")
+                .click()
+                .type("1222")
+            cy.get("iframe[name='__privateStripeFrame7']")
+                .iframe()
+                .find("input[name='cvc']")
+                .click()
+                .type("222")
+            var fullName = userData.first_name + " " + userData.last_name
+            cy.get("#payment_method_stripe_billing_address_full_name").should("be.visible").type(fullName)
+            cy.get("#payment_method_stripe_billing_address_line1").should("be.visible").type(address.line1)
+            cy.get("#payment_method_stripe_billing_address_city").should("be.visible").type(address.city)
+            cy.get("#payment_method_stripe_billing_address_state").select(address.state)
+            cy.get("#payment_method_stripe_billing_address_zip").type(address.zip)
+
+        },
+
+        savePaymentMethod: () => {
+            cy.xpath("//div[@id='create-payment-method']//button[contains(text(),'Save')]").should("be.visible").click()
+
+        },
+
+        setAsDefault: () => {
+            cy.get("[data-action='click->account-settings--change-payment-method#setDefaultPaymentMethod']").should("be.visible").click()
+
+        },
+
+        deleteDefaultMethod: () => {
+            cy.get("[data-action='click->account-settings--change-payment-method#showDeletePaymentMethodConfirmationModal']").should("be.visible").click()
+
+        },
+
+        yesDeleteButton: () => {
+            return cy.xpath("//*[@id='delete-payment-method-modals']//button[@id='cta-primary']").first().should("be.visible").click()
+
+        }
+
+
+    },
+
+    deliveryAddress: {
+        getSubscriptionAddress: () => {
+            return cy.xpath("//*[@data-fe='address']/main/p[3]")
+
+        },
+
+        changeDeliveryAddress: () => {
+            cy.get("[data-target='#change-address']").should("be.visible").click()
+
+        },
+        addNewAddress: () => {
+            cy.xpath("//button[contains(text(),'+ New Address')]").should("be.visible").click()
+
+        },
+        fillNewAddress: (userData, address) => {
+            cy.get("#address_line1").should("be.visible").type(address.line1)
+            cy.get("#address_city").should("be.visible").type(address.city)
+            cy.get("#address_state").select(address.state)
+            cy.get("#address_zip").type(address.zip)
+            cy.get("#address_phone").type(userData.phoneNumber)
+        },
+        saveDeliveryAddress: () => {
+            cy.xpath("//div[@id='new-address']//button[contains(text(),'Save')]").should("be.visible").click()
+
+        },
+        selectAddress: () => {
+            cy.xpath("//a[contains(text(),'Select Address')]").should("be.visible").click()
+
+        },
+        deleteAddress: () => {
+            cy.get("[data-action='click->account-settings--select-address#showDeleteAddressConfirmationModal']").should("be.visible").click()
+
+        },
+        yesDeleteButton: () => {
+            return cy.xpath("//*[@id='delete-addresses-modals']//button[@id='cta-primary']").first().should("be.visible").click()
+
+        },
+        confirmDeliveryAddress: () => {
+            cy.get("input#verification").should("be.visible").click()
+
+        }
+
+    },
 
     calendar: {
         changeDeliveryDay: () => {
@@ -246,6 +458,16 @@ export default {
                 cy.get("[data-fe='confirm-button']").should("be.visible").should("contain", "Ok, Got It!").click()
             })
         },
+
+        selectAnyAvailableDayInCalendar: () => {
+            cy.get("[data-fe='save-delivery-days-btn']").should("be.visible").should('be.disabled')
+            //cy.get("[data-fe='save-delivery-days-btn']").should("be.visible")
+            cy.xpath("//*[not(contains(@class, 'selected')) and contains(@class,'available')]").first().should("be.visible").click()
+            cy.get("[data-fe='save-delivery-days-btn']").should("be.visible").should('be.enabled').click()
+            cy.get("[data-fe='confirm-button']").should("be.visible").should("contain", "Ok, Got It!").click()
+
+        },
+
 
         getDefaultDayFromSubscriptionPage: () => {
             return cy.get("[data-fe='default-delivery-day'] > main > p")
