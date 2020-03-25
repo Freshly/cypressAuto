@@ -112,7 +112,7 @@ export default {
 
         dismissSelfAttributionForm2: () => {
             cy.xpath("//*[@id = 'change-meals-modal']/div/div/div[1]/button|//*[@data-meal-planner--raf-modal-raf-path='/refer_a_friend']/div/div/div[1]/button").should("be.visible").click()
-            //cy.get("//*[@id = 'change-meals-modal']/div/div/div[1]/button|//*[@data-meal-planner--raf-modal-raf-path=\"/refer_a_friend\"]/div/div/div[1]/button").should("be.visible")
+
         },
 
         skipBothAttributionForms: () => {
@@ -238,7 +238,6 @@ export default {
         },
         getEmail: () => {
             return cy.xpath("//*[@data-fe='user-email']/p").should("be.visible")
-
         },
 
         cancelChangingName: newName => {
@@ -255,6 +254,14 @@ export default {
             cy.xpath("//div[@id='change-password']//button[contains(text(),'Change Password')]").should("be.visible").click()
 
         },
+        changePersonalInfo: (newFirstname, userLastname) => {
+            cy.get("[id='user_first_name']").should("be.visible").focus().clear()
+            cy.get("[id='user_first_name']").type(newFirstname)
+            cy.get("[id='user_last_name']").should("be.visible").focus().clear()
+            cy.get("[id='user_last_name']").type(newFirstname)
+            cy.get("[value='SAVE']").should("be.visible").click()
+
+        }
 
     },
 
@@ -263,7 +270,6 @@ export default {
         moveToDietaryPreferencies: () => {
             cy.get("[data-test='header-first-name']").should("be.visible").click()
             cy.xpath("//*[contains(@href,'food-preferences')]").should("be.visible").click();
-
 
         },
         launchQuestionarie: () => {
@@ -343,10 +349,6 @@ export default {
 
         },
         fillNewPaymentForm: (userData, address) => {
-            //cy.get("[name='__privateStripeFrame5']").should("be.visible").type("4242424242424242")
-            //cy.get("[name='__privateStripeFrame6']").should("be.visible").type("1222")
-            //cy.get("[name='__privateStripeFrame7']").should("be.visible").type("222")
-
             cy.get("[name='__privateStripeFrame5']")
                 .click({force: true})
             cy.get("iframe[name='__privateStripeFrame5']")
@@ -444,7 +446,6 @@ export default {
         changeDeliveryDay: () => {
             cy.get("[data-fe='default-delivery-day'] > aside > a").should("be.visible").click()
 
-
         },
 
         selectAnyDayInDropdown: () => {
@@ -467,7 +468,6 @@ export default {
             cy.get("[data-fe='confirm-button']").should("be.visible").should("contain", "Ok, Got It!").click()
 
         },
-
 
         getDefaultDayFromSubscriptionPage: () => {
             return cy.get("[data-fe='default-delivery-day'] > main > p")

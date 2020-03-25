@@ -22,7 +22,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
         mealPlan = _.sample(mealPlans)
     })
 
-    it("User is able to create subscription with correct delivery address", () => {
+    it.skip("User is able to create subscription with correct delivery address", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -36,7 +36,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it("User is able to create subscription using Promo code", () => {
+    it.skip("User is able to create subscription using Promo code", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
