@@ -3,6 +3,7 @@ import {User} from "../../../support/seeds/users"
 import joinNow from "../../../helpers/join-now"
 import mealPlans from "../../../fixtures/meal-plans"
 import subscription from "../../../helpers/subscription"
+//import deliveries from "../../../helpers/deliveries"
 
 const {_} = Cypress;
 import addresses from "../../../support/data/valid-addresses"

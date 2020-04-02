@@ -1,3 +1,4 @@
+
 export default {
 
 
@@ -6,6 +7,9 @@ export default {
             cy.get(".logo-wrapper > a > img")
                 .first()
                 .click()
+        },
+        clickOnGift: () => {
+            cy.get("[href='/gifts']").click()
         },
         clickOnDeliveries: () => {
             cy.get("[data-test='meal-planner-header-link']").click()
@@ -78,6 +82,20 @@ export default {
                 .click()
             cy.get("[data-fe='continue-to-meal-selection']")
                 .click()
+        },
+        chooseMostPopularDay: () => {
+            cy.get("[class='day-details-copy txt-small-green']")
+                .click()
+            cy.get("[data-fe='continue-to-meal-selection']")
+                .click()
+        },
+        MostPopularDay: () => {
+            return cy.get("[class='day-details-copy txt-small-green']")
+
+        },
+        MostPopularDayAfterSelection: () => {
+            return cy.xpath("//*[@class='card-wrapper txt-regular active']//*[@class='day-of-week txt-regular-m']")
+
         },
         continueToMealSelection: () => {
             cy.get("[data-fe='continue-to-meal-selection']")
@@ -189,9 +207,37 @@ export default {
                     .type(userData.phoneNumber)
             },
 
+            selectAnotherDeliveryDate: () => {
+                cy.get("#deliveryDate").selectNth(2)
+                //cy.xpath("(//*[@id='deliveryDate']/option)[2]").select()
+
+            },
 
             submitDeliveryForm: () => {
                 cy.get("[type='submit']").contains('Next').click()
+            },
+
+            checkSMSbox: () => {
+                cy.get("[name='agreedToReceiveSms']").click({force: true})
+
+            },
+            billingAddressBox: () => {
+                cy.get("[id='sameBillingAddressInput']").click({force: true})
+
+            },
+            fillBillingAddress: () => {
+                cy.get("#billing_address_line1").should("be.visible").type("120 Highway");
+
+                cy.get("#billing_address_city").should("be.visible").focus().clear();
+                cy.get("#billing_address_city").type('New York');
+
+
+            },
+
+
+            SMSbox: () => {
+                return cy.get("[name='agreedToReceiveSms']")
+
             },
 
             verifyAddress: () => {
@@ -257,6 +303,39 @@ export default {
             cy.get("h1").contains("Thank you for your order").should("be.visible")
         }
     },
+    gifts: {
+        waitToBeNavigatedToAccountCreationPage: () => {
+            cy.get("[class='text-nowrap']")
+                .should("be.visible")
+            cy.url().should("include", "/join-now/purchase-complete")
+            cy.get("h1").contains("Thank you for your order").should("be.visible")
+        },
+        giveGift: () => {
+            cy.get("[data-seg='GiftCard GiftCTA']").first().should("be.visible").click()
+            cy.url().should("include", "/gifts/purchase")
+            cy.get("h1").contains("Choose a plan").should("be.visible")
+        },
+        reedemGift: () => {
+            cy.get("[data-seg='GiftCard RedeemCTA']").first().should("be.visible").click()
+            cy.url().should("include", "/gifts/redeem")
+            cy.get("h1").contains("Hi there!").should("be.visible")
+        },
+        chooseMealPlanForGift: mealPlanId => {
+            //let planId = mealPlan.id
+            cy.get(`[data-id="${mealPlanId}"]`).should("be.visible").click()
+        },
+        fillGiftForm: (firstName, lastName, email, gifterName, gifterLastName) => {
+            cy.get("[id='gift_card_purchase_recipient_first_name'][type='text']").should("be.visible").focus().type(firstName);
+            cy.get("[id='gift_card_purchase_recipient_last_name'][type='text']").should("be.visible").focus().type(lastName);
+            cy.get("[id='gift_card_purchase_recipient_email'][type='text']").should("be.visible").focus().type(email);
+            cy.get("[id='gift_card_purchase_gifter_first_name'][type='text']").should("be.visible").focus().type(gifterName);
+            cy.get("[id='gift_card_purchase_gifter_last_name'][type='text']").should("be.visible").focus().type(gifterLastName);
+            cy.get("[value='Continue']").should("be.visible").click();
+            cy.get("[data-action='giftcards--purchase--payment-step#onPayByCreditCard']").should("be.visible").click();
+        }
+    },
+
+
     subscription: {
 
         dismissSelfAttributionForm: () => {

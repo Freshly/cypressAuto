@@ -14,6 +14,16 @@ Cypress.Commands.add("visitSubscriptionSettingsPage", () => {
     })
 })
 
+Cypress.Commands.add('selectNth', {prevSubject: 'element'}, (subject, pos) => {
+        cy.wrap(subject)
+            .children('option')
+            .eq(pos)
+            .then(e => {
+                cy.wrap(subject).select(e.val())
+            })
+    }
+)
+
 Cypress.Commands.add("iframe", {prevSubject: "element"}, $iframe => {
     Cypress.log({
         name: "iframe",
