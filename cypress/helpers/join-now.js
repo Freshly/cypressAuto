@@ -577,7 +577,7 @@ export default {
         },
 
         dayOfSecondWeek: () => {
-            return cy.xpath("(//*[@class = 'component card weekly-order-card']/header/article/h2/span)[3]").should("be.visible").invoke('text')
+            return cy.get("[data-action='click->meal-planner--delivery-dates#fetchDeliveryDates']").should("be.visible").invoke('text')
 
 
         },

@@ -24,7 +24,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
         mealPlan = _.sample(mealPlans)
     })
 
-    it.skip("User is able to change meals from Delivery page", () => {
+    it("User is able to change meals from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -45,7 +45,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it.skip("User is able to change meal plan from Delivery page", () => {
+    it("User is able to change meal plan from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -66,7 +66,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it.skip("User is able to change delivery date from Delivery page", () => {
+    it("User is able to change delivery date from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -141,7 +141,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it.skip("User is able to skip/uskip a week from Delivery page", () => {
+    it("User is able to skip/uskip a week from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);

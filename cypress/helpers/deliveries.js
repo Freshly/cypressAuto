@@ -70,7 +70,7 @@ export default {
         },
 
         unSkipWeek: () => {
-            return cy.xpath("//section[@data-week-number='2']//*[@value='Unskip']")
+            return cy.xpath("//section[@data-week-number='2']//*[@value='Unskip This Week']")
 
         },
         changeMeals: () => {
