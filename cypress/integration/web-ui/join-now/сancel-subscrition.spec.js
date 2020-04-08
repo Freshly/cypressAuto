@@ -3,10 +3,9 @@ import {User} from "../../../support/seeds/users"
 import joinNow from "../../../helpers/join-now"
 import mealPlans from "../../../fixtures/meal-plans"
 import subscription from "../../../helpers/subscription"
-//import deliveries from "../../../helpers/deliveries"
-
 const {_} = Cypress;
 import addresses from "../../../support/data/valid-addresses"
+import deliveries from "../../../helpers/deliveries";
 
 describe("User is able to change parameters of subscrition ", () => {
     let user;
@@ -42,8 +41,8 @@ describe("User is able to change parameters of subscrition ", () => {
         subscription.subscription.getDeliveryAnswerButton().should("be.visible").click();
         subscription.cancelSubscription.submitReason();
         subscription.cancelSubscription.wantToCancel();
-        subscription.subscription.getUnPausedSubscription().should("be.visible");
-        joinNow.navBar.clickOnDeliveries();
+        //subscription.subscription.getUnPausedSubscription().should("be.visible");
+        //joinNow.navBar.clickOnDeliveries();
         subscription.cancelSubscription.reactivateSubscriptionFromDelivery();
         joinNow.toastMessage.checkMessage("Subscription successfully reactivated");
     })
@@ -91,7 +90,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it("User is able to change first name and last name", () => {
+    it.skip("User is able to change first name and last name", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -129,12 +128,12 @@ describe("User is able to change parameters of subscrition ", () => {
         subscription.subscription.getDeliveryAnswerButton().should("be.visible").click();
         subscription.cancelSubscription.submitReason();
         subscription.cancelSubscription.wantToCancel();
-        subscription.subscription.getCancelWithPromoFinalText().should("be.visible").contains('Your delivery has been canceled. You will not receive any meals');
-        subscription.subscription.getReturnToHomePage().should("be.visible");
+        subscription.subscription.getCancelWithPromoFinalText().should("be.visible").contains('Your account is canceled');
+        //subscription.subscription.getReturnToHomePage().should("be.visible");
 
     })
 
-    it.skip("User is able to skip up to eight weeks", () => {
+    it("User is able to skip up to eight weeks", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -152,11 +151,11 @@ describe("User is able to change parameters of subscrition ", () => {
         subscription.cancelSubscription.submitReason();
         subscription.cancelSubscription.select8WeekForSkipping();
         subscription.cancelSubscription.skip8weeks();
-        joinNow.toastMessage.checkMessage("You can resume your deliveries by scrolling to the bottom of the page");
+        joinNow.toastMessage.checkMessage("You’ll still get your delivery on");
 
     })
 
-    it.skip("User is able to change a plan at Subscription setting page", () => {
+    it("User is able to change a plan at Subscription setting page", () => {
         mealPlan.id = 421
         mealPlan.meals = 4
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -175,7 +174,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("User is able to change a default delivery day from Subscription setting page", () => {
+    it("User is able to change a default delivery day from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -193,7 +192,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.skip("User is able to select available delivery day from Calendar Subscription setting page", () => {
+    it("User is able to select available delivery day from Calendar Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -216,7 +215,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.skip("User is able to add/select/delete new payment card from Subscription setting page", () => {
+    it("User is able to add/select/delete new payment card from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -256,7 +255,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.skip("User is able to add/select/delete address from Subscription setting page", () => {
+    it("User is able to add/select/delete address from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -300,7 +299,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.skip("User is able to select Dietary Preferencies", () => {
+    it("User is able to select Dietary Preferencies", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -332,12 +331,16 @@ describe("User is able to change parameters of subscrition ", () => {
         //start editing and finish  earlier selected preferencies
         subscription.dietaryPreferencies.editDietaryPreferencies().click()
         subscription.dietaryPreferencies.finishDietaryPreferencies().click()
-        joinNow.navBar.clickOnDeliveries()
+        joinNow.navBar.clickOnDeliveries();
         //check avoid mark is presented
+        deliveries.second_week.changeMeals().should("be.visible").click();
+        deliveries.deliveries.mealAvoidAlert().first().should("be.visible").trigger('mouseover');
+        deliveries.deliveries.mealAvoidAlert().should('have.attr', 'alt').and('include', 'Contains ingredients you avoid:')
+
         //will added after adding tests for delivery page
     })
 
-    it.skip("User is able to delete/add Promo code from Subscription setting page", () => {
+    it("User is able to delete/add Promo code from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);

@@ -9,15 +9,19 @@ export default {
                 .click()
         },
         clickOnGift: () => {
-            cy.get("[href='/gifts']").click()
+            cy.get("[class='nav-link nav-link-header'][href='/gifts']").click()
         },
         clickOnDeliveries: () => {
-            cy.get("[data-test='meal-planner-header-link']").click()
+            cy.get("[data-test='meal-planner-header-link']").should("be.visible").click()
         }
     },
     getStarted: {
         visitGetStartedPage: () => {
             let uri = "/join-now"
+            cy.visit(uri)
+        },
+        visitMainPage: () => {
+            let uri = "/"
             cy.visit(uri)
         },
 
@@ -239,6 +243,10 @@ export default {
                 return cy.get("[name='agreedToReceiveSms']")
 
             },
+            totalSumCheckout: () => {
+                return cy.get("[class='float-right font-weight-500']")
+
+            },
 
             verifyAddress: () => {
                 cy.get("[class='text-danger ml-2']")
@@ -327,12 +335,43 @@ export default {
         fillGiftForm: (firstName, lastName, email, gifterName, gifterLastName) => {
             cy.get("[id='gift_card_purchase_recipient_first_name'][type='text']").should("be.visible").focus().type(firstName);
             cy.get("[id='gift_card_purchase_recipient_last_name'][type='text']").should("be.visible").focus().type(lastName);
-            cy.get("[id='gift_card_purchase_recipient_email'][type='text']").should("be.visible").focus().type(email);
+            cy.get("[id='gift_card_purchase_recipient_email'][type='email']").should("be.visible").focus().type(email);
             cy.get("[id='gift_card_purchase_gifter_first_name'][type='text']").should("be.visible").focus().type(gifterName);
             cy.get("[id='gift_card_purchase_gifter_last_name'][type='text']").should("be.visible").focus().type(gifterLastName);
             cy.get("[value='Continue']").should("be.visible").click();
             cy.get("[data-action='giftcards--purchase--payment-step#onPayByCreditCard']").should("be.visible").click();
-        }
+        },
+        fillOutGiftPayment: (paymentCard, email) => {
+            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='Email']").click().type(email)
+            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='Card number']").click().type(paymentCard.number)
+            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='MM / YY']").click().type(paymentCard.expDate)
+            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='CVC']").click().type(paymentCard.cvv)
+            cy.get("iframe[class='stripe_checkout_app']").iframe().find("button[class='Button-animationWrapper-child--primary Button']").click()
+        },
+        recipientEmailSuccess: () => {
+            return cy.get("[data-fe='recipient-email']")
+        },
+        findGiftAsAdmin: email => {
+            let url = '/admin/gift_cards'
+            cy.visit(url);
+            cy.get("#term").should("be.visible").focus().type(email)
+            cy.get("[value='Find']").should("be.visible").click()
+
+        },
+        getGift: () => {
+            return cy.get("[class='table table-striped table-sm table-bordered']>tbody>tr>td:nth-child(4)>a")
+        },
+        fillRedeemForm: (giftCode, email, zip) => {
+            cy.get("#gift_card_redemption_gift_code").should("be.visible").focus().type(giftCode)
+            cy.get("#gift_card_redemption_recipient_email").should("be.visible").focus().type(email)
+            cy.get("#gift_card_redemption_zip").should("be.visible").focus().type(zip)
+            cy.get("[value='Choose meals']").click()
+        },
+        giftSuccessHeader: () => {
+            return cy.get("[class='promo-header text-center text-uppercase d-none d-sm-flex justify-content-center flex-column text-white']")
+        },
+
+
     },
 
 
@@ -493,6 +532,14 @@ export default {
             cy.get("[data-test='header-first-name']")
                 .should('not.exist')
         },
+        logOutFromAdmin: () => {
+            cy.xpath("//*[contains(text(),'Exit')]").should("be.visible").click();
+            cy.get("[data-test='header-first-name']").click();
+            cy.get("[data-test='header-logout-button']").click();
+            cy.get("[data-test='header-first-name']")
+                .should('not.exist')
+        }
+
     },
     logIn: {
         fillLogInFormWithExistingUser: (email, password) => {

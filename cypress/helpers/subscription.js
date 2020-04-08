@@ -96,7 +96,7 @@ export default {
         },
 
         getCancelWithPromoFinalText: () => {
-            return cy.get("[class='txt-regular-m']")
+            return cy.get("h1")
 
         },
 
@@ -162,7 +162,8 @@ export default {
         },
 
         reactivateButton: () => {
-            cy.get("[data-fe='unpause-subscription-btn']").should("be.visible").click()
+            //cy.get("[data-fe='unpause-subscription-btn']").should("be.visible").click()
+            cy.get("[value='Reactivate Subscription']").should("be.visible").click()
 
         },
 
@@ -205,7 +206,8 @@ export default {
 
         },
         skip8weeks: () => {
-            cy.get("[data-test='long-term-skip-cta-button']").should("be.visible").click()
+            cy.get("[data-test='long-term-skip-cta-button']").click()
+            //cy.get("[data-test='long-term-skip-cta-button']").should("be.visible").click()
 
         }
 

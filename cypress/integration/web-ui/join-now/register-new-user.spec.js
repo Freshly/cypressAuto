@@ -88,7 +88,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
     })
 
     it("User is able to give giftcard from Delivery page", () => {
-
+        var randomNumber
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
@@ -98,15 +98,45 @@ describe("Join Now Flow - Register new subscription with different parameters ",
         joinNow.checkOut.paymentPanel.submitPaymentForm();
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
+        joinNow.navBar.clickOnGift();
         joinNow.gifts.giveGift();
         joinNow.gifts.chooseMealPlanForGift(mealPlan.id);
-        randomNumber = (Math.floor(Math.random() * 999) + 1).toString()
+        randomNumber = (Math.floor(Math.random() * 999) + 1).toString();
         let firstName = 'John';
         let lastName = 'Silver';
         let email = 'Silver' + randomNumber + '@gmail.com';
         let gifterName = user.firstName;
         let gifterLastName = user.lastName;
         joinNow.gifts.fillGiftForm(firstName, lastName, email, gifterName, gifterLastName);
+        joinNow.gifts.fillOutGiftPayment(paymentCard, email);
+        joinNow.gifts.recipientEmailSuccess().should("be.visible").should("contain", email);
+        joinNow.logOut.logOutFromDelivery();
+        joinNow.logIn.fillLogInFormWithExistingUser(Cypress.env('administratorEmail'), Cypress.env('administratorPassword'));
+        joinNow.gifts.findGiftAsAdmin(email);
+        joinNow.gifts.getGift().should("be.visible").invoke('text').then((giftCode) => {
+            joinNow.getStarted.visitMainPage();
+            joinNow.logOut.logOutFromDelivery();
+            joinNow.navBar.clickOnGift();
+            joinNow.gifts.reedemGift();
+            joinNow.gifts.fillRedeemForm(giftCode, email, address.zip);
+        })
+        joinNow.gifts.giftSuccessHeader().should("be.visible").should("contain", "Your gift card has been applied");
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.email = email;
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.deliveryPanel.totalSumCheckout().should("be.visible").invoke('text').should((totalSum) => {
+            expect(totalSum).to.eq("$0.00")
+        })
+        joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.subscription.skipBothAttributionForms();
+        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
+        deliveries.deliveries.totalSumAtDelivery().should("be.visible").invoke('text').should((totalSum) => {
+            expect(totalSum).to.eq("$0.00")
+        })
 
 
     })

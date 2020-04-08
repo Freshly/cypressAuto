@@ -22,6 +22,13 @@ export default {
 
         stillWantToSkipNevermind: () => {
             cy.xpath("//section[@data-week-number='2']//button[contains(text(),'Nevermind')]").should("be.visible").click()
+        },
+        mealAvoidAlert: () => {
+            return cy.get("[class='icon-warning']")
+        },
+        totalSumAtDelivery: () => {
+            return cy.get("[class='promo total-price']>strong")
+
         }
 
     },
