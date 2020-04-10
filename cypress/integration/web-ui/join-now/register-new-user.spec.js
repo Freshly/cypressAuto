@@ -24,7 +24,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
         mealPlan = _.sample(mealPlans)
     })
 
-    it("User is able to change meals from Delivery page", () => {
+    it.skip("User is able to change meals from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -45,7 +45,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it("User is able to change meal plan from Delivery page", () => {
+    it.skip("User is able to change meal plan from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -66,7 +66,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it("User is able to change delivery date from Delivery page", () => {
+    it.skip("User is able to change delivery date from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -87,7 +87,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it("User is able to give giftcard from Delivery page", () => {
+    it.skip("User is able to give giftcard from Delivery page", () => {
         var randomNumber
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -108,7 +108,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
         let gifterName = user.firstName;
         let gifterLastName = user.lastName;
         joinNow.gifts.fillGiftForm(firstName, lastName, email, gifterName, gifterLastName);
-        joinNow.gifts.fillOutGiftPayment(paymentCard, email);
+        joinNow.gifts.fillOutGiftPayment(paymentCard, user.email);
         joinNow.gifts.recipientEmailSuccess().should("be.visible").should("contain", email);
         joinNow.logOut.logOutFromDelivery();
         joinNow.logIn.fillLogInFormWithExistingUser(Cypress.env('administratorEmail'), Cypress.env('administratorPassword'));
@@ -141,7 +141,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it("User is able to skip/uskip a week from Delivery page", () => {
+    it.skip("User is able to skip/uskip a week from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -153,17 +153,18 @@ describe("Join Now Flow - Register new subscription with different parameters ",
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
         deliveries.second_week.skipWeek().should("be.visible").click();
-        deliveries.deliveries.stillWantToSkipNevermind();
-        deliveries.second_week.skipWeek().should("be.visible").click();
-        deliveries.deliveries.stillWantToSkipDelivery();
-        deliveries.second_week.unSkipWeek().should("be.visible").click();
-        deliveries.second_week.skipWeek().should("be.visible");
-
+        joinNow.navBar.clickOnDeliveries();
+        cy.wait(5000);
+        deliveries.second_week.unSkipWeek().wait(5000).click().then(() => {
+            joinNow.navBar.clickOnDeliveries();
+            cy.wait(5000);
+            deliveries.second_week.skipWeek().wait(5000).should("be.visible");
+        })
 
     })
 
 
-    it.skip("User is able to create subscription with address needed to be verified ", () => {
+    it("User is able to create subscription with address needed to be verified ", () => {
         //test checks availability to create subscritpion with address needed to be verified,check SMS check-box, change delivery day in drop down and fill billing address
 
         address.line1 = "10 Tolstogo"
@@ -172,10 +173,10 @@ describe("Join Now Flow - Register new subscription with different parameters ",
         joinNow.planPicker.chooseMealPlan(mealPlan);
         //joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.dayPicker.MostPopularDay().click();
-        joinNow.dayPicker.MostPopularDayAfterSelection().invoke('text').then((daySelected) => {
+        joinNow.dayPicker.MostPopularDayAfterSelection().should("be.visible").invoke('text').then((daySelected) => {
             joinNow.dayPicker.continueToMealSelection();
             joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals, 'true');
-            joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+            joinNow.checkOut.fillRegistrationData.fillUserData(user, address);
             //check sms check-box is available for checking
             joinNow.checkOut.deliveryPanel.SMSbox().not('[disabled]').check().should('be.checked');
             joinNow.checkOut.deliveryPanel.checkSMSbox();
@@ -192,10 +193,11 @@ describe("Join Now Flow - Register new subscription with different parameters ",
             joinNow.checkOut.paymentPanel.submitPaymentForm();
             joinNow.subscription.skipBothAttributionForms();
             joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName)
-            deliveries.first_week.deliveryDay().invoke('text').then((dayDelivery) => {
-                expect(dayDelivery.indexOf(daySelected)).to.equal(-1) //check the new delivery day is not the same with selected day during join now
-
+            deliveries.first_week.deliveryDay().should("be.visible").invoke('text').should((dayDelivery) => {
+                expect(dayDelivery.trim().indexOf(daySelected.trim())).to.equal(-1)
             })
+
+
         })
 
     })

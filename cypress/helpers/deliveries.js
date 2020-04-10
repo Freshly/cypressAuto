@@ -39,11 +39,12 @@ export default {
 
         },
         deliveryDay: () => {
-            return cy.xpath("//*[@data-week-number='1']/header/div[1]/ul/li[1]/section/h2")
+            //return cy.xpath("//section[@data-week-number='1']//*[@data-test='weekly-order-show-delivery']//h2")
+            return cy.get("[data-test='weekly-order-show-delivery']>section>h2")
 
         },
         plan: () => {
-            return cy.xpath("//*[@data-week-number='1']/header/div[1]/ul/li[2]/section/h2")
+            return cy.xpath("(//*[@data-week-number='1']//h2)[2]").should("be.visible")
 
         }
 
@@ -55,7 +56,7 @@ export default {
 
         },
         deliveryDay: () => {
-            return cy.xpath("(//section[@data-week-number='2']//*[@data-toggle='dropdown'])[1]")
+            return cy.xpath("(//section[@data-week-number='2']//*[@data-toggle='dropdown'])[1]").should("be.visible")
 
         },
         changeDeliveryDay: () => {
@@ -65,7 +66,7 @@ export default {
 
         },
         skipWeek: () => {
-            return cy.xpath("//section[@data-week-number='2']//*[@data-test='SkipDelivery']")
+            return cy.xpath("//section[@data-week-number='2']//*[@value='Skip This Week']")
 
         },
 
@@ -104,7 +105,7 @@ export default {
 
         },
         skipWeek: () => {
-            return cy.xpath("//section[@data-week-number='3']//*[@data-test='SkipDelivery']")
+            return cy.xpath("//section[@data-week-number='3']//*[@value='Skip This Week']")
 
         },
         plan: () => {

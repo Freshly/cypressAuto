@@ -6,7 +6,8 @@
   "viewportWidth": 1280,
   "viewportHeight": 1024,
   "env": {
-    "RETRIES": 2,
+    "RETRIES": 3,
+    "reporter": "nyan",
     "credentialDemo": "freshly:FreshAvocado@",
     "PromoCode" : "radspring30",
     "incorrectPromo" : "radspring40",

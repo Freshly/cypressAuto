@@ -262,7 +262,7 @@ export default {
                     .click({force: true})
                 cy.get("iframe[name='__privateStripeFrame5']")
                     .iframe()
-                    .find("input[name='cardnumber']")
+                    .find("input[name='cardnumber']").should("be.visible")
                     .click()
                     .type(paymentCard.number)
                 cy.get("iframe[name='__privateStripeFrame6']")
@@ -329,7 +329,6 @@ export default {
             cy.get("h1").contains("Hi there!").should("be.visible")
         },
         chooseMealPlanForGift: mealPlanId => {
-            //let planId = mealPlan.id
             cy.get(`[data-id="${mealPlanId}"]`).should("be.visible").click()
         },
         fillGiftForm: (firstName, lastName, email, gifterName, gifterLastName) => {
@@ -388,63 +387,13 @@ export default {
                 .click()
         },
 
-        getChangePlan: () => {
-            return cy.get("[data-fe='change-default-plan-btn']")
-        },
-
-        get9MealsPlan: () => {
-            return cy.get("[data-plan-id='423']")
-        },
-
         getFirstNameHeader: () => {
             return cy.get("[data-test='header-first-name']")
         },
 
-        getCancelSubscriptionButton: () => {
-            return cy.get("[data-fe='cancel-subscription-btn']")
-        },
-
-        getPauseSubscriptionButton: () => {
-            return cy.get("[data-fe='pause-subscription-btn']")
-        },
-
-        getFirstDropdown: () => {
-            return cy.get("[data-test='first-question-dropdown']")
-        },
-
-        getFirstDropdownDelivery: () => {
-            return cy.get("[data-first-answer-key='delivery']")
-        },
-
-        getSecondDropdownDelivery: () => {
-            return cy.get("[data-second-question-key='delivery']")
-        },
-
-        getDeliveryAnswerButton: () => {
-            return cy.get("[data-second-answer-key='delivery_late']")
-        },
-
-        getUnPausedSubscription: () => {
-            return cy.get("[data-fe='unpause-subscription-btn']")
-        },
-
-        getChangeSubscriptionName: () => {
-            return cy.get("[data-fe='change-name-btn']")
-        },
-        getSubscriptionName: () => {
-            return cy.get("[data-test='subscription-name']")
-        },
-
-
         dismissSelfAttributionForm2: () => {
-            /*cy.get("[id='snacks-promotion-modal']")
-                .find("[id='cta-primary']")
-                .should("be.visible")
-            cy.get("[id='snacks-promotion-modal']")
-                .find("[id='cta-close']")
-                .click()*/
             cy.xpath("//*[@id = 'change-meals-modal']/div/div/div[1]/button|//*[@data-meal-planner--raf-modal-raf-path='/refer_a_friend']/div/div/div[1]/button").should("be.visible").click()
-            //cy.get("//*[@id = 'change-meals-modal']/div/div/div[1]/button|//*[@data-meal-planner--raf-modal-raf-path=\"/refer_a_friend\"]/div/div/div[1]/button").should("be.visible")
+
         },
 
         skipBothAttributionForms: () => {
@@ -476,37 +425,7 @@ export default {
         }
 
     },
-    accountDetails: {
-        enterName: newUserName => {
-            cy.get("[id='first_name']").should("be.visible").focus().clear()
-            cy.get("[id='first_name']").type(newUserName)
-        },
-        getUserAccountPage: () => {
-            return cy.get("[class='dropdown-item font-weight-light']")
-        },
 
-        enterSurname: newUserName => {
-            cy.get("[id='last_name']").clear()
-            cy.get("[id='last_name']").type(newUserName)
-        },
-        saveButtonClick: () => {
-            cy.get("[data-fe='change-name-save-btn']")
-                .click()
-        },
-        changePassword: () => {
-            cy.get("[data-fe='change-password-btn']")
-                .click()
-        },
-        fillPasswordForm: (newPassword, oldPassword) => {
-            cy.get("[id='new_password']").type(newPassword)
-            cy.get("[id='current_password']").type(oldPassword)
-        },
-        changePasswordClick: (newPassword, oldPassword) => {
-            cy.get("[data-fe='change-password-submit-btn']").click()
-
-        }
-
-    },
     toastMessage: {
         checkMessage: message => {
             cy.get("[class='toast toast-success']").should("be.visible").contains(message);
@@ -553,59 +472,8 @@ export default {
         }
 
 
-    },
-    cancelSubscription: {
-        submitReason: () => {
-            cy.get("[data-fe='submit-survey-btn']").should("be.visible").click()
-
-        },
-        wantToCancel: () => {
-            cy.get("[data-fe='pause-subscription-btn']").should("be.visible").click()
-
-        },
-        reactivateButton: () => {
-            cy.get("[data-fe='unpause-subscription-btn']").should("be.visible").click()
-
-        }
-
-    },
-
-    deliveryPage: {
-        dayOfFirstWeek: () => {
-            return cy.get("[class='component card weekly-order-card'] > header > article > h2 > span").first().should("be.visible").invoke('text')
-
-        },
-
-        dayOfSecondWeek: () => {
-            return cy.get("[data-action='click->meal-planner--delivery-dates#fetchDeliveryDates']").should("be.visible").invoke('text')
-
-
-        },
-
-        cancelChangingName: newName => {
-            cy.get("[id='new_subscription_name']").should("be.visible").focus().clear()
-            cy.get("[id='new_subscription_name']").type(newName);
-            cy.get("[data-fe='cancel-btn]").should("be.visible").click()
-
-        }
-
-    },
-
-    changeSubscritionName: {
-        changeName: newName => {
-            cy.get("[id='new_subscription_name']").should("be.visible").focus().clear()
-            cy.get("[id='new_subscription_name']").type(newName);
-            cy.get("[data-fe='change-subscription-name-submit-btn']").should("be.visible").click()
-
-        },
-        cancelChangingName: newName => {
-            cy.get("[id='new_subscription_name']").should("be.visible").focus().clear()
-            cy.get("[id='new_subscription_name']").type(newName);
-            cy.get("[data-fe='cancel-btn]").should("be.visible").click()
-
-        }
-
     }
+
 
 }
 
