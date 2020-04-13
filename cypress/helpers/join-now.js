@@ -472,9 +472,18 @@ export default {
         }
 
 
+    },
+    deliveryPage: {
+        dayOfFirstWeek: () => {
+            return cy.get("[class='component card weekly-order-card'] > header > article > h2 > span").first().should("be.visible").invoke('text')
+
+        },
+
+        dayOfSecondWeek: () => {
+            return cy.get("[data-action='click->meal-planner--delivery-dates#fetchDeliveryDates']").should("be.visible").invoke('text')
+        }
+
     }
-
-
 }
 
 

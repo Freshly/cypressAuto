@@ -3,9 +3,10 @@ import {User} from "../../../support/seeds/users"
 import joinNow from "../../../helpers/join-now"
 import mealPlans from "../../../fixtures/meal-plans"
 import subscription from "../../../helpers/subscription"
-const {_} = Cypress;
 import addresses from "../../../support/data/valid-addresses"
-import deliveries from "../../../helpers/deliveries";
+import deliveries from "../../../helpers/deliveries"
+
+const {_} = Cypress;
 
 describe("User is able to change parameters of subscrition ", () => {
     let user;
@@ -24,7 +25,7 @@ describe("User is able to change parameters of subscrition ", () => {
     })
 
 
-    it.skip("7-User is able to cancel subscription with any parameters", () => {
+    it("7-User is able to cancel subscription with any parameters", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -47,7 +48,7 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.toastMessage.checkMessage("Subscription successfully reactivated");
     })
 
-    it.skip("8-User is able to change email and log in with new email", () => {
+    it("8-User is able to change email and log in with new email", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -71,7 +72,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("9-User is able to change password and log in with new it", () => {
+    it("9-User is able to change password and log in with new it", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -90,7 +91,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("10-User is able to change first name and last name", () => {
+    it("10-User is able to change first name and last name", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -107,7 +108,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("11-User is able to cancel subscription registered with Promo code", () => {
+    it("11-User is able to cancel subscription registered with Promo code", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -133,7 +134,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("12-User is able to skip up to eight weeks", () => {
+    it("12-User is able to skip up to eight weeks", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -157,7 +158,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("13-User is able to change a plan at Subscription setting page", () => {
+    it("13-User is able to change a plan at Subscription setting page", () => {
         mealPlan.id = 421
         mealPlan.meals = 4
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -176,7 +177,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("14-User is able to change a default delivery day from Subscription setting page", () => {
+    it("14-User is able to change a default delivery day from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -194,7 +195,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.skip("15-User is able to select available delivery day from Calendar Subscription setting page", () => {
+    it("15-User is able to select available delivery day from Calendar Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -202,6 +203,7 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm();
         subscription.subscription.skipBothAttributionForms();
+        //deliveries.second_week.deliveryDay().invoke('text').then((dayF) => {
         joinNow.deliveryPage.dayOfSecondWeek().then((dayF) => {
             var day1 = (dayF.split(','))[0]
             cy.log(day1)
@@ -209,6 +211,7 @@ describe("User is able to change parameters of subscrition ", () => {
             subscription.calendar.changeDeliveryDay()
             subscription.calendar.selectAnyAvailableDayInCalendar()
             joinNow.navBar.clickOnDeliveries();
+            //deliveries.second_week.deliveryDay().invoke('text').then((dayS) => {
             joinNow.deliveryPage.dayOfSecondWeek().then((dayS) => {
                 var day2 = (dayS.split(','))[0]
                 cy.log(day2)
@@ -217,7 +220,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.skip("16-User is able to add/select/delete new payment card from Subscription setting page", () => {
+    it("16-User is able to add/select/delete new payment card from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);

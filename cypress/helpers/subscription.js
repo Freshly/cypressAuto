@@ -24,6 +24,8 @@ export default {
 
         getFirstNameHeader: () => {
             return cy.get("[data-test='header-first-name']")
+            //return cy.get("[class='dropdown-menu dropdown-menu-right show']>span")
+            //return cy.get("[class='navbar-text font-weight-bold text-uppercase user-firstname px-4']")
         },
 
         getCancelSubscriptionButton: () => {
