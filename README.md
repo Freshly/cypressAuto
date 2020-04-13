@@ -1,4 +1,4 @@
-# Cypress Test Automation Suite for Freshly web as a task for performance review.
+# Cypress Test Automation Suite for Freshly web.
 
 ## Installation
 1) Just copy project's folder to local machine.

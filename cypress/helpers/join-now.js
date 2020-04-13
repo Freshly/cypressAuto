@@ -262,7 +262,7 @@ export default {
                     .click({force: true})
                 cy.get("iframe[name='__privateStripeFrame5']")
                     .iframe()
-                    .find("input[name='cardnumber']").should("be.visible")
+                    .find("input[name='cardnumber']").wait(2000).should("be.visible")
                     .click()
                     .type(paymentCard.number)
                 cy.get("iframe[name='__privateStripeFrame6']")

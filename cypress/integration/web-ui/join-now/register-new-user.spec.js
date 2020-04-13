@@ -24,7 +24,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
         mealPlan = _.sample(mealPlans)
     })
 
-    it.skip("User is able to change meals from Delivery page", () => {
+    it.skip("1-User is able to change meals from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -45,7 +45,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it.skip("User is able to change meal plan from Delivery page", () => {
+    it.skip("2-User is able to change meal plan from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -66,7 +66,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it.skip("User is able to change delivery date from Delivery page", () => {
+    it.skip("3-User is able to change delivery date from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -87,7 +87,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it.skip("User is able to give giftcard from Delivery page", () => {
+    it.skip("4-User is able to give giftcard from Delivery page", () => {
         var randomNumber
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -141,7 +141,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it.skip("User is able to skip/uskip a week from Delivery page", () => {
+    it.skip("5-User is able to skip/uskip a week from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -164,7 +164,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
     })
 
 
-    it("User is able to create subscription with address needed to be verified ", () => {
+    it("6-User is able to create subscription with address needed to be verified ", () => {
         //test checks availability to create subscritpion with address needed to be verified,check SMS check-box, change delivery day in drop down and fill billing address
 
         address.line1 = "10 Tolstogo"
