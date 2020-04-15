@@ -183,18 +183,18 @@ export default {
         fillRegistrationData: {
             fillUserData: (userData, address) => {
                 cy.get("[name='firstName']")
-                    .type(userData.firstName)
+                    .type(userData.firstName, {force: true})
                 cy.get("[name='lastName']")
-                    .type(userData.lastName)
+                    .type(userData.lastName, {force: true})
                 cy.get("[name='password']")
-                    .type(userData.password)
+                    .type(userData.password, {force: true})
 
                 cy.get("[name='line1']")
                     .should("be.visible")
                 cy.get("[name='line1']")
-                    .type(address.line1)
+                    .type(address.line1, {force: true})
                 cy.get("[name='phone']")
-                    .type(userData.phoneNumber)
+                    .type(userData.phoneNumber, {force: true})
                 //cy.get("[class='btn btn-primary btn-block btn-lg btn btn-secondary']").click()
                 cy.get("[class='same-height-as-paypal-button btn btn-primary btn-lg btn-block']").click()
 
