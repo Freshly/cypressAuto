@@ -260,9 +260,10 @@ export default {
             fillOutPaymentInfoWithCard: (paymentCard) => {
                 cy.get("[for='ccPaymentOptionInput']")
                     .click({force: true})
+                cy.wait(5000)
                 cy.get("iframe[name='__privateStripeFrame5']")
                     .iframe()
-                    .find("input[name='cardnumber']").wait(2000).should("be.visible")
+                    .find("input[name='cardnumber']").should("be.visible")
                     .click()
                     .type(paymentCard.number)
                 cy.get("iframe[name='__privateStripeFrame6']")
@@ -428,8 +429,10 @@ export default {
 
     toastMessage: {
         checkMessage: message => {
-            cy.get("[class='toast toast-success']").should("be.visible").contains(message);
+            //cy.get("[class='toast toast-success']").should("be.visible").contains(message);
+            cy.xpath("//*[@class='toast toast-success']|//*[@class='toast-message']").should("be.visible").contains(message);
             cy.get("[class='toast-close-button']").click({multiple: true})
+
         },
 
         checkErrorMessage: message => {
