@@ -258,17 +258,17 @@ export default {
         },
         paymentPanel: {
             fillOutPaymentInfoWithCard: (paymentCard) => {
-                cy.get("[for='ccPaymentOptionInput']")
+                cy.get("[for='ccPaymentOptionInput']").should("be.visible")
                     .click({force: true})
                 cy.wait(5000)
                 cy.get("iframe[name='__privateStripeFrame5']")
                     .iframe()
-                    .find("input[name='cardnumber']").should("be.visible")
+                    .find("input[name='cardnumber']").should('not.be.disabled')
                     .click()
                     .type(paymentCard.number)
                 cy.get("iframe[name='__privateStripeFrame6']")
                     .iframe()
-                    .find("input[name='exp-date']")
+                    .find("input[name='exp-date']").should('not.be.disabled')
                     .click()
                     .type(paymentCard.expDate)
                 cy.get("iframe[name='__privateStripeFrame7']")
