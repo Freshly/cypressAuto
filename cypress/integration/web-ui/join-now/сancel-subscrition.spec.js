@@ -229,14 +229,19 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.checkOut.paymentPanel.submitPaymentForm();
         subscription.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
+        var newCardTrimmed, oldCardTrimmed;
         subscription.changePayment.cardEnd().then((cardNumberOld) => {
+            cy.log(cardNumberOld.trim());
             subscription.changePayment.changePaymentMethod()
             subscription.changePayment.addNewPaymentMethod()
             subscription.changePayment.fillNewPaymentForm(user, address)
             subscription.changePayment.savePaymentMethod()
             joinNow.toastMessage.checkMessage("Payment method successfully updated");
             subscription.changePayment.cardEnd().then((cardNumberNew) => {
-                expect(cardNumberOld.substring(cardNumberOld.length - 4)).to.not.equal(cardNumberNew.substring(cardNumberNew.length - 4))
+                cy.log(cardNumberNew.trim());
+                newCardTrimmed = cardNumberNew.trim();
+                oldCardTrimmed = cardNumberOld.trim();
+                expect(newCardTrimmed.substring(newCardTrimmed.length - 4)).to.not.equal(oldCardTrimmed.substring(oldCardTrimmed.length - 4))
             })
         })
         //set as default
@@ -245,7 +250,10 @@ describe("User is able to change parameters of subscrition ", () => {
             subscription.changePayment.setAsDefault()
             joinNow.toastMessage.checkMessage("Payment method successfully updated");
             subscription.changePayment.cardEnd().then((cardNumberNew) => {
-                expect(cardNumberOld.substring(cardNumberOld.length - 4)).to.not.equal(cardNumberNew.substring(cardNumberNew.length - 4))
+                newCardTrimmed = cardNumberNew.trim();
+                oldCardTrimmed = cardNumberOld.trim();
+                expect(newCardTrimmed.substring(newCardTrimmed.length - 4)).to.not.equal(oldCardTrimmed.substring(oldCardTrimmed.length - 4))
+                // expect(cardNumberOld.trim()).to.not.equal(cardNumberNew.trim())
             })
         })
         // delete default method
@@ -255,7 +263,10 @@ describe("User is able to change parameters of subscrition ", () => {
             subscription.changePayment.yesDeleteButton();
             joinNow.toastMessage.checkMessage("Payment method successfully deleted");
             subscription.changePayment.cardEnd().then((cardNumberNew) => {
-                expect(cardNumberOld.substring(cardNumberOld.length - 4)).to.equal(cardNumberNew.substring(cardNumberNew.length - 4))
+                newCardTrimmed = cardNumberNew.trim();
+                oldCardTrimmed = cardNumberOld.trim();
+                expect(newCardTrimmed.substring(newCardTrimmed.length - 4)).to.equal(oldCardTrimmed.substring(oldCardTrimmed.length - 4))
+                //expect(cardNumberOld.trim()).to.equal(cardNumberNew.trim())
             })
         })
     })
@@ -310,9 +321,6 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        //joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
-        //joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
-        //joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
         joinNow.checkOut.paymentPanel.submitPaymentForm();
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);

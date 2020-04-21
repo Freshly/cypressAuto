@@ -24,7 +24,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
         mealPlan = _.sample(mealPlans)
     })
 
-    it.skip("1-User is able to change meals from Delivery page", () => {
+    it("1-User is able to change meals from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -45,7 +45,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it.skip("2-User is able to change meal plan from Delivery page", () => {
+    it("2-User is able to change meal plan from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -66,7 +66,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it.skip("3-User is able to change delivery date from Delivery page", () => {
+    it("3-User is able to change delivery date from Delivery page", () => {
 
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -87,7 +87,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it.skip("4-User is able to give giftcard from Delivery page", () => {
+    it("4-User is able to give giftcard from Delivery page", () => {
         var randomNumber
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -201,5 +201,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
         })
 
     })
+
+
 });
 

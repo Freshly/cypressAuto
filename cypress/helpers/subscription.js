@@ -341,7 +341,7 @@ export default {
 
     changePayment: {
         cardEnd: () => {
-            return cy.xpath("//*[@data-fe='payment-method']/main/p").should("be.visible").invoke('text')
+            return cy.xpath("//*[@class='payment-method-display-elements']").should("be.visible").invoke('text')
 
         },
         changePaymentMethod: () => {
