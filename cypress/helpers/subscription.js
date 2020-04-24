@@ -352,24 +352,24 @@ export default {
             cy.xpath("//button[contains(text(),'+ New Payment Method')]").should("be.visible").click()
 
         },
-        fillNewPaymentForm: (userData, address) => {
+        fillNewPaymentForm: (userData, address, paymentCardAdded) => {
             cy.get("[name='__privateStripeFrame5']")
                 .click({force: true})
             cy.get("iframe[name='__privateStripeFrame5']")
                 .iframe()
                 .find("input[name='cardnumber']")
                 .click()
-                .type("4242424242424242")
+                .type(paymentCardAdded.number)
             cy.get("iframe[name='__privateStripeFrame6']")
                 .iframe()
                 .find("input[name='exp-date']")
                 .click()
-                .type("1222")
+                .type(paymentCardAdded.expDate)
             cy.get("iframe[name='__privateStripeFrame7']")
                 .iframe()
                 .find("input[name='cvc']")
                 .click()
-                .type("222")
+                .type(paymentCardAdded.cvv)
             var fullName = userData.first_name + " " + userData.last_name
             cy.get("#payment_method_stripe_billing_address_full_name").should("be.visible").type(fullName)
             cy.get("#payment_method_stripe_billing_address_line1").should("be.visible").type(address.line1)
