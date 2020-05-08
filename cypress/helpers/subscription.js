@@ -145,6 +145,12 @@ export default {
             })
         },
 
+        getNameNavigationBar: () => {
+            return cy.get("[data-fe='dropdown-menu-first-name']")
+
+        },
+
+
         waitToBeAtSubscriptionsPage: userData => {
             cy.url().should("include", "/subscriptions/")
             cy.get("[data-test='header-first-name']")
@@ -243,6 +249,9 @@ export default {
         getEmail: () => {
             return cy.xpath("//*[@data-fe='user-email']/p").should("be.visible")
         },
+        getName: () => {
+            return cy.xpath("//*[@data-fe='user-name']/p").should("be.visible")
+        },
 
         cancelChangingName: newName => {
             cy.get("[id='new_subscription_name']").should("be.visible").focus().clear()
@@ -258,12 +267,14 @@ export default {
             cy.xpath("//div[@id='change-password']//button[contains(text(),'Change Password')]").should("be.visible").click()
 
         },
-        changePersonalInfo: (newFirstname, userLastname) => {
+        changePersonalInfo: (newFirstName, newLastName) => {
+            cy.get("[data-target='#change-name']").should("be.visible").click()
+            cy.xpath("//div[@id='change-name']//button[contains(text(),'Change Name')]").should("be.disabled")
             cy.get("[id='user_first_name']").should("be.visible").focus().clear()
-            cy.get("[id='user_first_name']").type(newFirstname)
+            cy.get("[id='user_first_name']").type(newFirstName)
             cy.get("[id='user_last_name']").should("be.visible").focus().clear()
-            cy.get("[id='user_last_name']").type(newFirstname)
-            cy.get("[value='SAVE']").should("be.visible").click()
+            cy.get("[id='user_last_name']").type(newLastName)
+            cy.xpath("//div[@id='change-name']//button[contains(text(),'Change Name')]").should("be.visible").click()
 
         }
 
