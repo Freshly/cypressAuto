@@ -300,15 +300,15 @@ export default {
 
         },
         selectedAvoid: () => {
-            return cy.xpath("//*[@class='dietary-preferences__summary']/ul/li[1]/ul/li").should("be.visible")
+            return cy.xpath("//*[contains(@class,'dietary-preferences__summary')]/ul/li[1]/ul/li").should("be.visible")
 
         },
         selectedNeutral: () => {
-            return cy.xpath("//*[@class='dietary-preferences__summary']/ul/li[2]/ul/li").should("be.visible")
+            return cy.xpath("//*[contains(@class,'dietary-preferences__summary')]/ul/li[2]/ul/li").should("be.visible")
 
         },
         selectedEnjoy: () => {
-            return cy.xpath("//*[@class='dietary-preferences__summary']/ul/li[3]/ul/li").should("be.visible")
+            return cy.xpath("//*[contains(@class,'dietary-preferences__summary')]/ul/li[3]/ul/li").should("be.visible")
 
         },
 

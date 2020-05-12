@@ -42,8 +42,6 @@ describe("User is able to change parameters of subscrition ", () => {
         subscription.subscription.getDeliveryAnswerButton().should("be.visible").click();
         subscription.cancelSubscription.submitReason();
         subscription.cancelSubscription.wantToCancel();
-        //subscription.subscription.getUnPausedSubscription().should("be.visible");
-        //joinNow.navBar.clickOnDeliveries();
         subscription.cancelSubscription.reactivateButton();
         joinNow.toastMessage.checkMessage("Subscription successfully reactivated");
     })
@@ -110,7 +108,6 @@ describe("User is able to change parameters of subscrition ", () => {
         })
 
         subscription.subscription.getNameNavigationBar().should("contain", userRenamed.firstName);
-        //dropdown-menu-first-name
 
     })
 
@@ -136,7 +133,6 @@ describe("User is able to change parameters of subscrition ", () => {
         subscription.cancelSubscription.submitReason();
         subscription.cancelSubscription.wantToCancel();
         subscription.subscription.getCancelWithPromoFinalText().should("be.visible").contains('Your account is canceled');
-        //subscription.subscription.getReturnToHomePage().should("be.visible");
 
     })
 
@@ -260,7 +256,7 @@ describe("User is able to change parameters of subscrition ", () => {
                 newCardTrimmed = cardNumberNew.trim();
                 oldCardTrimmed = cardNumberOld.trim();
                 expect(newCardTrimmed.substring(newCardTrimmed.length - 4)).to.not.equal(oldCardTrimmed.substring(oldCardTrimmed.length - 4))
-                // expect(cardNumberOld.trim()).to.not.equal(cardNumberNew.trim())
+
             })
         })
         // delete default method
