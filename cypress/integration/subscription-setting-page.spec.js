@@ -1,10 +1,10 @@
-import {getRandomPaymentCard} from "../../../helpers/generate-random-data"
-import {User} from "../../../support/seeds/users"
-import joinNow from "../../../helpers/join-now"
-import mealPlans from "../../../fixtures/meal-plans"
-import subscription from "../../../helpers/subscription"
-import addresses from "../../../support/data/valid-addresses"
-import deliveries from "../../../helpers/deliveries"
+import {getRandomPaymentCard} from "../helpers/generate-random-data"
+import {User} from "../support/seeds/users"
+import joinNow from "../helpers/join-now"
+import mealPlans from "../fixtures/meal-plans"
+import subscription from "../helpers/subscription"
+import addresses from "../support/data/valid-addresses"
+import deliveries from "../helpers/deliveries"
 
 const {_} = Cypress;
 
@@ -25,26 +25,6 @@ describe("User is able to change parameters of subscrition ", () => {
     })
 
 
-    it("7-User is able to cancel subscription with any parameters", () => {
-        joinNow.planPicker.chooseMealPlan(mealPlan);
-        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
-        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.skipBothAttributionForms();
-        cy.visitSubscriptionSettingsPage();
-        subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
-        subscription.subscription.getPauseSubscriptionButton().should("be.visible").click();
-        subscription.subscription.getFirstDropdown().should("be.visible").click();
-        subscription.subscription.getFirstDropdownDelivery().should("be.visible").click();
-        subscription.subscription.getSecondDropdownDelivery().find("button").click();
-        subscription.subscription.getDeliveryAnswerButton().should("be.visible").click();
-        subscription.cancelSubscription.submitReason();
-        subscription.cancelSubscription.wantToCancel();
-        subscription.cancelSubscription.reactivateButton();
-        joinNow.toastMessage.checkMessage("Subscription successfully reactivated");
-    })
 
     it("8-User is able to change email and log in with new email", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -108,55 +88,6 @@ describe("User is able to change parameters of subscrition ", () => {
         })
 
         subscription.subscription.getNameNavigationBar().should("contain", userRenamed.firstName);
-
-    })
-
-    it("11-User is able to cancel subscription registered with Promo code", () => {
-        joinNow.planPicker.chooseMealPlan(mealPlan);
-        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
-        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
-        joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
-        joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.skipBothAttributionForms();
-        cy.visitSubscriptionSettingsPage();
-        subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
-        subscription.subscription.getPauseSubscriptionButton().should("be.visible").click();
-        subscription.cancelSubscription.wantToCancel();
-        subscription.subscription.getFirstDropdown().should("be.visible").click();
-        subscription.subscription.getFirstDropdownDelivery().should("be.visible").click();
-        subscription.subscription.getSecondDropdownDelivery().find("button").click();
-        subscription.subscription.getDeliveryAnswerButton().should("be.visible").click();
-        subscription.cancelSubscription.submitReason();
-        subscription.cancelSubscription.wantToCancel();
-        subscription.subscription.getCancelWithPromoFinalText().should("be.visible").contains('Your account is canceled');
-
-    })
-
-    it("12-User is able to skip up to eight weeks", () => {
-        joinNow.planPicker.chooseMealPlan(mealPlan);
-        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
-        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.skipBothAttributionForms();
-        cy.visitSubscriptionSettingsPage();
-        subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
-        subscription.subscription.getPauseSubscriptionButton().should("be.visible").click();
-        subscription.subscription.getFirstDropdown().should("be.visible").click();
-        subscription.subscription.getFirstDropdownTemporary().should("be.visible").click();
-        subscription.subscription.getSecondDropdownTemporary().find("button").click();
-        subscription.subscription.getTemporaryAnswerButton().should("be.visible").click();
-        subscription.cancelSubscription.submitReason();
-        subscription.cancelSubscription.select8WeekForSkipping();
-        subscription.cancelSubscription.skip8weeks();
-        joinNow.toastMessage.checkMessage("You’ll still get your delivery on");
-        joinNow.navBar.clickOnDeliveries();
-        deliveries.second_week.unSkipWeek().should("be.visible");
 
     })
 
@@ -318,44 +249,6 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it("18-User is able to select Dietary Preferencies", () => {
-        joinNow.planPicker.chooseMealPlan(mealPlan);
-        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
-        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.skipBothAttributionForms();
-        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
-        subscription.dietaryPreferencies.moveToDietaryPreferencies()
-        subscription.dietaryPreferencies.launchQuestionarie()
-        var selectedPrefernciesList = [0, 0, 0]
-        selectedPrefernciesList = subscription.dietaryPreferencies.selectPreferencesFullList()
-        cy.log(selectedPrefernciesList)
-        subscription.dietaryPreferencies.selectedAvoid().then((selectedAvoid) => {
-            expect(selectedAvoid).to.have.lengthOf(selectedPrefernciesList[0])
-
-        })
-        subscription.dietaryPreferencies.selectedNeutral().then((selectedNeutral) => {
-            expect(selectedNeutral).to.have.lengthOf(selectedPrefernciesList[1])
-
-        })
-        subscription.dietaryPreferencies.selectedEnjoy().then((selectedEnjoy) => {
-            expect(selectedEnjoy).to.have.lengthOf(selectedPrefernciesList[2])
-
-        })
-        //start editing and finish  earlier selected preferencies
-        subscription.dietaryPreferencies.editDietaryPreferencies().click()
-        subscription.dietaryPreferencies.finishDietaryPreferencies().click()
-        cy.wait(5000);
-        joinNow.navBar.clickOnDeliveries();
-        //check avoid mark is presented
-        deliveries.second_week.changeMeals().should("be.visible").click();
-        deliveries.deliveries.mealAvoidAlert().first().should("be.visible").trigger('mouseover');
-        deliveries.deliveries.mealAvoidAlert().should('have.attr', 'alt').and('include', 'Contains ingredients you avoid:')
-
-
-    })
 
     it("19-User is able to delete/add Promo code from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);

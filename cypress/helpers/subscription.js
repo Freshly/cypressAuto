@@ -222,7 +222,7 @@ export default {
 
 
     },
-    changeSubscritionName: {
+    changeSubscriptionName: {
         changeName: newName => {
             cy.get("[id='new_subscription_name']").should("be.visible").focus().clear()
             cy.get("[id='new_subscription_name']").type(newName);
@@ -281,21 +281,21 @@ export default {
     },
 
 
-    dietaryPreferencies: {
-        moveToDietaryPreferencies: () => {
+    dietaryPreferences: {
+        moveToDietaryPreferences: () => {
             cy.get("[data-test='header-first-name']").should("be.visible").click()
             cy.xpath("//*[contains(@href,'food-preferences')]").should("be.visible").click();
 
         },
-        launchQuestionarie: () => {
+        launchQuestionnaire: () => {
             cy.get("[data-action='users--dietary-preferences--summary#onLaunch']").should("be.visible").click()
 
         },
-        editDietaryPreferencies: () => {
+        editDietaryPreferences: () => {
             return cy.get("[data-action='users--dietary-preferences--summary#onLaunch']").should("be.visible")
 
         },
-        finishDietaryPreferencies: () => {
+        finishDietaryPreferences: () => {
             return cy.get("[data-action='users--dietary-preferences--form#onSkip']").should("be.visible")
 
         },

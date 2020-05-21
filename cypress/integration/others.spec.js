@@ -1,14 +1,14 @@
-import {getRandomPaymentCard} from "../../../helpers/generate-random-data"
-import {User} from "../../../support/seeds/users"
-import joinNow from "../../../helpers/join-now"
-import mealPlans from "../../../fixtures/meal-plans"
-import addresses from "../../../support/data/valid-addresses"
-import deliveries from "../../../helpers/deliveries"
-import subscription from "../../../helpers/subscription";
+import {getRandomPaymentCard} from "../helpers/generate-random-data"
+import {User} from "../support/seeds/users"
+import joinNow from "../helpers/join-now"
+import mealPlans from "../fixtures/meal-plans"
+import addresses from "../support/data/valid-addresses"
+import deliveries from "../helpers/deliveries"
+import subscription from "../helpers/subscription";
 
 const {_} = Cypress;
 
-describe("Join Now Flow - Register new subscription with different parameters ", () => {
+describe("Some tests connected to others parts of Freshly ", () => {
     let user;
     let paymentCard;
     let address;
@@ -24,68 +24,6 @@ describe("Join Now Flow - Register new subscription with different parameters ",
         mealPlan = _.sample(mealPlans)
     })
 
-    it("1-User is able to change meals from Delivery page", () => {
-
-        joinNow.getStarted.fillOutGetStartedForm(user, address);
-        joinNow.planPicker.chooseMealPlan(mealPlan);
-        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
-        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.skipBothAttributionForms();
-        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
-        deliveries.second_week.firstMealName().invoke('text').then((firstMealBeforeChanging) => {
-            deliveries.second_week.changeMeals().should("be.visible").click();
-            deliveries.deliveries.selectingNewMeals(mealPlan.meals);
-            deliveries.second_week.firstMealName().invoke('text').should((firstMealAfterChanging) => {
-                expect(firstMealBeforeChanging).not.to.eq(firstMealAfterChanging)
-            })
-        })
-
-    })
-
-    it("2-User is able to change meal plan from Delivery page", () => {
-
-        joinNow.getStarted.fillOutGetStartedForm(user, address);
-        joinNow.planPicker.chooseMealPlan(mealPlan);
-        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
-        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.skipBothAttributionForms();
-        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
-        deliveries.second_week.plan().invoke('text').then((planBeforeChanging) => {
-            deliveries.second_week.changePlan();
-            joinNow.toastMessage.checkMessage("Meal plan successfully updated")
-            deliveries.second_week.plan().invoke('text').should((planAfterChanging) => {
-                expect(planBeforeChanging.trim()).not.to.eq(planAfterChanging.trim())
-            })
-        })
-
-    })
-
-    it("3-User is able to change delivery date from Delivery page", () => {
-
-        joinNow.getStarted.fillOutGetStartedForm(user, address);
-        joinNow.planPicker.chooseMealPlan(mealPlan);
-        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
-        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.skipBothAttributionForms();
-        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
-        deliveries.second_week.deliveryDay().invoke('text').then((dayBeforeChanging) => {
-            deliveries.second_week.changeDeliveryDay();
-            joinNow.toastMessage.checkMessage("Delivery date successfully updated")
-            deliveries.second_week.deliveryDay().invoke('text').should((dayAfterChanging) => {
-                expect(dayBeforeChanging.trim()).not.to.eq(dayAfterChanging.trim())
-            })
-        })
-
-    })
 
     it("4-User is able to give giftcard from Delivery page", () => {
         var randomNumber
@@ -141,30 +79,7 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
     })
 
-    it("5-User is able to skip/uskip a week from Delivery page", () => {
-
-        joinNow.getStarted.fillOutGetStartedForm(user, address);
-        joinNow.planPicker.chooseMealPlan(mealPlan);
-        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
-        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.skipBothAttributionForms();
-        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
-        deliveries.second_week.skipWeek().should("be.visible").click();
-        joinNow.navBar.clickOnDeliveries();
-        cy.wait(5000);
-        deliveries.second_week.unSkipWeek().wait(5000).click().then(() => {
-            joinNow.navBar.clickOnDeliveries();
-            cy.wait(5000);
-            deliveries.second_week.skipWeek().wait(5000).should("be.visible");
-        })
-
-    })
-
-
-    it("6-User is able to create subscription with address needed to be verified ", () => {
+    it("6-User is able to create subscription with address needed to be verified and others specific parameters", () => {
         //test checks availability to create subscritpion with address needed to be verified,check SMS check-box, change delivery day in drop down and fill billing address
 
         address.line1 = "10 Tolstogo"
@@ -199,6 +114,46 @@ describe("Join Now Flow - Register new subscription with different parameters ",
 
 
         })
+
+    })
+
+    it("18-User is able to select Dietary Preferences", () => {
+        joinNow.getStarted.fillOutGetStartedForm(user, address);
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.subscription.skipBothAttributionForms();
+        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
+        subscription.dietaryPreferences.moveToDietaryPreferences()
+        subscription.dietaryPreferences.launchQuestionnaire()
+        var selectedPrefernciesList = [0, 0, 0]
+        selectedPrefernciesList = subscription.dietaryPreferences.selectPreferencesFullList()
+        cy.log(selectedPrefernciesList)
+        subscription.dietaryPreferences.selectedAvoid().then((selectedAvoid) => {
+            expect(selectedAvoid).to.have.lengthOf(selectedPrefernciesList[0])
+
+        })
+        subscription.dietaryPreferences.selectedNeutral().then((selectedNeutral) => {
+            expect(selectedNeutral).to.have.lengthOf(selectedPrefernciesList[1])
+
+        })
+        subscription.dietaryPreferences.selectedEnjoy().then((selectedEnjoy) => {
+            expect(selectedEnjoy).to.have.lengthOf(selectedPrefernciesList[2])
+
+        })
+        //start editing and finish  earlier selected preferencies
+        subscription.dietaryPreferences.editDietaryPreferences().click()
+        subscription.dietaryPreferences.finishDietaryPreferences().click()
+        cy.wait(5000);
+        joinNow.navBar.clickOnDeliveries();
+        //check avoid mark is presented
+        deliveries.second_week.changeMeals().should("be.visible").click();
+        deliveries.deliveries.mealAvoidAlert().first().should("be.visible").trigger('mouseover');
+        deliveries.deliveries.mealAvoidAlert().should('have.attr', 'alt').and('include', 'Contains ingredients you avoid:')
+
 
     })
 

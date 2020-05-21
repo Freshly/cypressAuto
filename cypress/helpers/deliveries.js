@@ -121,21 +121,21 @@ export default {
     },
 
 
-    dietaryPreferencies: {
-        moveToDietaryPreferencies: () => {
+    dietaryPreferences: {
+        moveToDietaryPreferences: () => {
             cy.get("[data-test='header-first-name']").should("be.visible").click()
             cy.xpath("//*[contains(@href,'food-preferences')]").should("be.visible").click();
 
         },
-        launchQuestionarie: () => {
+        launchQuestionnaire: () => {
             cy.get("[data-action='users--dietary-preferences--summary#onLaunch']").should("be.visible").click()
 
         },
-        editDietaryPreferencies: () => {
+        editDietaryPreferences: () => {
             return cy.get("[data-action='users--dietary-preferences--summary#onLaunch']").should("be.visible")
 
         },
-        finishDietaryPreferencies: () => {
+        finishDietaryPreferences: () => {
             return cy.get("[data-action='users--dietary-preferences--form#onSkip']").should("be.visible")
 
         },
