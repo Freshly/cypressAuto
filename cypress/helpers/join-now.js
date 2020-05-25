@@ -397,6 +397,67 @@ export default {
 
         },
 
+        selectRandomValue: () => {
+            var randomNumber = (Math.floor(Math.random() * 13) + 1).toString()
+
+            cy.xpath("//*[@id='self-attribution-form']//button[@id='cta-primary']").should("be.not.enabled")
+
+            switch (randomNumber) {
+                case '1':
+                    cy.get("[for='self_attribution_blog']").should("be.visible").click()
+                    break;
+
+                case '2':
+                    cy.get("[for='self_attribution_video_streaming']").should("be.visible").click()
+                    break;
+                case '3':
+                    cy.get("[for='self_attribution_facebook']").should("be.visible").click()
+                    break;
+                case '4':
+                    cy.get("[for='self_attribution_youtube']").should("be.visible").click()
+                    break;
+
+                case '5':
+                    cy.get("[for='self_attribution_credit_card_offer']").should("be.visible").click()
+                    break;
+                case '6':
+                    cy.get("[for='self_attribution_online_search']").should("be.visible").click()
+                    break;
+                case '7':
+                    cy.get("[for='self_attribution_from_a_friend']").should("be.visible").click()
+                    break;
+
+                case '8':
+                    cy.get("[for='self_attribution_podcast']").should("be.visible").click()
+                    break;
+                case '9':
+                    cy.get("[for='self_attribution_mail']").should("be.visible").click()
+                    break;
+
+                case '10':
+                    cy.get("[for='self_attribution_email']").should("be.visible").click()
+                    break;
+
+                case '11':
+                    cy.get("[for='self_attribution_television']").should("be.visible").click()
+                    break;
+                case '12':
+                    cy.get("[for='self_attribution_radio']").should("be.visible").click()
+                    break;
+                case '13':
+                    cy.get("[for='self_attribution_other']").should("be.visible").click()
+                    break;
+
+                default:
+
+                    break;
+            }
+            cy.wait(2000)
+            cy.xpath("//*[@id='self-attribution-form']//button[@id='cta-primary']").click()
+
+
+        },
+
         skipBothAttributionForms: () => {
             cy.get("#self-attribution-form")
                 .find("div.modal-content")
