@@ -406,7 +406,6 @@ export default {
                 case '1':
                     cy.get("[for='self_attribution_blog']").should("be.visible").click()
                     break;
-
                 case '2':
                     cy.get("[for='self_attribution_video_streaming']").should("be.visible").click()
                     break;
@@ -416,7 +415,6 @@ export default {
                 case '4':
                     cy.get("[for='self_attribution_youtube']").should("be.visible").click()
                     break;
-
                 case '5':
                     cy.get("[for='self_attribution_credit_card_offer']").should("be.visible").click()
                     break;
@@ -426,18 +424,15 @@ export default {
                 case '7':
                     cy.get("[for='self_attribution_from_a_friend']").should("be.visible").click()
                     break;
-
                 case '8':
                     cy.get("[for='self_attribution_podcast']").should("be.visible").click()
                     break;
                 case '9':
                     cy.get("[for='self_attribution_mail']").should("be.visible").click()
                     break;
-
                 case '10':
                     cy.get("[for='self_attribution_email']").should("be.visible").click()
                     break;
-
                 case '11':
                     cy.get("[for='self_attribution_television']").should("be.visible").click()
                     break;
@@ -449,7 +444,6 @@ export default {
                     break;
 
                 default:
-
                     break;
             }
             cy.wait(2000)

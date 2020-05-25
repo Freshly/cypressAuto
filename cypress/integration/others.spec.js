@@ -25,7 +25,7 @@ describe("Some tests connected to others parts of Freshly ", () => {
     })
 
 
-    it.skip("4-User is able to give giftcard from Delivery page", () => {
+    it("4-User is able to give giftcard from Delivery page", () => {
         var randomNumber
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
