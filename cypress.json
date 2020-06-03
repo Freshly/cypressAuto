@@ -11,7 +11,7 @@
     "credentialDemo": "freshly:FreshAvocado@",
     "PromoCode" : "radspring30",
     "incorrectPromo" : "radspring40",
-    "typeOfMealsSelecting": "new",
+    "typeOfMealsSelecting": "old",
     "administratorEmail": "superadmin1@freshly.com",
     "administratorPassword": "ourqasecret"
 
