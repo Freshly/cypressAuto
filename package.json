@@ -3,7 +3,8 @@
   "private": true,
   "dependencies": {
     "cypress": "^4.0.0",
-    "faker": "^4.1.0"
+    "faker": "^4.1.0",
+    "moment": "^2.27.0"
   },
   "devDependencies": {
     "cypress-plugin-retries": "^1.5.2",

@@ -9,7 +9,9 @@ export default {
             var selectMealNumber = Math.floor(Math.random() * 20)
 
             for (let i = 0; i <= mealPlan + 1; i++) {
-                cy.get("[class='fr-add-button meal-card__add-button']").eq(selectMealNumber).click({force: true})
+                //cy.get("[class='fr-add-button meal-card__add-button']").eq(selectMealNumber).click({force: true})
+                cy.get("[data-test='add-meal']").eq(selectMealNumber).click({force: true})
+
                 selectMealNumber = Math.floor(Math.random() * 20)
             }
 
@@ -84,8 +86,8 @@ export default {
         },
         changePlan: () => {
             cy.xpath("(//section[@data-week-number='2']//*[@data-toggle='dropdown'])[2]").should("be.visible").click();
-            cy.xpath("(//section[@data-week-number='2']//*[@class='dropdown-item ' and @data-action='click->meal-planner--weekly-order-card#onUpdatePlan']/span[1])[1]").should("be.visible").click();
-
+            //cy.xpath("(//section[@data-week-number='2']//*[@class='dropdown-item ' and @data-action='click->meal-planner--weekly-order-card#onUpdatePlan']/span[1])[1]").should("be.visible").click();
+            cy.xpath("(//section[@data-week-number='2']//*[@class='dropdown-item weekly-order__dropdown-link ' and @data-action='click->meal-planner--weekly-order-card#onUpdatePlan']/span[1])[1]").should("be.visible").click();
         },
         firstMealName: () => {
             return cy.xpath("//section[@data-week-number='2']//*[@class='meals']/li[1]/section/h3")

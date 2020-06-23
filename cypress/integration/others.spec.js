@@ -30,7 +30,7 @@ describe("Some tests connected to others parts of Freshly ", () => {
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
+        joinNow.mealsPicker.chooseMealsFromMealDetailsCard(mealPlan.meals);// empty parameter leads to selecting different meals
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm();
@@ -86,7 +86,6 @@ describe("Some tests connected to others parts of Freshly ", () => {
         address.zip = "90603"//incorrect address for delivery
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
-        //joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.dayPicker.MostPopularDay().click();
         joinNow.dayPicker.MostPopularDayAfterSelection().should("be.visible").invoke('text').then((daySelected) => {
             joinNow.dayPicker.continueToMealSelection();
@@ -156,6 +155,38 @@ describe("Some tests connected to others parts of Freshly ", () => {
         deliveries.deliveries.mealAvoidAlert().first().should("be.visible").trigger('mouseover');
         deliveries.deliveries.mealAvoidAlert().should('have.attr', 'alt').and('include', 'Contains ingredients you avoid:')
 
+
+    })
+
+    it("20-No blackout and others checks", () => {
+        //select tha last available day in day picker;
+        //add meals from meal details card;
+        //check error message when quantity of meals don't fit to selected plan;
+        //ckeck button Next is unavailable until quantity of meals don't fit to selected plan;
+        //check blackout: user get a first delivery no later than in two weeks;
+        joinNow.getStarted.fillOutGetStartedForm(user, address);
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.FirstDeliveryDate().should("be.visible").invoke('text').then((dayDelivery) => {
+            //day of order
+            var start = Cypress.moment().format("dddd, MMM DD");
+            //day of order +15 days
+            var end = Cypress.moment().add(15, 'days').format("dddd, MMM DD");
+            cy.log("First delivery day:" + dayDelivery, " Order day:" + start, " Blackout day:" + end);
+            var daysToStart = Cypress.moment(dayDelivery).diff(start, 'days');
+            var daysToEnd = Cypress.moment(dayDelivery).diff(end, 'days');
+            cy.log("Days to order date:" + daysToStart, " Days to blackout date:" + daysToEnd);
+            //quantity of days from day of order to first delivery day
+            expect(daysToStart).to.be.greaterThan(0)
+            //quantity of days from the last day(order day+15 days) to first delivery day
+            expect(daysToEnd).to.be.lessThan(0)
+        })
+        joinNow.dayPicker.chooseLastDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealDetailsCard(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.subscription.dismissSelfAttributionForm();
+        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
 
     })
 

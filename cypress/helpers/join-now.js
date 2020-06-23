@@ -87,6 +87,17 @@ export default {
             cy.get("[data-fe='continue-to-meal-selection']")
                 .click()
         },
+
+        FirstDeliveryDate: () => {
+            return cy.get("[data-fe='selected-delivery-date']")
+        },
+
+        chooseLastDeliveryDayFromAvailable: () => {
+            cy.get("[data-fe='day-of-week-card']").last()
+                .click()
+            cy.get("[data-fe='continue-to-meal-selection']")
+                .click()
+        },
         chooseMostPopularDay: () => {
             cy.get("[class='day-details-copy txt-small-green']")
                 .click()
@@ -156,7 +167,84 @@ export default {
                     .click()
 
             }
+        },
+
+        chooseMealsFromMealDetailsCard: (times, selectDifferentMeals = false) => {
+            if ((Cypress.env('typeOfMealsSelecting')) == "new") {
+                for (let i = 0; i < times; i++) {
+                    if ((i % 2) != 0) {
+                        cy.get(".meal-card__container")
+                            .last()
+                            .find("[data-test='add-meal']")
+                            .click({force: true})
+                    }
+                    else {
+                        cy.get(".meal-card__container")
+                            .first()
+                            .find("[data-test='add-meal']")
+                            .click({force: true})
+                    }
+                }
+
+                cy.get(".cart-layout>header button").click()
+            }
+            else {
+                if (selectDifferentMeals) {
+                    //check Next button is disabled until quantity of meals don't fit to plan
+                    cy.get("[data-fe='next-button']").should("be.disabled")
+                    //check Warning message is shown until quantity of meals don't fit to plan
+                    cy.get("[data-fe='error-message-box']").should("be.visible")
+
+                    for (let i = 0; i < times; i++) {
+                        cy.get("[data-fe='meal-image']")
+                            .first()
+                            .click({force: true})
+                        cy.wait(2000)
+                        cy.get(".modal-dialog")
+                            .find("[data-fe='add-button']").first()
+                            .click({force: true})
+                    }
+                }
+                else {
+                    for (let i = 0; i < times; i++) {
+                        //check Next button is disabled until quantity of meals don't fit to plan
+                        cy.get("[data-fe='next-button']").should("be.disabled")
+                        //check Warning message is shown until quantity of meals don't fit to plan
+                        cy.get("[data-fe='error-message-box']").should("be.visible")
+
+                        if ((i % 2) != 0) {
+                            cy.get("[data-fe='meal-image']")
+                                .last()
+                                .click({force: true})
+                            cy.wait(2000)
+                            cy.get(".modal-dialog")
+                                .find("[data-fe='add-button']").first()
+                                .click({force: true})
+                        }
+                        else {
+                            cy.get("[data-fe='meal-image']")
+                                .first()
+                                .click({force: true})
+                            cy.wait(2000)
+                            cy.get(".modal-dialog")
+                                .find("[data-fe='add-button']").first()
+                                .click({force: true})
+                        }
+
+
+                    }
+
+                }
+                //check Next button is NOT disabled when quantity of meals fit to plan
+                cy.get("[data-fe='next-button']").should("be.enabled")
+                //check Warning message is NOT shown when quantity of meals fit to plan
+                cy.get("[data-fe='error-message-box']").should("be.not.visible")
+                cy.get(".meals-review-cont > .btn-update-meals-cont > .btn")
+                    .click()
+
+            }
         }
+
     },
     checkOut: {
         authorizationPanel: {
@@ -368,7 +456,9 @@ export default {
             cy.get("[value='Choose meals']").click()
         },
         giftSuccessHeader: () => {
-            return cy.get("[class='promo-header text-center text-uppercase d-none d-sm-flex justify-content-center flex-column text-white']")
+            //return cy.get("[class='promo-header text-center text-uppercase d-none d-sm-flex justify-content-center flex-column text-white']")
+            return cy.xpath("//*[contains(@class,'promo-header text-center')]")
+
         },
 
 
