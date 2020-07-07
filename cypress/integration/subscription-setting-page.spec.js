@@ -223,7 +223,7 @@ describe("User is able to change parameters of subscrition ", () => {
             subscription.deliveryAddress.addNewAddress();
             subscription.deliveryAddress.fillNewAddress(user, address);
             subscription.deliveryAddress.saveDeliveryAddress();
-            joinNow.toastMessage.checkMessage("address successfully");
+            joinNow.toastMessage.checkMessage("delivery address successfully");
             subscription.deliveryAddress.getSubscriptionAddress().invoke('text').should((newDay) => {
                 expect(addressBeforeChanging).not.to.eq(newDay)
             })

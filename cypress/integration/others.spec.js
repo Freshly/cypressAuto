@@ -185,7 +185,8 @@ describe("Some tests connected to others parts of Freshly ", () => {
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.dismissSelfAttributionForm();
+        joinNow.subscription.skipBothAttributionForms();
+        //joinNow.subscription.dismissSelfAttributionForm();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
 
     })

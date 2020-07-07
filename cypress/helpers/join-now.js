@@ -483,7 +483,7 @@ export default {
         },
 
         dismissSelfAttributionForm2: () => {
-            cy.xpath("//*[@id = 'change-meals-modal']/div/div/div[1]/button|//*[@data-meal-planner--raf-modal-raf-path='/refer_a_friend']/div/div/div[1]/button").should("be.visible").click()
+            cy.xpath("//*[@id = 'download-app-modal']//button[@data-test='close-modal']/span").should("be.visible").click()
 
         },
 
@@ -551,7 +551,8 @@ export default {
                 .find(".modal-footer")
                 .find("[id='cta-secondary']")
                 .click()
-            cy.xpath("//*[@id = 'change-meals-modal']/div/div/div[1]/button|//*[@data-meal-planner--raf-modal-raf-path='/refer_a_friend']/div/div/div[1]/button").should("be.visible").click()
+            cy.xpath("//*[@id = 'download-app-modal']//button[@data-test='close-modal']/span").should("be.visible").click()
+            //cy.get(".modal fade show").should("be.visible").click()
         },
 
         visitSubscriptionSettingsPage: () => {

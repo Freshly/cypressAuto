@@ -126,7 +126,7 @@ export default {
                 .find(".modal-footer")
                 .find("[id='cta-secondary']")
                 .click()
-            cy.xpath("//*[@id = 'change-meals-modal']/div/div/div[1]/button|//*[@data-meal-planner--raf-modal-raf-path='/refer_a_friend']/div/div/div[1]/button").should("be.visible").click()
+            cy.xpath("//*[@id = 'download-app-modal']//button[@data-test='close-modal']/span").should("be.visible").click()
         },
 
         insertPromoAndApply: promoCode => {
@@ -318,7 +318,7 @@ export default {
             let N_avoid = 0;
             let N_neutral = 0;
             let N_enjoy = 0;
-            for (var i = 1; i < 11; i++) {
+            for (var i = 1; i < 16; i++) {
                 cy.wait(3000)
                 randomNumber = (Math.floor(Math.random() * 3) + 1).toString()
 
