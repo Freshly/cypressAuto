@@ -31,7 +31,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
         subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
@@ -56,7 +56,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
         joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
         joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
         joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
         subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
@@ -78,7 +78,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
         subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();

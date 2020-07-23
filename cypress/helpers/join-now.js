@@ -274,8 +274,7 @@ export default {
                     .type(userData.firstName, {force: true})
                 cy.get("[name='lastName']")
                     .type(userData.lastName, {force: true})
-                cy.get("[name='password']")
-                    .type(userData.password, {force: true})
+                //cy.get("[name='password']").type(userData.password, {force: true})
 
                 cy.get("[name='line1']")
                     .should("be.visible")
@@ -374,9 +373,12 @@ export default {
             },
 
 
-            submitPaymentForm: () => {
+            submitPaymentForm: (userData) => {
                 cy.get("[class='btn btn-primary btn-lg btn-block']").click() //click to Submit button
-                cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click() //click to View my deliveries
+                cy.get("[name='password']").should("be.visible").type(userData.password, {force: true})//fill password from
+                cy.get("[class='mt-4 btn btn-primary btn-lg btn-block']").click()// click to "Create now"
+                cy.wait(2000)
+                //cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click() //click to View my deliveries
 
 
             },
@@ -468,14 +470,8 @@ export default {
     subscription: {
 
         dismissSelfAttributionForm: () => {
-            cy.get("#self-attribution-form")
-                .find("div.modal-content")
-                .should("be.visible")
-            cy.get("#self-attribution-form")
-                .find("div.modal-content")
-                .find(".modal-footer")
-                .find("[id='cta-secondary']")
-                .click()
+            cy.xpath("//*[@class='modal-content']//button[contains(text(),'×')]").should("be.visible").click()
+            cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click()
         },
 
         getFirstNameHeader: () => {
@@ -490,67 +486,61 @@ export default {
         selectRandomValue: () => {
             var randomNumber = (Math.floor(Math.random() * 13) + 1).toString()
 
-            cy.xpath("//*[@id='self-attribution-form']//button[@id='cta-primary']").should("be.not.enabled")
+            cy.xpath("//*[@class='modal-content']//button[contains(text(),'Submit')]").should("be.not.enabled")
 
             switch (randomNumber) {
                 case '1':
-                    cy.get("[for='self_attribution_blog']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(1)").should("be.visible").click()
                     break;
                 case '2':
-                    cy.get("[for='self_attribution_video_streaming']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(2)").should("be.visible").click()
                     break;
                 case '3':
-                    cy.get("[for='self_attribution_facebook']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(3)").should("be.visible").click()
                     break;
                 case '4':
-                    cy.get("[for='self_attribution_youtube']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(4)").scrollIntoView().should("be.visible").click()
                     break;
                 case '5':
-                    cy.get("[for='self_attribution_credit_card_offer']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(5)").scrollIntoView().should("be.visible").click()
                     break;
                 case '6':
-                    cy.get("[for='self_attribution_online_search']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(6)").scrollIntoView().should("be.visible").click()
                     break;
                 case '7':
-                    cy.get("[for='self_attribution_from_a_friend']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(7)").scrollIntoView().should("be.visible").click()
                     break;
                 case '8':
-                    cy.get("[for='self_attribution_podcast']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(8)").scrollIntoView().should("be.visible").click()
                     break;
                 case '9':
-                    cy.get("[for='self_attribution_mail']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(9)").scrollIntoView().should("be.visible").click()
                     break;
                 case '10':
-                    cy.get("[for='self_attribution_email']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(10)").scrollIntoView().should("be.visible").click()
                     break;
                 case '11':
-                    cy.get("[for='self_attribution_television']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(11)").scrollIntoView().should("be.visible").click()
                     break;
                 case '12':
-                    cy.get("[for='self_attribution_radio']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(12)").scrollIntoView().should("be.visible").click()
                     break;
                 case '13':
-                    cy.get("[for='self_attribution_other']").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(13)").scrollIntoView().should("be.visible").click()
                     break;
 
                 default:
                     break;
             }
             cy.wait(2000)
-            cy.xpath("//*[@id='self-attribution-form']//button[@id='cta-primary']").click()
+            cy.xpath("//*[@class='modal-content']//button[contains(text(),'Submit')]").should("be.enabled").click()
 
 
         },
 
         skipBothAttributionForms: () => {
-            cy.get("#self-attribution-form")
-                .find("div.modal-content")
-                .should("be.visible")
-            cy.get("#self-attribution-form")
-                .find("div.modal-content")
-                .find(".modal-footer")
-                .find("[id='cta-secondary']")
-                .click()
+            cy.xpath("//*[@class='modal-content']//button[contains(text(),'×')]").should("be.visible").click()
+            cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click()
             cy.xpath("//*[@id = 'download-app-modal']//button[@data-test='close-modal']/span").should("be.visible").click()
             //cy.get(".modal fade show").should("be.visible").click()
         },

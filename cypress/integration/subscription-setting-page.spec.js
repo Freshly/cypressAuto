@@ -32,8 +32,8 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.skipBothAttributionForms();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
+        subscription.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
         var randomEmailNumber = (Math.floor(Math.random() * 9999)).toString();
         let newEmail = 'NewUserEmail' + randomEmailNumber + '@gmail.com'
@@ -56,8 +56,8 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.skipBothAttributionForms();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
+        subscription.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
         var randomPasswordNumber = (Math.floor(Math.random() * 9999)).toString();
         let newPassword = 'NewUserPassword' + randomPasswordNumber
@@ -75,13 +75,13 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
-        joinNow.subscription.skipBothAttributionForms();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
+        subscription.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
         var userRenamed = new User()
         subscription.changeInfo.getName().invoke('text').then((nameBeforeChanging) => {
             subscription.changeInfo.changePersonalInfo(userRenamed.firstName, userRenamed.lastName)
-            joinNow.toastMessage.checkMessage("Settings successfully updated.")
+            joinNow.toastMessage.checkMessage("Name successfully updated")
             subscription.changeInfo.getName().invoke('text').should((nameAfterChanging) => {
                 expect(nameBeforeChanging).not.to.eq(nameAfterChanging)
             })
@@ -99,7 +99,7 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         subscription.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
         subscription.subscription.getSubscriptionPlan().should("be.visible").should("contain", "Flex 4");
@@ -116,7 +116,7 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         subscription.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
         subscription.calendar.getDefaultDayFromSubscriptionPage().invoke('text').then((dayBeforeChanging) => {
@@ -134,7 +134,7 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         subscription.subscription.skipBothAttributionForms();
         //deliveries.second_week.deliveryDay().invoke('text').then((dayF) => {
         joinNow.deliveryPage.dayOfSecondWeek().then((dayF) => {
@@ -159,7 +159,7 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         subscription.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
         var newCardTrimmed, oldCardTrimmed;
@@ -211,7 +211,7 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         subscription.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
         address.line1 = '1118 W Amber St'
@@ -228,7 +228,7 @@ describe("User is able to change parameters of subscrition ", () => {
                 expect(addressBeforeChanging).not.to.eq(newDay)
             })
         })
-        //select address added address
+        //select address earlier earlier address
         subscription.deliveryAddress.getSubscriptionAddress().invoke('text').then((addressBeforeChanging) => {
             subscription.deliveryAddress.changeDeliveryAddress();
             subscription.deliveryAddress.selectAddress();
@@ -259,7 +259,7 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
         joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
         joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
-        joinNow.checkOut.paymentPanel.submitPaymentForm();
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
         cy.visitSubscriptionSettingsPage();

@@ -37,16 +37,15 @@ export default {
 
     first_week: {
         quantityMeals: () => {
-            return cy.xpath("//section[@data-week-number='1']//*[@class='component meal-card ']")
+            return cy.xpath("//section[@class='component card weekly-order-card paid']//*[@class='component meal-card ']")
 
         },
         deliveryDay: () => {
-            //return cy.xpath("//section[@data-week-number='1']//*[@data-test='weekly-order-show-delivery']//h2")
             return cy.get("[data-test='weekly-order-show-delivery']>section>h2")
 
         },
         plan: () => {
-            return cy.xpath("(//*[@data-week-number='1']//h2)[2]").should("be.visible")
+            return cy.xpath("[data-test='weekly-order-show-meal-plan']>section>h2").should("be.visible")
 
         }
 
@@ -54,43 +53,46 @@ export default {
     },
     second_week: {
         quantityMeals: () => {
-            return cy.xpath("//section[@data-week-number='2']//*[@class='component meal-card ']")
+            cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@class='component meal-card ']")
 
         },
         deliveryDay: () => {
-            return cy.xpath("(//section[@data-week-number='2']//*[@data-toggle='dropdown'])[1]").should("be.visible")
+            return cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@data-action='click->meal-planner--delivery-dates#fetchDeliveryDates']").should("be.visible")
 
         },
         changeDeliveryDay: () => {
-            cy.xpath("//section[@data-week-number='2']//*[@data-action='click->meal-planner--delivery-dates#fetchDeliveryDates']").should("be.visible").click();
-            cy.xpath("(//li[@data-week-number='2' and @class='dropdown-item '])[1]").should("be.visible").click();
+            cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@data-action='click->meal-planner--delivery-dates#fetchDeliveryDates']").should("be.visible").click();
+            cy.xpath("(//section[@class='component card weekly-order-card open'][1]//*[@data-action='click->meal-planner--delivery-dates#updateDeliveryDate'])[1]").should("be.visible").click();
+
 
 
         },
         skipWeek: () => {
-            return cy.xpath("//section[@data-week-number='2']//*[@value='Skip This Week']")
+            return cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@value='Skip This Week']")
 
         },
 
         unSkipWeek: () => {
-            return cy.xpath("//section[@data-week-number='2']//*[@value='Unskip This Week']")
+            return cy.xpath("//*[@value='Unskip This Week']")
 
         },
         changeMeals: () => {
-            return cy.xpath("//section[@data-week-number='2']//a[contains(text(),'Change Meals')]")
+            return cy.xpath("//section[@class='component card weekly-order-card open'][1]//a[contains(text(),'Change Meals')]")
 
         },
         plan: () => {
-            return cy.xpath("(//section[@data-week-number='2']//*[@data-toggle='dropdown'])[2]")
+            return cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@data-target='meal-planner--weekly-order-card.changePlanButton']").should("be.visible")
+
 
         },
         changePlan: () => {
-            cy.xpath("(//section[@data-week-number='2']//*[@data-toggle='dropdown'])[2]").should("be.visible").click();
-            //cy.xpath("(//section[@data-week-number='2']//*[@class='dropdown-item ' and @data-action='click->meal-planner--weekly-order-card#onUpdatePlan']/span[1])[1]").should("be.visible").click();
-            cy.xpath("(//section[@data-week-number='2']//*[@class='dropdown-item weekly-order__dropdown-link ' and @data-action='click->meal-planner--weekly-order-card#onUpdatePlan']/span[1])[1]").should("be.visible").click();
+            cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@data-target='meal-planner--weekly-order-card.changePlanButton']").should("be.visible").click();
+            cy.xpath("(//section[@class='component card weekly-order-card open'][1]//*[@data-action='click->meal-planner--weekly-order-card#onUpdatePlan'])[2]").should("be.visible").click();
+
         },
         firstMealName: () => {
-            return cy.xpath("//section[@data-week-number='2']//*[@class='meals']/li[1]/section/h3")
+            return cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@class='meals']/li[1]/section/h3")
+
 
         }
 
@@ -99,26 +101,22 @@ export default {
     third_week: {
 
         deliveryDay: () => {
-            return cy.xpath("//*[class='//*[@class='component weekly_order_details']/div/ul/li[3]/p']")
+            cy.xpath("//section[@class='component card weekly-order-card open'][2]//*[@data-action='click->meal-planner--delivery-dates#fetchDeliveryDates']").should("be.visible")
 
         },
         changeDeliveryDay: () => {
-            return cy.xpath("//section[@data-week-number='3']//*[@data-test='change-date']")
+            cy.xpath("//section[@class='component card weekly-order-card open'][2]//*[@data-action='click->meal-planner--delivery-dates#fetchDeliveryDates']").should("be.visible").click();
+            cy.xpath("(//section[@class='component card weekly-order-card open'][2]//*[@data-action='click->meal-planner--delivery-dates#updateDeliveryDate'])[1]").should("be.visible").click();
 
         },
         skipWeek: () => {
-            return cy.xpath("//section[@data-week-number='3']//*[@value='Skip This Week']")
+            return cy.xpath("//section[@class='component card weekly-order-card open'][2]//*[@value='Skip This Week']")
 
         },
         plan: () => {
-            return cy.xpath("(//*[@class='component weekly_order_details']/div/ul/li[3]/p)[3]")
+            return cy.xpath("//section[@class='component card weekly-order-card open'][2]//*[@data-target='meal-planner--weekly-order-card.changePlanButton']").should("be.visible")
 
         },
-        changePlan: () => {
-            return cy.xpath("//section[@data-week-number='3']//*[@data-test='change-plan']")
-
-        }
-
 
     },
 
