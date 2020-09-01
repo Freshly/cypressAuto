@@ -83,7 +83,7 @@ export default {
         },
 
         getSubscriptionRemovePromo: () => {
-            return cy.get("[data-method ='delete']")
+            return cy.get("[class ='remove']")
         },
         getSubscriptionAddPromo: () => {
             return cy.get("[data-target ='#apply-promo-code']")

@@ -25,7 +25,7 @@ describe("Some tests connected to others parts of Freshly ", () => {
     })
 
 
-    it("4-User is able to give giftcard from Delivery page", () => {
+    it.skip("4-User is able to give giftcard from Delivery page", () => {
         var randomNumber
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -79,7 +79,7 @@ describe("Some tests connected to others parts of Freshly ", () => {
 
     })
 
-    it("6-User is able to create subscription with address needed to be verified and others specific parameters", () => {
+    it.skip("6-User is able to create subscription with address needed to be verified and others specific parameters", () => {
         //test checks availability to create subscritpion with address needed to be verified,check SMS check-box, change delivery day in drop down and fill billing address
         //with selecting aa  value at attribution form
         address.line1 = "10 Tolstogo"

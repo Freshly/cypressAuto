@@ -26,6 +26,7 @@ export default {
             cy.xpath("//section[@data-week-number='2']//button[contains(text(),'Nevermind')]").should("be.visible").click()
         },
         mealAvoidAlert: () => {
+            cy.xpath("//*[@class='fr-nav navigation']/div[2]").should("be.visible").click() //move to tab 'All meals'
             return cy.get("[class='icon-warning']")
         },
         totalSumAtDelivery: () => {
