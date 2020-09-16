@@ -18,8 +18,8 @@ export default {
             return cy.get("[data-target = '#change-plan']")
         },
 
-        get9MealsPlan: () => {
-            return cy.get("[data-plan-id='423']")
+        get10MealsPlan: () => {
+            return cy.get("[data-plan-id='427']")
         },
 
         getFirstNameHeader: () => {
@@ -162,6 +162,10 @@ export default {
             cy.get("[class='btn btn-primary btn-lg actions-wrapper']").should("be.visible").click()
 
         },
+        continueToCancel: () => {
+            cy.xpath("//a[contains(text(),'Continue to cancel')]").should("be.visible").click()
+
+        },
 
         reactivateButton: () => {
             //cy.get("[data-fe='unpause-subscription-btn']").should("be.visible").click()
@@ -178,28 +182,28 @@ export default {
 
             switch (true) {
                 case (select_week == 1):
-                    cy.xpath("(//*[@data-fe='select-date-button'])[1]").should("be.visible").click();
+                    cy.xpath("(//*[@data-target='account-settings--long-term-skip.skipDate'])[1]").should("be.visible").click();
                     break;
                 case (select_week == 2):
-                    cy.xpath("(//*[@data-fe='select-date-button'])[2]").should("be.visible").click();
+                    cy.xpath("(//*[@data-target='account-settings--long-term-skip.skipDate'])[2]").should("be.visible").click();
                     break;
                 case (select_week == 3):
-                    cy.xpath("(//*[@data-fe='select-date-button'])[3]").should("be.visible").click();
+                    cy.xpath("(//*[@data-target='account-settings--long-term-skip.skipDate'])[3]").should("be.visible").click();
                     break;
                 case (select_week == 4):
-                    cy.xpath("(//*[@data-fe='select-date-button'])[4]").should("be.visible").click();
+                    cy.xpath("(//*[@data-target='account-settings--long-term-skip.skipDate'])[4]").should("be.visible").click();
                     break;
                 case (select_week == 5):
-                    cy.xpath("(//*[@data-fe='select-date-button'])[5]").should("be.visible").click();
+                    cy.xpath("(//*[@data-target='account-settings--long-term-skip.skipDate'])[5]").should("be.visible").click();
                     break;
                 case (select_week == 6):
-                    cy.xpath("(//*[@data-fe='select-date-button'])[6]").should("be.visible").click();
+                    cy.xpath("(//*[@data-target='account-settings--long-term-skip.skipDate'])[6]").should("be.visible").click();
                     break;
                 case (select_week == 7):
-                    cy.xpath("(//*[@data-fe='select-date-button'])[7]").should("be.visible").click();
+                    cy.xpath("(//*[@data-target='account-settings--long-term-skip.skipDate'])[7]").should("be.visible").click();
                     break;
                 case (select_week == 8):
-                    cy.xpath("(//*[@data-fe='select-date-button'])[8]").should("be.visible").click();
+                    cy.xpath("(//*[@data-target='account-settings--long-term-skip.skipDate'])[8]").should("be.visible").click();
                     break;
             default:
                 alert("Nothing was clicked");
@@ -208,12 +212,132 @@ export default {
 
         },
         skip8weeks: () => {
-            cy.get("[data-test='long-term-skip-cta-button']").click()
+            cy.xpath("//*[@id='long-term-skip']//*[@id='cta-primary']").click()
             //cy.get("[data-test='long-term-skip-cta-button']").should("be.visible").click()
 
         }
 
 
+    },
+    brightBack: {
+        skipYourNextDelivery: () => {
+            cy.xpath("//button[contains(text(),'Skip your next delivery')]").should("be.visible").click()
+
+        },
+        neverMindAndBackToDelivery: () => {
+            cy.xpath("//span[contains(text(),'Never mind! Take me back to my deliveries')]").should("be.visible").click()
+
+        },
+        clickYesAtAnyForm: () => {
+            cy.xpath("//*[@class='es-btn']").should("be.visible").click()
+
+        },
+
+        selectAnyOf10OFF: () => {
+            cy.xpath("(//label[contains(@action,'10_off_phase_3')])[1]").should("be.visible").click();
+
+        },
+        selectAnyOfThreeMonthPause: () => {
+            cy.xpath("(//label[contains(@action,'three_month_pause')])[1]").should("be.visible").click();
+
+        },
+        change12Plan: () => {
+            cy.xpath("(//label[contains(@action,'swap_products.sixty_forty_column')])[1]").should("be.visible").click();
+
+        },
+        closeModal: () => {
+            cy.xpath("//*[@id='modal-close-btn']").should("be.visible").click()
+
+        },
+        selectGettingYourMeals: () => {
+            cy.xpath("//div[@id='mui-component-select-competition']").should("be.visible").click();
+            cy.xpath("//*[@data-value='Delivery']").should("be.visible").click();
+
+        },
+
+        selectAnyOf4_8_12WeeksPause: () => {
+            cy.xpath("(//label[contains(@action,'4_8_12_pause_phase_3')])[1]").should("be.visible").click();
+
+        },
+
+        select4_8_12weeks: () => {
+            var select_week = Math.floor(Math.random() * 4);// Get random number [1,3]
+
+            switch (true) {
+                case (select_week == 1):
+                    cy.xpath("//*[@data-weeks-number='4']").should("be.visible").click();
+                    break;
+                case (select_week == 2):
+                    cy.xpath("//*[@data-weeks-number='8']").should("be.visible").click();
+                    break;
+                case (select_week == 3):
+                    cy.xpath("//*[@data-weeks-number='12']").should("be.visible").click();
+                    break;
+
+                default:
+                    alert("Nothing was clicked");
+                    break;
+            }
+
+        },
+        selectPoll: () => {
+            var select_week = Math.floor(Math.random() * 11);// Get random number [1,10]
+
+            switch (true) {
+                case (select_week == 1):
+                    cy.xpath("//*[@class='poll']/div[2]/label[1]").should("be.visible").click();
+                    break;
+                case (select_week == 2):
+                    cy.xpath("//*[@class='poll']/div[2]/label[2]").should("be.visible").click();
+                    break;
+                case (select_week == 3):
+                    cy.xpath("//*[@class='poll']/div[2]/label[3]").should("be.visible").click();
+                    break;
+                case (select_week == 4):
+                    cy.xpath("//*[@class='poll']/div[2]/label[4]").should("be.visible").click();
+                    break;
+                case (select_week == 5):
+                    cy.xpath("//*[@class='poll']/div[2]/label[5]").should("be.visible").click();
+                    break;
+                case (select_week == 6):
+                    cy.xpath("//*[@class='poll']/div[2]/label[6]").should("be.visible").click();
+                    break;
+                case (select_week == 7):
+                    cy.xpath("//*[@class='poll']/div[2]/label[7]").should("be.visible").click();
+                    break;
+                case (select_week == 8):
+                    cy.xpath("//*[@class='poll']/div[2]/label[8]").should("be.visible").click();
+                    break;
+                case (select_week == 9):
+                    cy.xpath("//*[@class='poll']/div[2]/label[9]").should("be.visible").click();
+                    break;
+                case (select_week == 10):
+                    cy.xpath("//*[@class='poll']/div[2]/label[10]").should("be.visible").click();
+                    break;
+                default:
+                    alert("Nothing was clicked");
+                    break;
+            }
+
+        },
+        understandCheckBox: () => {
+            cy.xpath("//*[@for='confirmation']/span").should("be.visible").click()
+
+        },
+        cancelSubscriptionBrightback: () => {
+            cy.xpath("//*[@class='cancel-btn forward-btn']").click()
+
+        },
+
+        pause4_8_12Weeks: () => {
+            cy.xpath("//*[@id='extended-long-term-skip']//*[@id='cta-primary']").click()
+
+        },
+
+        neverMind: () => {
+            cy.xpath("//button[contains(text(),'Never mind')]").should("be.visible").click()
+
+        }
 
     },
     changeSubscriptionName: {

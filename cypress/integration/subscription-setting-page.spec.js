@@ -25,7 +25,7 @@ describe("User is able to change parameters of subscrition ", () => {
     })
 
 
-    it.skip("8-User is able to change email and log in with new email", () => {
+    it("8-User is able to change email and log in with new email", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -49,7 +49,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("9-User is able to change password and log in with new it", () => {
+    it("9-User is able to change password and log in with new it", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -68,7 +68,7 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("10-User is able to change first name and last name", () => {
+    it("10-User is able to change first name and last name", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -90,8 +90,8 @@ describe("User is able to change parameters of subscrition ", () => {
 
     })
 
-    it.skip("13-User is able to change a plan at Subscription setting page", () => {
-        mealPlan.id = 421
+    it("13-User is able to change a plan at Subscription setting page", () => {
+        mealPlan.id = 425
         mealPlan.meals = 4
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
@@ -101,15 +101,15 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         subscription.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
-        subscription.subscription.getSubscriptionPlan().should("be.visible").should("contain", "Flex 4");
+        subscription.subscription.getSubscriptionPlan().should("be.visible").should("contain", "4 Meals");
         subscription.subscription.getChangePlan().should("be.visible").click()
-        subscription.subscription.get9MealsPlan().should("be.visible").click({multiple: true})
-        joinNow.toastMessage.checkMessage("Weekly default plan successfully updated.");
-        subscription.subscription.getSubscriptionPlan().should("be.visible").should("contain", "Flex 9");
+        subscription.subscription.get10MealsPlan().should("be.visible").click({multiple: true})
+        joinNow.toastMessage.checkMessage("Default plan successfully updated to");
+        subscription.subscription.getSubscriptionPlan().should("be.visible").should("contain", "10 Meals");
 
     })
 
-    it.skip("14-User is able to change a default delivery day from Subscription setting page", () => {
+    it("14-User is able to change a default delivery day from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -127,7 +127,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.skip("15-User is able to select available delivery day from Calendar Subscription setting page", () => {
+    it("15-User is able to select available delivery day from Calendar Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -152,7 +152,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.skip("16-User is able to add/select/delete new payment card from Subscription setting page", () => {
+    it("16-User is able to add/select/delete new payment card from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);

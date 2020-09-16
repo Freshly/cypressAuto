@@ -8,7 +8,7 @@ export default {
             cy.xpath("//button[contains(text(),'Clear All')]").should("be.visible").click()
             var selectMealNumber = Math.floor(Math.random() * 20)
 
-            for (let i = 0; i <= mealPlan + 1; i++) {
+            for (let i = 0; i <= mealPlan; i++) {
                 //cy.get("[class='fr-add-button meal-card__add-button']").eq(selectMealNumber).click({force: true})
                 cy.get("[data-test='add-meal']").eq(selectMealNumber).click({force: true})
 

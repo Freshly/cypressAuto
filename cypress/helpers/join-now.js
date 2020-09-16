@@ -33,6 +33,15 @@ export default {
             cy.get("[data-test='get-started-form-submit-button']")
                 .click()
         },
+        fillOutGetStartedFormNew: (userData, address) => {
+            cy.xpath("(//*[@id='join_now_data_email'])[1]")
+                .type(userData.email)
+            cy.xpath("(//*[@id='join_now_data_zip'])[1]")
+                .type(address.zip)
+            cy.xpath("(//*[@value='Continue'])[1]")
+                .click()
+        },
+
         enterZipCode: zip => {
             cy.get("[data-fe='zip-input']")
                 .type(zip)
@@ -51,11 +60,16 @@ export default {
     planPicker: {
         chooseMealPlan: mealPlan => {
             let planId = mealPlan.id
-            cy.get(`[data-plan-id="${planId}"]`)
-                .first()
-                .find("span")
-                .contains("Select this plan")
-                .click()
+
+            //cy.get(`[value="${planId}"]`).find("button").contains("Select this plan").click()
+            cy.get(`[data-plan-id="${planId}"]`).find("span").contains("Select this plan").click()
+            //cy.xpath('//*[value="%planId"]/following-sibling::div/button[1]').click()
+            //cy.xpath('//*[value="425"]/following-sibling::div/button[1]').should("be.visible").click()
+            //.first()
+            // .find("span")
+            // .contains("Select this plan")
+            // .click()
+
         }
     },
     dayPicker: {
