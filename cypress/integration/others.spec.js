@@ -58,7 +58,7 @@ describe("Some tests connected to others parts of Freshly ", () => {
             joinNow.gifts.reedemGift();
             joinNow.gifts.fillRedeemForm(giftCode, email, address.zip);
         })
-        joinNow.gifts.giftSuccessHeader().should("be.visible").should("contain", "Your gift card has been applied");
+        joinNow.gifts.giftSuccessHeader().should("be.visible").should("contain", "Your Gift Card has been applied");
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         user.firstName = firstName;
         user.lastName = lastName;

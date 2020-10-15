@@ -17,27 +17,27 @@ export default {
     },
     getStarted: {
         visitGetStartedPage: () => {
-            let uri = "/join-now"
+            let uri = "/join-now";
             cy.visit(uri)
         },
         visitMainPage: () => {
-            let uri = "/"
+            let uri = "/";
             cy.visit(uri)
         },
 
         fillOutGetStartedForm: (userData, address) => {
             cy.get("[data-test='email-field']")
-                .type(userData.email)
+                .type(userData.email);
             cy.get("[data-test='zip-field']")
-                .type(address.zip)
+                .type(address.zip);
             cy.get("[data-test='get-started-form-submit-button']")
                 .click()
         },
         fillOutGetStartedFormNew: (userData, address) => {
             cy.xpath("(//*[@id='join_now_data_email'])[1]")
-                .type(userData.email)
+                .type(userData.email);
             cy.xpath("(//*[@id='join_now_data_zip'])[1]")
-                .type(address.zip)
+                .type(address.zip);
             cy.xpath("(//*[@value='Continue'])[1]")
                 .click()
         },
@@ -59,16 +59,10 @@ export default {
     },
     planPicker: {
         chooseMealPlan: mealPlan => {
-            let planId = mealPlan.id
-
-            //cy.get(`[value="${planId}"]`).find("button").contains("Select this plan").click()
-            cy.get(`[data-plan-id="${planId}"]`).find("span").contains("Select this plan").click()
-            //cy.xpath('//*[value="%planId"]/following-sibling::div/button[1]').click()
-            //cy.xpath('//*[value="425"]/following-sibling::div/button[1]').should("be.visible").click()
-            //.first()
-            // .find("span")
-            // .contains("Select this plan")
-            // .click()
+            let mealId = mealPlan.meals;
+            let locatorPlan = ':' + mealId;
+            let fullLocator = '//*[contains(@data-seg,"' + locatorPlan + '")]';
+            cy.xpath(fullLocator).should("be.visible").click()
 
         }
     },
@@ -82,13 +76,13 @@ export default {
                     cy.wrap(availableDeliveryDays[i])
                         .invoke("attr", "data-day")
                         .then(date => {
-                            availableDeliveryDates.push(date)
+                            availableDeliveryDates.push(date);
                             cy.log(date)
 
                         })
                 }
 
-            })
+            });
 
             return cy.wrap(availableDeliveryDates)
 
@@ -97,37 +91,37 @@ export default {
 
         chooseFirstDeliveryDayFromAvailable: () => {
             cy.get("[data-test='earliest-delivery-date']")
-                .click()
-            cy.get("[data-fe='continue-to-meal-selection']")
+                .click();
+            cy.get("[data-test='submit-date']")
                 .click()
         },
 
         FirstDeliveryDate: () => {
-            return cy.get("[data-fe='selected-delivery-date']")
+            return cy.get("[class='small text-muted text-center']>span:nth-of-type(2)")
         },
 
         chooseLastDeliveryDayFromAvailable: () => {
-            cy.get("[data-fe='day-of-week-card']").last()
-                .click()
-            cy.get("[data-fe='continue-to-meal-selection']")
+            cy.get("[data-test='day-of-week']").last()
+                .click();
+            cy.get("[data-test='submit-date']")
                 .click()
         },
         chooseMostPopularDay: () => {
             cy.get("[class='day-details-copy txt-small-green']")
-                .click()
-            cy.get("[data-fe='continue-to-meal-selection']")
+                .click();
+            cy.get("[data-test='submit-date']")
                 .click()
         },
         MostPopularDay: () => {
-            return cy.get("[class='day-details-copy txt-small-green']")
+            return cy.xpath("//*[contains(text(),'Most popular')]")
 
         },
         MostPopularDayAfterSelection: () => {
-            return cy.xpath("//*[@class='card-wrapper txt-regular active']//*[@class='day-of-week txt-regular-m']")
+            return cy.xpath("//*[@class='small text-muted text-center']/span[2]")
 
         },
         continueToMealSelection: () => {
-            cy.get("[data-fe='continue-to-meal-selection']")
+            cy.get("[data-test='submit-date']")
                 .click()
         }
     },
@@ -205,15 +199,15 @@ export default {
             else {
                 if (selectDifferentMeals) {
                     //check Next button is disabled until quantity of meals don't fit to plan
-                    cy.get("[data-fe='next-button']").should("be.disabled")
+                    cy.get("[data-fe='next-button']").should("be.disabled");
                     //check Warning message is shown until quantity of meals don't fit to plan
-                    cy.get("[data-fe='error-message-box']").should("be.visible")
+                    cy.get("[data-fe='error-message-box']").should("be.visible");
 
                     for (let i = 0; i < times; i++) {
                         cy.get("[data-fe='meal-image']")
                             .first()
-                            .click({force: true})
-                        cy.wait(2000)
+                            .click({force: true});
+                        cy.wait(2000);
                         cy.get(".modal-dialog")
                             .find("[data-fe='add-button']").first()
                             .click({force: true})
@@ -222,15 +216,15 @@ export default {
                 else {
                     for (let i = 0; i < times; i++) {
                         //check Next button is disabled until quantity of meals don't fit to plan
-                        cy.get("[data-fe='next-button']").should("be.disabled")
+                        cy.get("[data-fe='next-button']").should("be.disabled");
                         //check Warning message is shown until quantity of meals don't fit to plan
-                        cy.get("[data-fe='error-message-box']").should("be.visible")
+                        cy.get("[data-fe='error-message-box']").should("be.visible");
 
                         if ((i % 2) != 0) {
                             cy.get("[data-fe='meal-image']")
                                 .last()
-                                .click({force: true})
-                            cy.wait(2000)
+                                .click({force: true});
+                            cy.wait(2000);
                             cy.get(".modal-dialog")
                                 .find("[data-fe='add-button']").first()
                                 .click({force: true})
@@ -238,8 +232,8 @@ export default {
                         else {
                             cy.get("[data-fe='meal-image']")
                                 .first()
-                                .click({force: true})
-                            cy.wait(2000)
+                                .click({force: true});
+                            cy.wait(2000);
                             cy.get(".modal-dialog")
                                 .find("[data-fe='add-button']").first()
                                 .click({force: true})
@@ -250,9 +244,9 @@ export default {
 
                 }
                 //check Next button is NOT disabled when quantity of meals fit to plan
-                cy.get("[data-fe='next-button']").should("be.enabled")
+                cy.get("[data-fe='next-button']").should("be.enabled");
                 //check Warning message is NOT shown when quantity of meals fit to plan
-                cy.get("[data-fe='error-message-box']").should("be.not.visible")
+                cy.get("[data-fe='error-message-box']").should("be.not.visible");
                 cy.get(".meals-review-cont > .btn-update-meals-cont > .btn")
                     .click()
 
@@ -268,9 +262,9 @@ export default {
             },
             fillOutAuthForm: userData => {
                 cy.get("[data-fe='first-name-input']")
-                    .type(userData.firstName)
+                    .type(userData.firstName);
                 cy.get("[data-fe='last-name-input']")
-                    .type(userData.lastName)
+                    .type(userData.lastName);
                 cy.get("[data-fe='password-input']")
                     .type(userData.password)
             },
@@ -285,17 +279,17 @@ export default {
         fillRegistrationData: {
             fillUserData: (userData, address) => {
                 cy.get("[name='firstName']")
-                    .type(userData.firstName, {force: true})
+                    .type(userData.firstName, {force: true});
                 cy.get("[name='lastName']")
-                    .type(userData.lastName, {force: true})
+                    .type(userData.lastName, {force: true});
                 //cy.get("[name='password']").type(userData.password, {force: true})
 
                 cy.get("[name='line1']")
-                    .should("be.visible")
+                    .should("be.visible");
                 cy.get("[name='line1']")
-                    .type(address.line1, {force: true})
+                    .type(address.line1, {force: true});
                 cy.get("[name='phone']")
-                    .type(userData.phoneNumber, {force: true})
+                    .type(userData.phoneNumber, {force: true});
                 //cy.get("[class='btn btn-primary btn-block btn-lg btn btn-secondary']").click()
                 cy.get("[class='same-height-as-paypal-button btn btn-primary btn-lg btn-block']").click()
 
@@ -305,9 +299,9 @@ export default {
         deliveryPanel: {
             fillOutDeliveryForm: (userData, address) => {
                 cy.get("[data-fe='line1-input']")
-                    .should("be.visible")
+                    .should("be.visible");
                 cy.get("[data-fe='line1-input']")
-                    .type(address.line1)
+                    .type(address.line1);
                 cy.get("[data-fe='phone-input']")
                     .type(userData.phoneNumber)
             },
@@ -351,7 +345,7 @@ export default {
 
             verifyAddress: () => {
                 cy.get("[class='text-danger ml-2']")
-                    .contains("We were unable to verify").should("be.visible")
+                    .contains("We were unable to verify").should("be.visible");
                 cy.xpath("//*[@class='p-0 mb-2 opacity_height_transition_wrapper col-md-10 offset-md-1 opacity_height_transition_wrapper-exit-done']/div/div/label")
                     .click({force: true})
             },
@@ -360,19 +354,19 @@ export default {
         paymentPanel: {
             fillOutPaymentInfoWithCard: (paymentCard) => {
                 cy.get("[for='ccPaymentOptionInput']").should("be.visible")
-                    .click({force: true})
-                cy.wait(5000)
-                cy.get("iframe[name='__privateStripeFrame8']")
+                    .click({force: true});
+                cy.wait(5000);
+                cy.xpath("(//*[contains(@name,'__privateStripeFrame')])[1]")
                     .iframe()
                     .find("input[name='cardnumber']").should('not.be.disabled')
                     .click().wait(2000)
-                    .type(paymentCard.number)
-                cy.get("iframe[name='__privateStripeFrame9']")
+                    .type(paymentCard.number);
+                cy.xpath("(//*[contains(@name,'__privateStripeFrame')])[2]")
                     .iframe()
                     .find("input[name='exp-date']")
                     .click().wait(2000)
-                    .type(paymentCard.expDate)
-                cy.get("iframe[name='__privateStripeFrame10']")
+                    .type(paymentCard.expDate);
+                cy.xpath("(//*[contains(@name,'__privateStripeFrame')])[3]")
                     .iframe()
                     .find("input[name='cvc']")
                     .click().wait(2000)
@@ -388,9 +382,9 @@ export default {
 
 
             submitPaymentForm: (userData) => {
-                cy.get("[class='btn btn-primary btn-lg btn-block']").click() //click to Submit button
-                cy.get("[name='password']").should("be.visible").type(userData.password, {force: true})//fill password from
-                cy.get("[class='mt-4 btn btn-primary btn-lg btn-block']").click()// click to "Create now"
+                cy.get("[class='btn btn-primary btn-lg btn-block']").click(); //click to Submit button
+                cy.get("[name='password']").should("be.visible").type(userData.password, {force: true});//fill password from
+                cy.get("[class='mt-4 btn btn-primary btn-lg btn-block']").click();// click to "Create now"
                 cy.wait(2000)
                 //cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click() //click to View my deliveries
 
@@ -399,9 +393,9 @@ export default {
 
             addPromoCode: promoCode => {
                 cy.get("[class='pl-0 font-weight-normal btn btn-link']")
-                    .click()
+                    .click();
                 cy.get("[name='checkoutPromoCode']")
-                    .type(promoCode)
+                    .type(promoCode);
                 cy.get("[name='checkoutPromoCodeSubmit']").click()
 
             },
@@ -411,26 +405,26 @@ export default {
     createAccountPage: {
         waitToBeNavigatedToAccountCreationPage: () => {
             cy.get("[class='text-nowrap']")
-                .should("be.visible")
-            cy.url().should("include", "/join-now/purchase-complete")
+                .should("be.visible");
+            cy.url().should("include", "/join-now/purchase-complete");
             cy.get("h1").contains("Thank you for your order").should("be.visible")
         }
     },
     gifts: {
         waitToBeNavigatedToAccountCreationPage: () => {
             cy.get("[class='text-nowrap']")
-                .should("be.visible")
-            cy.url().should("include", "/join-now/purchase-complete")
+                .should("be.visible");
+            cy.url().should("include", "/join-now/purchase-complete");
             cy.get("h1").contains("Thank you for your order").should("be.visible")
         },
         giveGift: () => {
-            cy.get("[data-seg='GiftCard GiftCTA']").first().should("be.visible").click()
-            cy.url().should("include", "/gifts/purchase")
+            cy.get("[data-seg='GiftCard GiftCTA']").first().should("be.visible").click();
+            cy.url().should("include", "/gifts/purchase");
             cy.get("h1").contains("Choose a plan").should("be.visible")
         },
         reedemGift: () => {
-            cy.get("[data-seg='GiftCard RedeemCTA']").first().should("be.visible").click()
-            cy.url().should("include", "/gifts/redeem")
+            cy.get("[data-seg='GiftCard RedeemCTA']").first().should("be.visible").click();
+            cy.url().should("include", "/gifts/redeem");
             cy.get("h1").contains("Hi there!").should("be.visible")
         },
         chooseMealPlanForGift: mealPlanId => {
@@ -446,19 +440,19 @@ export default {
             cy.get("[data-action='giftcards--purchase--payment-step#onPayByCreditCard']").should("be.visible").click();
         },
         fillOutGiftPayment: (paymentCard, email) => {
-            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='Email']").click().type(email)
-            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='Card number']").click().type(paymentCard.number)
-            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='MM / YY']").click().type(paymentCard.expDate)
-            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='CVC']").click().type(paymentCard.cvv)
+            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='Email']").click().type(email);
+            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='Card number']").click().type(paymentCard.number);
+            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='MM / YY']").click().type(paymentCard.expDate);
+            cy.get("iframe[class='stripe_checkout_app']").iframe().find("input[placeholder='CVC']").click().type(paymentCard.cvv);
             cy.get("iframe[class='stripe_checkout_app']").iframe().find("button[class='Button-animationWrapper-child--primary Button']").click()
         },
         recipientEmailSuccess: () => {
             return cy.get("[data-fe='recipient-email']")
         },
         findGiftAsAdmin: email => {
-            let url = '/admin/gift_cards'
+            let url = '/admin/gift_cards';
             cy.visit(url);
-            cy.get("#term").should("be.visible").focus().type(email)
+            cy.get("#term").should("be.visible").focus().type(email);
             cy.get("[value='Find']").should("be.visible").click()
 
         },
@@ -466,14 +460,14 @@ export default {
             return cy.get("[class='table table-striped table-sm table-bordered']>tbody>tr>td:nth-child(4)>a")
         },
         fillRedeemForm: (giftCode, email, zip) => {
-            cy.get("#gift_card_redemption_gift_code").should("be.visible").focus().type(giftCode)
-            cy.get("#gift_card_redemption_recipient_email").should("be.visible").focus().type(email)
-            cy.get("#gift_card_redemption_zip").should("be.visible").focus().type(zip)
+            cy.get("#gift_card_redemption_gift_code").should("be.visible").focus().type(giftCode);
+            cy.get("#gift_card_redemption_recipient_email").should("be.visible").focus().type(email);
+            cy.get("#gift_card_redemption_zip").should("be.visible").focus().type(zip);
             cy.get("[value='Choose meals']").click()
         },
         giftSuccessHeader: () => {
             //return cy.get("[class='promo-header text-center text-uppercase d-none d-sm-flex justify-content-center flex-column text-white']")
-            return cy.xpath("//*[contains(@class,'promo-header text-center')]")
+            return cy.xpath("//*[contains(@class,'promo-header-new')]")
 
         },
 
@@ -484,7 +478,7 @@ export default {
     subscription: {
 
         dismissSelfAttributionForm: () => {
-            cy.xpath("//*[@class='modal-content']//button[contains(text(),'×')]").should("be.visible").click()
+            cy.xpath("//*[@class='modal-content']//button[contains(text(),'×')]").should("be.visible").click();
             cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click()
         },
 
@@ -498,79 +492,80 @@ export default {
         },
 
         selectRandomValue: () => {
-            var randomNumber = (Math.floor(Math.random() * 13) + 1).toString()
+            var randomNumber = (Math.floor(Math.random() * 13) + 1).toString();
 
-            cy.xpath("//*[@class='modal-content']//button[contains(text(),'Submit')]").should("be.not.enabled")
+            cy.xpath("//*[@class='modal-content']//button[contains(text(),'Submit')]").should("be.not.enabled");
 
             switch (randomNumber) {
                 case '1':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(1)").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(1)").should("be.visible").click();
                     break;
                 case '2':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(2)").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(2)").should("be.visible").click();
                     break;
                 case '3':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(3)").should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(3)").should("be.visible").click();
                     break;
                 case '4':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(4)").scrollIntoView().should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(4)").scrollIntoView().should("be.visible").click();
                     break;
                 case '5':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(5)").scrollIntoView().should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(5)").scrollIntoView().should("be.visible").click();
                     break;
                 case '6':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(6)").scrollIntoView().should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(6)").scrollIntoView().should("be.visible").click();
                     break;
                 case '7':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(7)").scrollIntoView().should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(7)").scrollIntoView().should("be.visible").click();
                     break;
                 case '8':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(8)").scrollIntoView().should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(8)").scrollIntoView().should("be.visible").click();
                     break;
                 case '9':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(9)").scrollIntoView().should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(9)").scrollIntoView().should("be.visible").click();
                     break;
                 case '10':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(10)").scrollIntoView().should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(10)").scrollIntoView().should("be.visible").click();
                     break;
                 case '11':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(11)").scrollIntoView().should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(11)").scrollIntoView().should("be.visible").click();
                     break;
                 case '12':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(12)").scrollIntoView().should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(12)").scrollIntoView().should("be.visible").click();
                     break;
                 case '13':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(13)").scrollIntoView().should("be.visible").click()
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(13)").scrollIntoView().should("be.visible").click();
                     break;
 
                 default:
                     break;
             }
-            cy.wait(2000)
+            cy.wait(2000);
             cy.xpath("//*[@class='modal-content']//button[contains(text(),'Submit')]").should("be.enabled").click()
 
 
         },
 
         skipBothAttributionForms: () => {
-            cy.xpath("//*[@class='modal-content']//button[contains(text(),'×')]").should("be.visible").click()
-            cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click()
+            cy.xpath("//*[@class='modal-content']//button[contains(text(),'×')]").should("be.visible").click();
+            cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click();
             cy.xpath("//*[@id = 'download-app-modal']//button[@data-test='close-modal']/span").should("be.visible").click()
-            //cy.get(".modal fade show").should("be.visible").click()
+            //cy.xpath("//*[@id = 'change-meals-modal']//button[@data-test='close-modal']/span").should("be.visible").click()
+            //change-meals-modal
         },
 
         visitSubscriptionSettingsPage: () => {
-            let credentials = Cypress.env('credentialDemo')
+            let credentials = Cypress.env('credentialDemo');
             cy.url().then((loc) => {
-                let newUrl = loc + "/edit"
-                let cutURL = newUrl.substring(8, newUrl.length)
-                let urlWithCredentials = 'https://' + credentials + cutURL
+                let newUrl = loc + "/edit";
+                let cutURL = newUrl.substring(8, newUrl.length);
+                let urlWithCredentials = 'https://' + credentials + cutURL;
                 cy.visit(urlWithCredentials)
             })
         },
 
         waitToBeAtSubscriptionsPage: userData => {
-            cy.url().should("include", "/subscriptions/")
+            cy.url().should("include", "/subscriptions/");
             cy.get("[data-test='header-first-name']")
                 .should("contain", userData.firstName)
         }
@@ -615,9 +610,9 @@ export default {
     },
     logIn: {
         fillLogInFormWithExistingUser: (email, password) => {
-            let logInUrl = "/login"
-            cy.visit(logInUrl)
-            cy.get("[id='form_object_session_email']").should("be.visible")
+            let logInUrl = "/login";
+            cy.visit(logInUrl);
+            cy.get("[id='form_object_session_email']").should("be.visible");
             cy.get("[id='form_object_session_email']").type(email);
             cy.get("[id='form_object_session_password']").type(password);
             cy.get("[value='Log in']").should("be.visible").click()

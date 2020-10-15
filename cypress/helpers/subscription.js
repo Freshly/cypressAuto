@@ -29,7 +29,7 @@ export default {
         },
 
         getCancelSubscriptionButton: () => {
-            return cy.get("[class='btn-link link-gray']")
+            return cy.xpath("//*[@class='btn-link link-gray cancel']")
         },
 
         getPauseSubscriptionButton: () => {
@@ -482,22 +482,20 @@ export default {
 
         },
         fillNewPaymentForm: (userData, address, paymentCardAdded) => {
-            cy.get("[name='__privateStripeFrame5']")
-                .click({force: true})
-            cy.get("iframe[name='__privateStripeFrame5']")
+            cy.xpath("(//*[contains(@name,'__privateStripeFrame')])[1]")
                 .iframe()
-                .find("input[name='cardnumber']")
-                .click()
-                .type(paymentCardAdded.number)
-            cy.get("iframe[name='__privateStripeFrame6']")
+                .find("input[name='cardnumber']").should('not.be.disabled')
+                .click().wait(2000)
+                .type(paymentCardAdded.number);
+            cy.xpath("(//*[contains(@name,'__privateStripeFrame')])[2]")
                 .iframe()
                 .find("input[name='exp-date']")
-                .click()
-                .type(paymentCardAdded.expDate)
-            cy.get("iframe[name='__privateStripeFrame7']")
+                .click().wait(2000)
+                .type(paymentCardAdded.expDate);
+            cy.xpath("(//*[contains(@name,'__privateStripeFrame')])[3]")
                 .iframe()
                 .find("input[name='cvc']")
-                .click()
+                .click().wait(2000)
                 .type(paymentCardAdded.cvv)
             var fullName = userData.first_name + " " + userData.last_name
             cy.get("#payment_method_stripe_billing_address_full_name").should("be.visible").type(fullName)
