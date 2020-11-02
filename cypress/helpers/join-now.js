@@ -176,6 +176,25 @@ export default {
 
             }
         },
+        chooseMealsFromReactivationPage: (times) => {
+
+            for (let i = 0; i < times; i++) {
+                if ((i % 2) != 0) {
+                    cy.get(".meal-card__container")
+                        .last()
+                        .find("[data-test='add-meal']")
+                        .click({force: true})
+                }
+                else {
+                    cy.get(".meal-card__container")
+                        .first()
+                        .find("[data-test='add-meal']")
+                        .click({force: true})
+                }
+            }
+
+        },
+
 
         chooseMealsFromMealDetailsCard: (times, selectDifferentMeals = false) => {
             if ((Cypress.env('typeOfMealsSelecting')) == "new") {

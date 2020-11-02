@@ -5,13 +5,12 @@ export default {
 
         selectingNewMeals: mealPlan => {
             cy.url().should("include", "/edit")
-            cy.xpath("//button[contains(text(),'Clear All')]").should("be.visible").click()
+            cy.xpath("//button[contains(text(),'Clear all')]").should("be.visible").click()
             var selectMealNumber = Math.floor(Math.random() * 20)
-
-            for (let i = 0; i <= mealPlan; i++) {
+            for (let i = 1; i <= mealPlan; i++) {
                 //cy.get("[class='fr-add-button meal-card__add-button']").eq(selectMealNumber).click({force: true})
-                cy.get("[data-test='add-meal']").eq(selectMealNumber).click({force: true})
-
+                cy.get(".meal-card__container").eq(selectMealNumber).find("[data-test='add-meal']").click({force: true})
+                cy.wait(1000)
                 selectMealNumber = Math.floor(Math.random() * 20)
             }
 
@@ -32,7 +31,18 @@ export default {
         totalSumAtDelivery: () => {
             return cy.get("[class='promo total-price']>strong")
 
+        },
+        select6MealsPlanAtChangeMeals: () => {
+            cy.get("[data-test-type='cart__plan-selector-button-6']").should("be.visible").click();
+
+        },
+        addMealsButton: () => {
+            return cy.get("[data-test-type='cart__confirm-button']")
+        },
+        cartHeaderPrice: () => {
+            return cy.get("[data-test-type='cart__plan-header-info']")
         }
+
 
     },
 
@@ -65,8 +75,6 @@ export default {
             cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@data-action='click->meal-planner--delivery-dates#fetchDeliveryDates']").should("be.visible").click();
             cy.xpath("(//section[@class='component card weekly-order-card open'][1]//*[@data-action='click->meal-planner--delivery-dates#updateDeliveryDate'])[1]").should("be.visible").click();
 
-
-
         },
         skipWeek: () => {
             return cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@value='Skip This Week']")
@@ -93,7 +101,6 @@ export default {
         },
         firstMealName: () => {
             return cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@class='meals']/li[1]/section/h3")
-
 
         }
 

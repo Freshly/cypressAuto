@@ -168,10 +168,24 @@ export default {
         },
 
         reactivateButton: () => {
-            //cy.get("[data-fe='unpause-subscription-btn']").should("be.visible").click()
-            cy.get("[value='Reactivate Subscription']").should("be.visible").click()
+            cy.get("[value='Reactivate']").should("be.visible").click()
 
         },
+
+        reactivationBanner: () => {
+            return cy.get("[class='reactivation-card'] > div > h4").should("be.visible")
+
+        },
+
+        addMealsButton: () => {
+            return cy.get("[data-test-type='cart__confirm-button']")
+
+        },
+
+        confirmReviewButtonActive: () => {
+            return cy.xpath("//*[contains(text(),'Confirm')]")
+        },
+
 
         reactivateSubscriptionFromDelivery: () => {
             cy.get("[value='Reactivate Subscription']").should("be.visible").click()

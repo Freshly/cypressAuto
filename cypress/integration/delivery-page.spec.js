@@ -38,6 +38,7 @@ describe("Check different functional at Delivery page", () => {
         deliveries.second_week.firstMealName().invoke('text').then((firstMealBeforeChanging) => {
             deliveries.second_week.changeMeals().should("be.visible").click();
             deliveries.deliveries.selectingNewMeals(mealPlan.meals);
+            joinNow.toastMessage.checkMessage("Success! Meals saved for your")
             deliveries.second_week.firstMealName().invoke('text').should((firstMealAfterChanging) => {
                 expect(firstMealBeforeChanging).not.to.eq(firstMealAfterChanging)
             })
@@ -59,6 +60,33 @@ describe("Check different functional at Delivery page", () => {
         deliveries.second_week.plan().invoke('text').then((planBeforeChanging) => {
             deliveries.second_week.changePlan();
             joinNow.toastMessage.checkMessage("Meal plan successfully updated")
+            deliveries.second_week.plan().invoke('text').should((planAfterChanging) => {
+                expect(planBeforeChanging.trim()).not.to.eq(planAfterChanging.trim())
+            })
+        })
+
+    })
+
+    it("2.1-User is able to change meal plan from Change meals page", () => {
+
+        mealPlan.id = 425
+        mealPlan.meals = 4
+        joinNow.getStarted.fillOutGetStartedForm(user, address);
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
+        joinNow.subscription.skipBothAttributionForms();
+        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
+        deliveries.second_week.plan().invoke('text').then((planBeforeChanging) => {
+            deliveries.second_week.changeMeals().should("be.visible").click();
+            deliveries.deliveries.select6MealsPlanAtChangeMeals();
+            deliveries.deliveries.addMealsButton().should("be.visible").contains("Add 2 meals to save");
+            deliveries.deliveries.cartHeaderPrice().should("be.visible");
+            mealPlan.meals = 6
+            deliveries.deliveries.selectingNewMeals(mealPlan.meals);
             deliveries.second_week.plan().invoke('text').should((planAfterChanging) => {
                 expect(planBeforeChanging.trim()).not.to.eq(planAfterChanging.trim())
             })

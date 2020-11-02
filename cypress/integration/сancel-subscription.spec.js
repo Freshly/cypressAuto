@@ -186,9 +186,11 @@ describe("User is able to cancel subscrition in different mode ", () => {
         subscription.brightBack.understandCheckBox();
         subscription.brightBack.cancelSubscriptionBrightback();
         joinNow.toastMessage.checkMessage("Your subscription has been successfully canceled");
+        subscription.cancelSubscription.reactivationBanner().should("contain", "Your subscription is cancelled");
+        joinNow.mealsPicker.chooseMealsFromReactivationPage(mealPlan.meals);
+        subscription.cancelSubscription.confirmReviewButtonActive().click();
         subscription.cancelSubscription.reactivateButton();
         joinNow.toastMessage.checkMessage("Subscription successfully reactivated");
-
     })
 
 
