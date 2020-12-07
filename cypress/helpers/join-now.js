@@ -18,6 +18,7 @@ export default {
     getStarted: {
         visitGetStartedPage: () => {
             let uri = "/join-now";
+            //let uri = "join-now?brand=fit&";
             cy.visit(uri)
         },
         visitMainPage: () => {
@@ -127,54 +128,27 @@ export default {
     },
     mealsPicker: {
         chooseMealsFromMealPlanner: (times, selectDifferentMeals = false) => {
-            if ((Cypress.env('typeOfMealsSelecting'))=="new") {
-                 for (let i = 0; i < times; i++) {
-                        if ((i % 2) != 0) {
-                            cy.get(".meal-card__container")
-                                .last()
-                                .find("[data-test='add-meal']")
-                                .click({force: true})
-                        }
-                        else {
-                            cy.get(".meal-card__container")
-                                .first()
-                                .find("[data-test='add-meal']")
-                                .click({force: true})
-                        }
-                    }
 
-            cy.get(".cart-layout>header button").click()
+            if (selectDifferentMeals) {
+                for (let i = 0; i < times; i++) {
+                    cy.get("[data-test='add-meal']").eq(i).click()
+                }
             }
             else {
-                if (selectDifferentMeals) {
-                    for (let i = 0; i < times; i++) {
-                        cy.get(".meal-card")
-                            .first()
-                            .find("[data-test='add-meal-button']")
-                            .click({force: true})
+                for (let i = 0; i < times; i++) {
+                    if ((i % 2) != 0) {
+                        //cy.get(".meal-card__container").last().find("[data-test='add-meal']").click({force: true})
+                        cy.get("[data-test='add-meal']").last().click()
+                    }
+                    else {
+                        //cy.get(".meal-card__container").first().find("[data-test='add-meal']").click({force: true})
+                        cy.get("[data-test='add-meal']").first().click()
                     }
                 }
-                else {
-                    for (let i = 0; i < times; i++) {
-                        if ((i % 2) != 0) {
-                            cy.get(".meal-card")
-                                .last()
-                                .find("[data-test='add-meal-button']")
-                                .click({force: true})
-                        }
-                        else {
-                            cy.get(".meal-card")
-                                .first()
-                                .find("[data-test='add-meal-button']")
-                                .click({force: true})
-                        }
-                    }
-
-                }
-                cy.get(".meals-review-cont > .btn-update-meals-cont > .btn")
-                    .click()
-
             }
+            cy.get("[data-test='submit-cart']").click()
+
+
         },
         chooseMealsFromReactivationPage: (times) => {
 
@@ -197,79 +171,21 @@ export default {
 
 
         chooseMealsFromMealDetailsCard: (times, selectDifferentMeals = false) => {
-            if ((Cypress.env('typeOfMealsSelecting')) == "new") {
-                for (let i = 0; i < times; i++) {
-                    if ((i % 2) != 0) {
-                        cy.get(".meal-card__container")
-                            .last()
-                            .find("[data-test='add-meal']")
-                            .click({force: true})
-                    }
-                    else {
-                        cy.get(".meal-card__container")
-                            .first()
-                            .find("[data-test='add-meal']")
-                            .click({force: true})
-                    }
-                }
-
-                cy.get(".cart-layout>header button").click()
-            }
-            else {
-                if (selectDifferentMeals) {
-                    //check Next button is disabled until quantity of meals don't fit to plan
-                    cy.get("[data-fe='next-button']").should("be.disabled");
-                    //check Warning message is shown until quantity of meals don't fit to plan
-                    cy.get("[data-fe='error-message-box']").should("be.visible");
-
-                    for (let i = 0; i < times; i++) {
-                        cy.get("[data-fe='meal-image']")
-                            .first()
-                            .click({force: true});
-                        cy.wait(2000);
-                        cy.get(".modal-dialog")
-                            .find("[data-fe='add-button']").first()
-                            .click({force: true})
-                    }
+            for (let i = 0; i < times; i++) {
+                if ((i % 2) != 0) {
+                    cy.xpath("//*[contains(@class,'MealCard-module__body')]")
+                        .last()
+                        .find("[data-test='add-meal']")
+                        .click({force: true})
                 }
                 else {
-                    for (let i = 0; i < times; i++) {
-                        //check Next button is disabled until quantity of meals don't fit to plan
-                        cy.get("[data-fe='next-button']").should("be.disabled");
-                        //check Warning message is shown until quantity of meals don't fit to plan
-                        cy.get("[data-fe='error-message-box']").should("be.visible");
-
-                        if ((i % 2) != 0) {
-                            cy.get("[data-fe='meal-image']")
-                                .last()
-                                .click({force: true});
-                            cy.wait(2000);
-                            cy.get(".modal-dialog")
-                                .find("[data-fe='add-button']").first()
-                                .click({force: true})
-                        }
-                        else {
-                            cy.get("[data-fe='meal-image']")
-                                .first()
-                                .click({force: true});
-                            cy.wait(2000);
-                            cy.get(".modal-dialog")
-                                .find("[data-fe='add-button']").first()
-                                .click({force: true})
-                        }
-
-
-                    }
-
+                    cy.xpath("//*[contains(@class,'MealCard-module__body')]")
+                        .first()
+                        .find("[data-test='add-meal']")
+                        .click({force: true})
                 }
-                //check Next button is NOT disabled when quantity of meals fit to plan
-                cy.get("[data-fe='next-button']").should("be.enabled");
-                //check Warning message is NOT shown when quantity of meals fit to plan
-                cy.get("[data-fe='error-message-box']").should("be.not.visible");
-                cy.get(".meals-review-cont > .btn-update-meals-cont > .btn")
-                    .click()
-
             }
+            cy.get("[data-test='submit-cart']").click()
         }
 
     },
@@ -568,9 +484,9 @@ export default {
         skipBothAttributionForms: () => {
             cy.xpath("//*[@class='modal-content']//button[contains(text(),'×')]").should("be.visible").click();
             cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click();
-            cy.xpath("//*[@id = 'download-app-modal']//button[@data-test='close-modal']/span").should("be.visible").click()
-            //cy.xpath("//*[@id = 'change-meals-modal']//button[@data-test='close-modal']/span").should("be.visible").click()
-            //change-meals-modal
+
+            cy.xpath("//*[@id = 'download-app-modal']//button[@data-test='close-modal']/span").should("be.visible").click() //download window is disappeared
+
         },
 
         visitSubscriptionSettingsPage: () => {

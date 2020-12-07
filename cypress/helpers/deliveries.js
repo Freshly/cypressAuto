@@ -5,7 +5,7 @@ export default {
 
         selectingNewMeals: mealPlan => {
             cy.url().should("include", "/edit")
-            cy.xpath("//button[contains(text(),'Clear all')]").should("be.visible").click()
+            cy.xpath("//*[contains(text(),'Clear all')]").should("be.visible").click()
             var selectMealNumber = Math.floor(Math.random() * 20)
             for (let i = 1; i <= mealPlan; i++) {
                 //cy.get("[class='fr-add-button meal-card__add-button']").eq(selectMealNumber).click({force: true})
@@ -13,8 +13,7 @@ export default {
                 cy.wait(1000)
                 selectMealNumber = Math.floor(Math.random() * 20)
             }
-
-            cy.xpath("//button[contains(text(),'Save')]").should("be.visible").click()
+            cy.xpath("//*[contains(text(),'Save')]").should("be.visible").click()
         },
 
         stillWantToSkipDelivery: () => {

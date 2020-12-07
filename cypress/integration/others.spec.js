@@ -122,7 +122,7 @@ describe("Some tests connected to others parts of Freshly ", () => {
         joinNow.getStarted.fillOutGetStartedForm(user, address);
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals, 'true');
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
@@ -181,7 +181,7 @@ describe("Some tests connected to others parts of Freshly ", () => {
             expect(daysToEnd).to.be.lessThan(0)
         })
         joinNow.dayPicker.chooseLastDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealDetailsCard(mealPlan.meals);
+        joinNow.mealsPicker.chooseMealsFromMealDetailsCard(mealPlan.meals, 'true');
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
