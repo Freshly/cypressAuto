@@ -6,14 +6,23 @@ export default {
         selectingNewMeals: mealPlan => {
             cy.url().should("include", "/edit")
             cy.xpath("//*[contains(text(),'Clear all')]").should("be.visible").click()
-            var selectMealNumber = Math.floor(Math.random() * 20)
+            cy.wait(1000)
+            var selectMealNumber = Math.floor(Math.random() * 25)
             for (let i = 1; i <= mealPlan; i++) {
-                //cy.get("[class='fr-add-button meal-card__add-button']").eq(selectMealNumber).click({force: true})
                 cy.get(".meal-card__container").eq(selectMealNumber).find("[data-test='add-meal']").click({force: true})
-                cy.wait(1000)
-                selectMealNumber = Math.floor(Math.random() * 20)
+                selectMealNumber = Math.floor(Math.random() * 25)
             }
+        },
+        saveNewMeals: () => {
             cy.xpath("//*[contains(text(),'Save')]").should("be.visible").click()
+        },
+
+        applyToFutureDeliveries: () => {
+            return cy.get("[id='conciergeCheckbox']").should('be.visible').scrollIntoView()
+
+        },
+        applyClick: () => {
+            cy.xpath("//label[@for='conciergeCheckbox']/span").click()
         },
 
         stillWantToSkipDelivery: () => {
@@ -124,6 +133,11 @@ export default {
             return cy.xpath("//section[@class='component card weekly-order-card open'][2]//*[@data-target='meal-planner--weekly-order-card.changePlanButton']").should("be.visible")
 
         },
+        firstMealName: () => {
+            return cy.xpath("//section[@class='component card weekly-order-card open'][2]//*[@class='meals']/li[1]/section/h3")
+
+        }
+
 
     },
 

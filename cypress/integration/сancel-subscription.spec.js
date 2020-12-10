@@ -44,7 +44,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
         subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
         subscription.brightBack.neverMindAndBackToDelivery();
         cy.url().should('not.contain', 'cancel.freshly.com');
-        cy.url().should('contain', 'freshly.com/subscriptions/');
+        cy.url().should('contain', '/subscriptions/');
         //skip next delivery
         cy.visitSubscriptionSettingsPage();
         subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
@@ -52,7 +52,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
         joinNow.toastMessage.checkMessage("delivery has been skipped");
         deliveries.second_week.unSkipWeek().should("be.visible");
         cy.url().should('not.contain', 'cancel.freshly.com');
-        cy.url().should('contain', 'freshly.com/subscriptions/');
+        cy.url().should('contain', '/subscriptions/');
 
     })
 
@@ -77,7 +77,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
         subscription.brightBack.selectAnyOf10OFF();
         subscription.brightBack.clickYesAtAnyForm();
         joinNow.toastMessage.checkMessage("Promo code was applied successfully");
-        cy.url().should('contain', 'freshly.com/subscriptions/');
+        cy.url().should('contain', '/subscriptions/');
 
     })
 
@@ -100,7 +100,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
         cy.url().should('contain', 'cancel.freshly.com');
         subscription.brightBack.selectAnyOfThreeMonthPause();
         subscription.brightBack.clickYesAtAnyForm();
-        cy.url().should('contain', 'freshly.com/subscriptions/');
+        cy.url().should('contain', '/subscriptions/');
         subscription.cancelSubscription.select8WeekForSkipping();
         subscription.cancelSubscription.skip8weeks();
         joinNow.toastMessage.checkMessage("You’ll still get your delivery on");
@@ -128,7 +128,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
         cy.url().should('contain', 'cancel.freshly.com');
         subscription.brightBack.selectAnyOf4_8_12WeeksPause();
         subscription.brightBack.clickYesAtAnyForm();
-        cy.url().should('contain', 'freshly.com/subscriptions/');
+        cy.url().should('contain', '/subscriptions/');
         subscription.brightBack.select4_8_12weeks();
         subscription.brightBack.pause4_8_12Weeks();
         joinNow.toastMessage.checkMessage("You’ll still get your delivery on");
@@ -156,7 +156,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
         cy.url().should('contain', 'cancel.freshly.com');
         subscription.brightBack.change12Plan();
         subscription.brightBack.clickYesAtAnyForm();
-        cy.url().should('contain', 'freshly.com/subscriptions/');
+        cy.url().should('contain', '/subscriptions/');
         subscription.subscription.get10MealsPlan().should("be.visible").click({multiple: true})
         joinNow.toastMessage.checkMessage("Default plan successfully updated to");
         subscription.subscription.getSubscriptionPlan().should("be.visible").should("contain", "10 Meals");
