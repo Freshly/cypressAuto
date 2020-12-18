@@ -411,6 +411,32 @@ export default {
         }
 
     },
+    addNewSubscription: {
+        addNewSubscription: () => {
+            cy.get("[data-test='settings-add-new-subscription']").should("be.visible").click()
+
+        },
+        addSubscriptionYes: () => {
+            return cy.xpath("//*[@id='self-attribution-form']//button[@id='cta-primary']")
+        },
+        addSubscriptionNo: () => {
+            return cy.xpath("//*[@id='self-attribution-form']//button[@id='cta-secondary']")
+        },
+        insertZip: (address) => {
+            cy.get("[id='join_now_data_zip']").should("be.visible").type(address.zip)
+            cy.get("[data-test='get-started-form-submit-button']").should("be.visible").click()
+        },
+        fillUserData: (userData, address) => {
+            cy.get("[id='line1']").should("be.visible").type(address.line1, {force: true});
+            cy.get("[id='phone']").type(userData.phoneNumber, {force: true});
+            cy.get("[data-fe='next-button']").click()
+        },
+        submitPaymentFormNewSubscription: (userData) => {
+            cy.get("[data-fe='submit-button']").click(); //click to Submit button
+            cy.xpath("//button[contains(text(),'View my deliveries')]").should("be.visible").click()
+        },
+
+    },
 
 
     dietaryPreferences: {
@@ -495,7 +521,7 @@ export default {
             cy.xpath("//button[contains(text(),'+ New Payment Method')]").should("be.visible").click()
 
         },
-        fillNewPaymentForm: (userData, address, paymentCardAdded) => {
+        fillNewPaymentForm: (fullName, address, paymentCardAdded) => {
             cy.xpath("(//*[contains(@name,'__privateStripeFrame')])[1]")
                 .iframe()
                 .find("input[name='cardnumber']").should('not.be.disabled')
@@ -511,7 +537,7 @@ export default {
                 .find("input[name='cvc']")
                 .click().wait(2000)
                 .type(paymentCardAdded.cvv)
-            var fullName = userData.first_name + " " + userData.last_name
+
             cy.get("#payment_method_stripe_billing_address_full_name").should("be.visible").type(fullName)
             cy.get("#payment_method_stripe_billing_address_line1").should("be.visible").type(address.line1)
             cy.get("#payment_method_stripe_billing_address_city").should("be.visible").type(address.city)

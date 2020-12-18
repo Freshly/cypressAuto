@@ -321,8 +321,6 @@ export default {
                 cy.get("[name='password']").should("be.visible").type(userData.password, {force: true});//fill password from
                 cy.get("[class='mt-4 btn btn-primary btn-lg btn-block']").click();// click to "Create now"
                 cy.wait(2000)
-                //cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click() //click to View my deliveries
-
 
             },
 

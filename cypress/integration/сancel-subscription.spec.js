@@ -38,7 +38,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
         //click never mind button
         subscription.brightBack.neverMind();
         cy.url().should('not.contain', 'cancel.freshly.com');
-        cy.url().should('contain', 'freshly.com/subscriptions/');
+        cy.url().should('contain', '/subscriptions/');
         //click 'Never mind! Take me back to my deliveries'
         cy.visitSubscriptionSettingsPage();
         subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();

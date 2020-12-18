@@ -24,6 +24,32 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.getStarted.fillOutGetStartedForm(user, address);
     })
 
+    it("20-User is able to add new subscritpion", () => {
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
+        joinNow.subscription.skipBothAttributionForms();
+        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
+        cy.visitSubscriptionSettingsPage();
+        subscription.addNewSubscription.addNewSubscription();
+        subscription.addNewSubscription.addSubscriptionNo().should("be.visible").click();
+        subscription.addNewSubscription.addSubscriptionYes().should("not.be.visible");
+        subscription.addNewSubscription.addNewSubscription();
+        subscription.addNewSubscription.addSubscriptionYes().should("be.visible").click();
+        address = _.sample(addresses);
+        mealPlan = _.sample(mealPlans);
+        subscription.addNewSubscription.insertZip(address);
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        subscription.addNewSubscription.fillUserData(user, address);
+        subscription.addNewSubscription.submitPaymentFormNewSubscription();
+        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
+    })
+
 
     it("8-User is able to change email and log in with new email", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -163,11 +189,12 @@ describe("User is able to change parameters of subscrition ", () => {
         cy.visitSubscriptionSettingsPage();
         var newCardTrimmed, oldCardTrimmed;
         var paymentCardAdded = getRandomPaymentCard();
+        var fullName = user.first_name + " " + user.last_name
         subscription.changePayment.cardEnd().then((cardNumberOld) => {
             cy.log(cardNumberOld.trim());
             subscription.changePayment.changePaymentMethod()
             subscription.changePayment.addNewPaymentMethod()
-            subscription.changePayment.fillNewPaymentForm(user, address, paymentCardAdded)
+            subscription.changePayment.fillNewPaymentForm(fullName, address, paymentCardAdded)
             subscription.changePayment.savePaymentMethod()
             joinNow.toastMessage.checkMessage("Payment method successfully updated");
             subscription.changePayment.cardEnd().then((cardNumberNew) => {
@@ -278,6 +305,7 @@ describe("User is able to change parameters of subscrition ", () => {
         subscription.subscription.getSubscriptionPromoCode().should("be.visible").should("contain", Cypress.env('PromoCode'));
         subscription.subscription.getSubscriptionRemovePromo().should('be.visible');
     })
+
 
 });
 
