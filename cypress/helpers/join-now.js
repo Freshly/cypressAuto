@@ -290,21 +290,21 @@ export default {
             fillOutPaymentInfoWithCard: (paymentCard) => {
                 cy.get("[for='ccPaymentOptionInput']").should("be.visible")
                     .click({force: true});
-                cy.wait(5000);
+                cy.wait(2000);
                 cy.xpath("(//*[contains(@name,'__privateStripeFrame')])[1]")
                     .iframe()
                     .find("input[name='cardnumber']").should('not.be.disabled')
-                    .click().wait(2000)
+                    .click().wait(1000)
                     .type(paymentCard.number);
                 cy.xpath("(//*[contains(@name,'__privateStripeFrame')])[2]")
                     .iframe()
                     .find("input[name='exp-date']")
-                    .click().wait(2000)
+                    .click().wait(1000)
                     .type(paymentCard.expDate);
                 cy.xpath("(//*[contains(@name,'__privateStripeFrame')])[3]")
                     .iframe()
                     .find("input[name='cvc']")
-                    .click().wait(2000)
+                    .click().wait(1000)
                     .type(paymentCard.cvv)
             },
             getRemovePromo: () => {

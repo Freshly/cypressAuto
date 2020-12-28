@@ -173,12 +173,10 @@ describe("Some tests connected to others parts of Freshly ", () => {
             var end = Cypress.moment().add(15, 'days').format("dddd, MMM DD");
             cy.log("First delivery day:" + dayDelivery, " Order day:" + start, " Blackout day:" + end);
             var daysToStart = Cypress.moment(dayDelivery).diff(start, 'days');
-            var daysToEnd = Cypress.moment(dayDelivery).diff(end, 'days');
-            cy.log("Days to order date:" + daysToStart, " Days to blackout date:" + daysToEnd);
-            //quantity of days from day of order to first delivery day
-            expect(daysToStart).to.be.greaterThan(0)
+            var daysToEnd = 365 - Cypress.moment(dayDelivery).diff(end, 'days');
+            expect(daysToStart).to.be.greaterThan(1)
             //quantity of days from the last day(order day+15 days) to first delivery day
-            expect(daysToEnd).to.be.lessThan(0)
+            expect(daysToEnd).to.be.lessThan(15)
         })
         joinNow.dayPicker.chooseLastDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealDetailsCard(mealPlan.meals, 'true');
@@ -186,11 +184,7 @@ describe("Some tests connected to others parts of Freshly ", () => {
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
-        //joinNow.subscription.dismissSelfAttributionForm();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
-
     })
-
-
 });
 

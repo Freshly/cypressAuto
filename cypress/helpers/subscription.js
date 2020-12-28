@@ -242,21 +242,26 @@ export default {
             cy.xpath("//span[contains(text(),'Never mind! Take me back to my deliveries')]").should("be.visible").click()
 
         },
+        selectAnyReason: () => {
+            cy.xpath("//span[contains(text(),'I disliked the food')]").should("be.visible").click()
+            cy.xpath("//*[contains(@class,'justify-self--end')]").should("be.visible").click()
+
+        },
         clickYesAtAnyForm: () => {
             cy.xpath("//*[@class='es-btn']").should("be.visible").click()
 
         },
 
         selectAnyOf10OFF: () => {
-            cy.xpath("(//label[contains(@action,'10_off_phase_3')])[1]").should("be.visible").click();
+            cy.xpath("//label[contains(@action,'10_off_phase_3')][1]").should("be.visible").click();
 
         },
         selectAnyOfThreeMonthPause: () => {
-            cy.xpath("(//label[contains(@action,'three_month_pause')])[1]").should("be.visible").click();
+            cy.xpath("//label[contains(@action,'three_month_pause')][1]").should("be.visible").click();
 
         },
         change12Plan: () => {
-            cy.xpath("(//label[contains(@action,'swap_products.sixty_forty_column')])[1]").should("be.visible").click();
+            cy.xpath("//label[contains(@action,'swap_products.sixty_forty_column')][1]").should("be.visible").click();
 
         },
         closeModal: () => {
@@ -270,7 +275,7 @@ export default {
         },
 
         selectAnyOf4_8_12WeeksPause: () => {
-            cy.xpath("(//label[contains(@action,'4_8_12_pause_phase_3')])[1]").should("be.visible").click();
+            cy.xpath("//label[contains(@action,'4_8_12_pause_phase_3')][1]").should("be.visible").click();
 
         },
 
@@ -429,10 +434,10 @@ export default {
         fillUserData: (userData, address) => {
             cy.get("[id='line1']").should("be.visible").type(address.line1, {force: true});
             cy.get("[id='phone']").type(userData.phoneNumber, {force: true});
-            cy.get("[data-fe='next-button']").click()
+            cy.xpath("//button[contains(text(),'Next')]").click()
         },
         submitPaymentFormNewSubscription: (userData) => {
-            cy.get("[data-fe='submit-button']").click(); //click to Submit button
+            cy.xpath("//button[contains(text(),'Submit Order')]").click(); //click to Submit button
             cy.xpath("//button[contains(text(),'View my deliveries')]").should("be.visible").click()
         },
 

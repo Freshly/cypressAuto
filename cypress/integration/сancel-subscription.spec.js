@@ -179,8 +179,8 @@ describe("User is able to cancel subscrition in different mode ", () => {
         subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
         subscription.cancelSubscription.continueToCancel();
         cy.url().should('contain', 'cancel.freshly.com');
-        subscription.brightBack.selectAnyOfThreeMonthPause();
-        subscription.brightBack.closeModal();
+        subscription.brightBack.selectAnyReason();
+        //subscription.brightBack.closeModal();
         subscription.brightBack.selectGettingYourMeals();
         subscription.brightBack.selectPoll();
         subscription.brightBack.understandCheckBox();

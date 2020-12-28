@@ -1,6 +1,6 @@
 {
   "projectId": "a3sazc",
-  "baseUrl": "https://freshly:FreshAvocado@demo.freshly.com/",
+  "baseUrl": "https://freshly:FreshAvocado@qa-pipeline-pig-261-ret-eojtmv.herokuapp.com/",
   "chromeWebSecurity": false,
   "defaultCommandTimeout": 50000,
   "viewportWidth": 1280,

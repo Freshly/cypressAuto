@@ -60,7 +60,7 @@ describe("Check different functional at Delivery page", () => {
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
 
-        //apply chnging meals to future deliveries
+        //apply changing meals to future deliveries
         deliveries.second_week.firstMealName().invoke('text').then((firstMealS) => {
             firstMealBeforeChanging = firstMealS;
         })
@@ -150,6 +150,8 @@ describe("Check different functional at Delivery page", () => {
             deliveries.deliveries.cartHeaderPrice().should("be.visible");
             mealPlan.meals = 6
             deliveries.deliveries.selectingNewMeals(mealPlan.meals);
+            deliveries.deliveries.saveNewMeals();
+            joinNow.toastMessage.checkMessage("Meals are successfully updated")
             deliveries.second_week.plan().invoke('text').should((planAfterChanging) => {
                 expect(planBeforeChanging.trim()).not.to.eq(planAfterChanging.trim())
             })
