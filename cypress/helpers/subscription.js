@@ -279,6 +279,30 @@ export default {
 
         },
 
+        clickBiWeekly: () => {
+            cy.xpath("//label[contains(@action,'change_to_biweekly')][1]").should("be.visible").click();
+
+        },
+
+        changeToBiweekly: () => {
+            cy.xpath("//button[contains(text(),'Change To Biweekly')]").should("be.visible").click()
+
+        },
+
+        selectBiWeekly: () => {
+            cy.get("[id='user_email']").should("be.visible").click();
+
+        },
+
+        saveBiweekly: () => {
+            cy.xpath("//button[contains(text(),'Save')]").should("be.visible").click()
+
+        },
+
+        getSubscriptionBiweekly: () => {
+            return cy.xpath("//*[@data-fe='frequency']/main/p")
+        },
+
         select4_8_12weeks: () => {
             var select_week = Math.floor(Math.random() * 4);// Get random number [1,3]
 

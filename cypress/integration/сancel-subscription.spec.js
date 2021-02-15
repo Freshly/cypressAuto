@@ -25,35 +25,33 @@ describe("User is able to cancel subscrition in different mode ", () => {
     })
 
 
-    it("7-User is able to back to Delivery page and skip next delivery from Brightback page", () => {
+    it("12-User is able to cancel subscription and reactivate it", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
         joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
+        joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
+        joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
         subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
-        //click never mind button
-        subscription.brightBack.neverMind();
-        cy.url().should('not.contain', 'cancel.freshly.com');
-        cy.url().should('contain', '/subscriptions/');
-        //click 'Never mind! Take me back to my deliveries'
-        cy.visitSubscriptionSettingsPage();
-        subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
-        subscription.brightBack.neverMindAndBackToDelivery();
-        cy.url().should('not.contain', 'cancel.freshly.com');
-        cy.url().should('contain', '/subscriptions/');
-        //skip next delivery
-        cy.visitSubscriptionSettingsPage();
-        subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
-        subscription.brightBack.skipYourNextDelivery();
-        joinNow.toastMessage.checkMessage("delivery has been skipped");
-        deliveries.second_week.unSkipWeek().should("be.visible");
-        cy.url().should('not.contain', 'cancel.freshly.com');
-        cy.url().should('contain', '/subscriptions/');
-
+        subscription.cancelSubscription.continueToCancel();
+        cy.url().should('contain', 'cancel.freshly.com');
+        subscription.brightBack.selectAnyReason();
+        //subscription.brightBack.closeModal();
+        subscription.brightBack.selectGettingYourMeals();
+        subscription.brightBack.selectPoll();
+        subscription.brightBack.understandCheckBox();
+        subscription.brightBack.cancelSubscriptionBrightback();
+        joinNow.toastMessage.checkMessage("Your subscription has been successfully canceled");
+        subscription.cancelSubscription.reactivationBanner().should("contain", "Your subscription is cancelled");
+        joinNow.mealsPicker.chooseMealsFromReactivationPage(mealPlan.meals);
+        subscription.cancelSubscription.confirmReviewButtonActive().click();
+        subscription.cancelSubscription.reactivateButton();
+        joinNow.toastMessage.checkMessage("Subscription successfully reactivated");
     })
 
 
@@ -109,7 +107,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
 
 
     })
-    it("11.3-User is able to skip up to 4,8,12 weeks with Brightback flow", () => {
+    it.skip("11.3-User is able to skip up to 4,8,12 weeks with Brightback flow", () => {
         mealPlan.id = 427
         mealPlan.meals = 10
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -137,9 +135,8 @@ describe("User is able to cancel subscrition in different mode ", () => {
 
     })
 
-    it("11.4-User is able to change 12 meals plan for any other with Brightback flow", () => {
-        mealPlan.id = 428
-        mealPlan.meals = 12
+    it("11.4-User is able to change delivery frequency with Brightback flow", () => {
+
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -154,45 +151,36 @@ describe("User is able to cancel subscrition in different mode ", () => {
         subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
         subscription.cancelSubscription.continueToCancel();
         cy.url().should('contain', 'cancel.freshly.com');
-        subscription.brightBack.change12Plan();
-        subscription.brightBack.clickYesAtAnyForm();
+        subscription.brightBack.selectBiWeekly();
+        subscription.brightBack.changeToBiweekly();
+        subscription.brightBack.selectBiWeekly();
+        subscription.brightBack.saveBiweekly();
+        joinNow.toastMessage.checkMessage("Biweekly frequency has been turned on");
+        subscription.brightBack.getSubscriptionBiweekly().should("be.visible").should("contain", "Biweekly");
+
+    })
+
+    it("7-User is able to back to Delivery page and skip next delivery from Brightback page", () => {
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
+        joinNow.subscription.skipBothAttributionForms();
+        cy.visitSubscriptionSettingsPage();
+        subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
+        //click never mind button
+        subscription.brightBack.neverMind();
+        cy.url().should('not.contain', 'cancel.freshly.com');
         cy.url().should('contain', '/subscriptions/');
-        subscription.subscription.get10MealsPlan().should("be.visible").click({multiple: true})
-        joinNow.toastMessage.checkMessage("Default plan successfully updated to");
-        subscription.subscription.getSubscriptionPlan().should("be.visible").should("contain", "10 Meals");
-
-
-    })
-
-    it("12-User is able to cancel subscription and reactivate it", () => {
-        joinNow.planPicker.chooseMealPlan(mealPlan);
-        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
-        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
-        joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
-        joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
-        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
-        joinNow.subscription.skipBothAttributionForms();
+        //click 'Never mind! Take me back to my deliveries'
         cy.visitSubscriptionSettingsPage();
         subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
-        subscription.cancelSubscription.continueToCancel();
-        cy.url().should('contain', 'cancel.freshly.com');
-        subscription.brightBack.selectAnyReason();
-        //subscription.brightBack.closeModal();
-        subscription.brightBack.selectGettingYourMeals();
-        subscription.brightBack.selectPoll();
-        subscription.brightBack.understandCheckBox();
-        subscription.brightBack.cancelSubscriptionBrightback();
-        joinNow.toastMessage.checkMessage("Your subscription has been successfully canceled");
-        subscription.cancelSubscription.reactivationBanner().should("contain", "Your subscription is cancelled");
-        joinNow.mealsPicker.chooseMealsFromReactivationPage(mealPlan.meals);
-        subscription.cancelSubscription.confirmReviewButtonActive().click();
-        subscription.cancelSubscription.reactivateButton();
-        joinNow.toastMessage.checkMessage("Subscription successfully reactivated");
+        subscription.brightBack.neverMindAndBackToDelivery();
+        cy.url().should('not.contain', 'cancel.freshly.com');
+        cy.url().should('contain', '/subscriptions/');
+
     })
-
-
 });
 

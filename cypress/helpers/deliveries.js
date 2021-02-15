@@ -81,8 +81,8 @@ export default {
         },
         changeDeliveryDay: () => {
             cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@data-action='click->meal-planner--delivery-dates#fetchDeliveryDates']").should("be.visible").click();
-            cy.xpath("(//section[@class='component card weekly-order-card open'][1]//*[@data-action='click->meal-planner--delivery-dates#updateDeliveryDate'])[1]").should("be.visible").click();
-
+            //cy.xpath("(//section[@class='component card weekly-order-card open'][1]//*[@data-action='click->meal-planner--delivery-dates#updateDeliveryDate'])[2]").should("be.visible").click();
+            cy.xpath("(//section[@class='component card weekly-order-card open'][1]//*[@class='dropdown-item weekly-order__dropdown-link '])[1]").should("be.visible").click();
         },
         skipWeek: () => {
             return cy.xpath("//section[@class='component card weekly-order-card open'][1]//*[@value='Skip This Week']")

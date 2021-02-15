@@ -146,7 +146,7 @@ export default {
                     }
                 }
             }
-            cy.get("[data-test='submit-cart']").click()
+            cy.get("[data-test-type='cart__confirm-button']").click()
 
 
         },
@@ -185,7 +185,13 @@ export default {
                         .click({force: true})
                 }
             }
-            cy.get("[data-test='submit-cart']").click()
+            cy.get("[data-test-type='cart__confirm-button']").click()
+        },
+
+        checkCartBanner: message => {
+            cy.xpath("//*[@class='CartBanner-module__bannerText___3HRWg']").should("be.visible").contains(message);
+            cy.get("[aria-label ='Close']").click()
+
         }
 
     },

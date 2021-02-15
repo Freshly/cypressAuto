@@ -89,6 +89,7 @@ describe("Some tests connected to others parts of Freshly ", () => {
         joinNow.dayPicker.MostPopularDay().scrollIntoView().click();
         joinNow.dayPicker.MostPopularDayAfterSelection().should("be.visible").invoke('text').then((daySelected) => {
             joinNow.dayPicker.continueToMealSelection();
+            joinNow.mealsPicker.checkCartBanner("Each Freshly meal is one serving");
             joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals, 'true');
             joinNow.checkOut.fillRegistrationData.fillUserData(user, address);
             //check sms check-box is available for checking
@@ -173,10 +174,10 @@ describe("Some tests connected to others parts of Freshly ", () => {
             var end = Cypress.moment().add(15, 'days').format("dddd, MMM DD");
             cy.log("First delivery day:" + dayDelivery, " Order day:" + start, " Blackout day:" + end);
             var daysToStart = Cypress.moment(dayDelivery).diff(start, 'days');
-            var daysToEnd = 365 - Cypress.moment(dayDelivery).diff(end, 'days');
+            var daysToEnd = Cypress.moment(dayDelivery).diff(end, 'days');
             expect(daysToStart).to.be.greaterThan(1)
             //quantity of days from the last day(order day+15 days) to first delivery day
-            expect(daysToEnd).to.be.lessThan(15)
+            expect(Math.abs(daysToEnd)).to.be.lessThan(15)
         })
         joinNow.dayPicker.chooseLastDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealDetailsCard(mealPlan.meals, 'true');
