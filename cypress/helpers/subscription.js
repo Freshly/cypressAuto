@@ -285,12 +285,12 @@ export default {
         },
 
         changeToBiweekly: () => {
-            cy.xpath("//button[contains(text(),'Change To Biweekly')]").should("be.visible").click()
+            cy.xpath("//*[contains(text(),'Change To Biweekly')]").should("be.visible").click()
 
         },
 
         selectBiWeekly: () => {
-            cy.get("[id='user_email']").should("be.visible").click();
+            cy.get("//*[contains(text(),'Biweekly')]").should("be.visible").click();
 
         },
 
@@ -302,6 +302,17 @@ export default {
         getSubscriptionBiweekly: () => {
             return cy.xpath("//*[@data-fe='frequency']/main/p")
         },
+
+        selectReactivateFreshlyFit: () => {
+            cy.xpath("//label[contains(@action,'activate_freshly_fit')][1]").should("be.visible").click();
+
+        },
+
+        switchToFreshlyFit: () => {
+            cy.xpath("//*[contains(text(),'Switch to FreshlyFit')]").should("be.visible").click()
+
+        },
+
 
         select4_8_12weeks: () => {
             var select_week = Math.floor(Math.random() * 4);// Get random number [1,3]

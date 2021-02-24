@@ -27,7 +27,7 @@ export default {
         },
 
         fillOutGetStartedForm: (userData, address) => {
-            cy.get("[data-test='email-field']")
+            cy.get("[data-test='email-field']").wait(2000).focus().clear()
                 .type(userData.email);
             cy.get("[data-test='zip-field']")
                 .type(address.zip);
@@ -150,6 +150,25 @@ export default {
 
 
         },
+        chooseMealsWithoutPremium: (times) => {
+
+            for (let i = 0; i < times; i++) {
+                if ((i % 2) != 0) {
+                    cy.get(".meal-card__container")
+                        .eq(i)
+                        .find("[data-test='add-meal']")
+                        .click({force: true})
+                }
+                else {
+                    cy.get(".meal-card__container")
+                        .eq(i)
+                        .find("[data-test='add-meal']")
+                        .click({force: true})
+                }
+            }
+            cy.get("[data-test-type='cart__confirm-button']").click()
+        },
+
         chooseMealsFromReactivationPage: (times) => {
 
             for (let i = 0; i < times; i++) {

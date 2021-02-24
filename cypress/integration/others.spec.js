@@ -59,7 +59,7 @@ describe("Some tests connected to others parts of Freshly ", () => {
             joinNow.gifts.fillRedeemForm(giftCode, email, address.zip);
         })
         joinNow.gifts.giftSuccessHeader().should("be.visible").should("contain", "Your Gift Card has been applied");
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.mealsPicker.chooseMealsWithoutPremium(mealPlan.meals);
         user.firstName = firstName;
         user.lastName = lastName;
         user.email = email;
@@ -89,7 +89,7 @@ describe("Some tests connected to others parts of Freshly ", () => {
         joinNow.dayPicker.MostPopularDay().scrollIntoView().click();
         joinNow.dayPicker.MostPopularDayAfterSelection().should("be.visible").invoke('text').then((daySelected) => {
             joinNow.dayPicker.continueToMealSelection();
-            joinNow.mealsPicker.checkCartBanner("Each Freshly meal is one serving");
+            //joinNow.mealsPicker.checkCartBanner("Each Freshly meal is one serving");banner was removed
             joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals, 'true');
             joinNow.checkOut.fillRegistrationData.fillUserData(user, address);
             //check sms check-box is available for checking

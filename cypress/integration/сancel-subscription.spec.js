@@ -107,7 +107,7 @@ describe("User is able to cancel subscrition in different mode ", () => {
 
 
     })
-    it.skip("11.3-User is able to skip up to 4,8,12 weeks with Brightback flow", () => {
+    it("11.3-User is able to skip up to 4,8,12 weeks with Brightback flow", () => {
         mealPlan.id = 427
         mealPlan.meals = 10
         joinNow.planPicker.chooseMealPlan(mealPlan);
@@ -136,7 +136,6 @@ describe("User is able to cancel subscrition in different mode ", () => {
     })
 
     it("11.4-User is able to change delivery frequency with Brightback flow", () => {
-
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -151,12 +150,34 @@ describe("User is able to cancel subscrition in different mode ", () => {
         subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
         subscription.cancelSubscription.continueToCancel();
         cy.url().should('contain', 'cancel.freshly.com');
-        subscription.brightBack.selectBiWeekly();
+        subscription.brightBack.clickBiWeekly();
         subscription.brightBack.changeToBiweekly();
         subscription.brightBack.selectBiWeekly();
         subscription.brightBack.saveBiweekly();
         joinNow.toastMessage.checkMessage("Biweekly frequency has been turned on");
         subscription.brightBack.getSubscriptionBiweekly().should("be.visible").should("contain", "Biweekly");
+
+    })
+
+    it("11.5-User is able to reactivate freshly fit subscription", () => {
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
+        joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
+        joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
+        joinNow.subscription.skipBothAttributionForms();
+        cy.visitSubscriptionSettingsPage();
+        subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
+        subscription.cancelSubscription.continueToCancel();
+        cy.url().should('contain', 'cancel.freshly.com');
+        subscription.brightBack.selectReactivateFreshlyFit();
+        subscription.brightBack.switchToFreshlyFit();
+        joinNow.toastMessage.checkMessage("Subscription successfully reactivated");
+        cy.url().should('contain', '/subscriptions/');
 
     })
 
