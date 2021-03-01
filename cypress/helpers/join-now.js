@@ -153,20 +153,14 @@ export default {
         chooseMealsWithoutPremium: (times) => {
 
             for (let i = 0; i < times; i++) {
-                if ((i % 2) != 0) {
-                    cy.get(".meal-card__container")
-                        .eq(i)
-                        .find("[data-test='add-meal']")
-                        .click({force: true})
-                }
-                else {
-                    cy.get(".meal-card__container")
-                        .eq(i)
-                        .find("[data-test='add-meal']")
-                        .click({force: true})
-                }
+
+                cy.get("[class='MealCard-module__body___2fEjH d-flex flex-md-column overflow-hidden h-100 w-100 MealCard-module__clickable___VEYor']")
+                    .eq(i)
+                    .find("[data-test='add-meal']")
+                    .click({force: true})
             }
             cy.get("[data-test-type='cart__confirm-button']").click()
+
         },
 
         chooseMealsFromReactivationPage: (times) => {
@@ -267,8 +261,9 @@ export default {
             },
 
             selectAnotherDeliveryDate: () => {
-                cy.get("#deliveryDate").selectNth(2)
-                //cy.xpath("(//*[@id='deliveryDate']/option)[2]").select()
+                var select_week = Math.floor(Math.random() * 5);
+                cy.get("#deliveryDate").selectNth(select_week);
+                //cy.xpath("(//*[@id='deliveryDate']//option[])").select()
 
             },
 

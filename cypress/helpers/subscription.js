@@ -290,7 +290,7 @@ export default {
         },
 
         selectBiWeekly: () => {
-            cy.get("//*[contains(text(),'Biweekly')]").should("be.visible").click();
+            cy.xpath("//*[contains(text(),'Biweekly')]").should("be.visible").click();
 
         },
 
