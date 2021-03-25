@@ -24,13 +24,35 @@ describe("User is able to cancel subscrition in different mode ", () => {
         joinNow.getStarted.fillOutGetStartedForm(user, address);
     })
 
+    it("12.1-User is able to cancel subscription with 15 off for four weeks", () => {
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
+        joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
+        joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
+        joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
+        joinNow.subscription.skipBothAttributionForms();
+        cy.visitSubscriptionSettingsPage();
+        subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
+        subscription.cancelSubscription.continueToCancel();
+        cy.url().should('contain', 'cancel.freshly.com');
+        subscription.brightBack.select15OffFor4weeks();
+        //subscription.brightBack.nanoBarPresent();
+        cy.url().should("include", "/login/")
+
+    })
 
     it("12-User is able to cancel subscription and reactivate it", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
         joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
         joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
@@ -55,30 +77,6 @@ describe("User is able to cancel subscrition in different mode ", () => {
     })
 
 
-    it("11.1-User is able to get 10% discount for subscription registered with Promo code with Brightback flow", () => {
-        mealPlan.id = 425
-        mealPlan.meals = 4
-        joinNow.planPicker.chooseMealPlan(mealPlan);
-        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
-        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
-        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
-        joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
-        joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
-        joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
-        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
-        joinNow.subscription.skipBothAttributionForms();
-        cy.visitSubscriptionSettingsPage();
-        subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
-        subscription.cancelSubscription.continueToCancel();
-        cy.url().should('contain', 'cancel.freshly.com');
-        subscription.brightBack.selectAnyOf10OFF();
-        subscription.brightBack.clickYesAtAnyForm();
-        joinNow.toastMessage.checkMessage("Promo code was applied successfully");
-        cy.url().should('contain', '/subscriptions/');
-
-    })
-
     it("11.2-User is able to skip up to three months with Brightback flow", () => {
         mealPlan.id = 426
         mealPlan.meals = 6
@@ -86,7 +84,8 @@ describe("User is able to cancel subscrition in different mode ", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
         joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
         joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
@@ -107,6 +106,32 @@ describe("User is able to cancel subscrition in different mode ", () => {
 
 
     })
+
+    it("11.1-User is able to get 10% discount for subscription registered with Promo code with Brightback flow", () => {
+        mealPlan.id = 425
+        mealPlan.meals = 4
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
+        joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
+        joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
+        joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
+        joinNow.subscription.skipBothAttributionForms();
+        cy.visitSubscriptionSettingsPage();
+        subscription.subscription.getCancelSubscriptionButton().should("be.visible").click();
+        subscription.cancelSubscription.continueToCancel();
+        cy.url().should('contain', 'cancel.freshly.com');
+        subscription.brightBack.selectAnyOf10OFF();
+        subscription.brightBack.clickYesAtAnyForm();
+        joinNow.toastMessage.checkMessage("Promo code was applied successfully");
+        cy.url().should('contain', '/subscriptions/');
+
+    })
+
     it("11.3-User is able to skip up to 4,8,12 weeks with Brightback flow", () => {
         mealPlan.id = 427
         mealPlan.meals = 10
@@ -114,7 +139,8 @@ describe("User is able to cancel subscrition in different mode ", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
         joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
         joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
@@ -140,7 +166,8 @@ describe("User is able to cancel subscrition in different mode ", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
         joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
         joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
@@ -164,7 +191,8 @@ describe("User is able to cancel subscrition in different mode ", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.addPromoCode(Cypress.env('PromoCode'))
         joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
         joinNow.checkOut.paymentPanel.getPaymentPanel().should("be.visible");
@@ -186,7 +214,8 @@ describe("User is able to cancel subscrition in different mode ", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();

@@ -32,7 +32,8 @@ describe("Some tests connected to others parts of Freshly ", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealDetailsCard(mealPlan.meals);// empty parameter leads to selecting different meals
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
@@ -101,10 +102,12 @@ describe("Some tests connected to others parts of Freshly ", () => {
             //verify incorrect address
             joinNow.checkOut.deliveryPanel.verifyAddress();
             joinNow.checkOut.deliveryPanel.submitDeliveryForm();
-            joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+            joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
             //fill billing address form
             joinNow.checkOut.deliveryPanel.billingAddressBox();
-            joinNow.checkOut.deliveryPanel.fillBillingAddress();
+            //joinNow.checkOut.deliveryPanel.fillBillingAddress();
+            var fullUserData = user.firstName + " " + user.lastName;
+            joinNow.checkOut.deliveryPanel.fillBillingAddressBtainTree(fullUserData, "90604", "90603");
             joinNow.checkOut.paymentPanel.submitPaymentForm(user);
             joinNow.subscription.selectRandomValue();
             joinNow.subscription.dismissSelfAttributionForm2();
@@ -125,7 +128,8 @@ describe("Some tests connected to others parts of Freshly ", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals, 'true');
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
@@ -182,7 +186,8 @@ describe("Some tests connected to others parts of Freshly ", () => {
         joinNow.dayPicker.chooseLastDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealDetailsCard(mealPlan.meals, 'true');
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);

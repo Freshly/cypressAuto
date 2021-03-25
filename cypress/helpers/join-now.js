@@ -276,15 +276,20 @@ export default {
 
             },
             billingAddressBox: () => {
-                cy.get("[id='sameBillingAddressInput']").click({force: true})
+                cy.get("[for='sameBillingAddressInput']").click({force: true})
 
             },
             fillBillingAddress: () => {
                 cy.get("#billing_address_line1").should("be.visible").type("120 Highway");
-
                 cy.get("#billing_address_city").should("be.visible").focus().clear();
                 cy.get("#billing_address_city").type('New York');
 
+
+            },
+            fillBillingAddressBtainTree: (fullUserData, newZip, oldZip) => {
+                cy.get("#cardholderName").should("be.visible").should('have.value', fullUserData);
+                cy.get("#postalCode").should("be.visible").should('have.value', oldZip);
+                cy.get("#postalCode").focus().click().clear().type(newZip);
 
             },
 
@@ -327,6 +332,27 @@ export default {
                     .click().wait(1000)
                     .type(paymentCard.cvv)
             },
+            fillOutPaymentInfoWithCardBrainTree: (paymentCard) => {
+                cy.get("[for='ccPaymentOptionInput']").should("be.visible")
+                    .click({force: true});
+                cy.wait(2000);
+                cy.xpath("//*[@id = 'braintree-hosted-field-number']")
+                    .iframe()
+                    .find("input[id='credit-card-number']").should('not.be.disabled')
+                    .click().wait(1000)
+                    .type(paymentCard.number);
+                cy.xpath("//*[@id = 'braintree-hosted-field-expirationDate']")
+                    .iframe()
+                    .find("input[id='expiration']")
+                    .click().wait(1000)
+                    .type(paymentCard.expDate);
+                cy.xpath("//*[@id = 'braintree-hosted-field-cvv']")
+                    .iframe()
+                    .find("input[id='cvv']")
+                    .click().wait(1000)
+                    .type(paymentCard.cvv)
+            },
+
             getRemovePromo: () => {
                 return cy.get("[class='btn-link-gray p-0 btn btn-link']")
             },

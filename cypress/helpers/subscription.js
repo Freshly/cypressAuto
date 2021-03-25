@@ -242,11 +242,22 @@ export default {
             cy.xpath("//span[contains(text(),'Never mind! Take me back to my deliveries')]").should("be.visible").click()
 
         },
+        nanoBarPresent: () => {
+            cy.get("[class='nanobar']").should("be.visible")
+
+        },
         selectAnyReason: () => {
             cy.xpath("//span[contains(text(),'I disliked the food')]").should("be.visible").click()
             cy.xpath("//*[contains(@class,'justify-self--end')]").should("be.visible").click()
 
         },
+        select15OffFor4weeks: () => {
+            cy.xpath("//label[contains(@action,'60_off_4_promo_code')][1]").should("be.visible").click();
+            cy.wait(2000)
+            cy.xpath("//*[contains(@class,'justify-content')]").should("be.visible").click()
+
+        },
+
         clickYesAtAnyForm: () => {
             cy.xpath("//*[@class='es-btn']").should("be.visible").click()
 
@@ -586,9 +597,36 @@ export default {
 
         },
 
-        savePaymentMethod: () => {
-            cy.xpath("//div[@id='create-payment-method']//button[contains(text(),'Save')]").should("be.visible").click()
+        fillNewPaymentFormBrainTree: (fullName, address, paymentCardAdded) => {
 
+            cy.get("#payment-method__braintree-fullName").should("be.visible").focus().click().type(fullName);
+            cy.xpath("//*[@id = 'braintree-hosted-field-number']")
+                .iframe()
+                .find("input[id='credit-card-number']")
+                .click().wait(1000)
+                .type(paymentCardAdded.number);
+            cy.xpath("//*[@id = 'braintree-hosted-field-expirationDate']")
+                .iframe()
+                .find("input[id='expiration']")
+                .click().wait(1000)
+                .type(paymentCardAdded.expDate);
+            cy.xpath("//*[@id = 'braintree-hosted-field-cvv']")
+                .iframe()
+                .find("input[id='cvv']")
+                .click().wait(1000)
+                .type(paymentCardAdded.cvv);
+            cy.xpath("//*[@id = 'braintree-hosted-field-postalCode']")
+                .iframe()
+                .find("input[id='postal-code']")
+                .click().wait(1000)
+                .type(address.zip);
+
+        },
+
+        savePaymentMethod: () => {
+            cy.wait(1000);
+            cy.xpath("//div[@id='create-payment-method']//button[contains(text(),'Save')]").should("be.visible").dblclick({force: true})
+            cy.xpath("//div[@id='create-payment-method']//button[contains(text(),'Save')]").should("be.visible").dblclick({force: true})
         },
 
         setAsDefault: () => {

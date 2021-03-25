@@ -30,7 +30,8 @@ describe("Check different functional at Delivery page", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
@@ -57,7 +58,8 @@ describe("Check different functional at Delivery page", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
@@ -80,7 +82,8 @@ describe("Check different functional at Delivery page", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);2
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
@@ -107,7 +110,8 @@ describe("Check different functional at Delivery page", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
@@ -128,7 +132,8 @@ describe("Check different functional at Delivery page", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
@@ -152,7 +157,8 @@ describe("Check different functional at Delivery page", () => {
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);// empty parameter leads to selecting different meals
         joinNow.checkOut.fillRegistrationData.fillUserData(user, address)
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
