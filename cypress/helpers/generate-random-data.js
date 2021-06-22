@@ -6,7 +6,7 @@ const {_, moment} = Cypress
 
 export function generateCardExpirationDate() {
 
-    let expirationDate = faker.date.between('2021-01-01', '2029-12-31')
+    let expirationDate = faker.date.between('2022-01-01', '2030-12-31')
     let expirationMonth = _.padStart(expirationDate.getMonth() + 1, 2, "0")
     let expirationYear = expirationDate.getFullYear().toString().substring(2)
 

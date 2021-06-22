@@ -27,9 +27,9 @@ export default {
         },
 
         fillOutGetStartedForm: (userData, address) => {
-            cy.get("[data-test='email-field']").wait(2000).focus().clear()
+            cy.get("[id='join_now_data_email']").wait(2000).focus().clear()
                 .type(userData.email);
-            cy.get("[data-test='zip-field']")
+            cy.get("[id='join_now_data_zip']")
                 .type(address.zip);
             cy.get("[data-test='get-started-form-submit-button']")
                 .click()
@@ -52,8 +52,7 @@ export default {
                 .click()
         },
         clickOnHeaderLogo: () => {
-            cy.get(".logo-wrapper > a > img")
-                .first()
+            cy.get("[aria-label='Freshly Homepage']")
                 .click()
         }
 
@@ -98,7 +97,7 @@ export default {
         },
 
         FirstDeliveryDate: () => {
-            return cy.get("[class='small text-muted text-center']>span:nth-of-type(2)")
+            return cy.get("[class='small text-center mt-4 font-weight-500']>span:nth-of-type(2)")
         },
 
         chooseLastDeliveryDayFromAvailable: () => {
@@ -118,7 +117,7 @@ export default {
 
         },
         MostPopularDayAfterSelection: () => {
-            return cy.xpath("//*[@class='small text-muted text-center']/span[2]")
+            return cy.xpath("//*[@class='small text-center mt-4 font-weight-500']/span[2]")
 
         },
         continueToMealSelection: () => {
@@ -335,11 +334,11 @@ export default {
             fillOutPaymentInfoWithCardBrainTree: (paymentCard) => {
                 cy.get("[for='ccPaymentOptionInput']").should("be.visible")
                     .click({force: true});
-                cy.wait(2000);
+                cy.wait(3000);
                 cy.xpath("//*[@id = 'braintree-hosted-field-number']")
                     .iframe()
                     .find("input[id='credit-card-number']").should('not.be.disabled')
-                    .click().wait(1000)
+                    .click().wait(2000)
                     .type(paymentCard.number);
                 cy.xpath("//*[@id = 'braintree-hosted-field-expirationDate']")
                     .iframe()
@@ -365,7 +364,7 @@ export default {
             submitPaymentForm: (userData) => {
                 cy.get("[class='btn btn-primary btn-lg btn-block']").click(); //click to Submit button
                 cy.get("[name='password']").should("be.visible").type(userData.password, {force: true});//fill password from
-                cy.get("[class='mt-4 btn btn-primary btn-lg btn-block']").click();// click to "Create now"
+                cy.get("[data-test='create-now']").click();// click to "Create now"
                 cy.wait(2000)
 
             },
@@ -458,7 +457,7 @@ export default {
 
         dismissSelfAttributionForm: () => {
             cy.xpath("//*[@class='modal-content']//button[contains(text(),'×')]").should("be.visible").click();
-            cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click()
+            cy.xpath("//button[contains(text(),'View my deliveries')]").should("be.visible").click();
         },
 
         getFirstNameHeader: () => {
@@ -470,6 +469,13 @@ export default {
 
         },
 
+        dismissUpdateOrderForm: () => {
+            cy.xpath("//button[contains(text(),'View my deliveries')]").should("be.visible").click();
+            cy.xpath("//*[@class = 'modal-header empty-header']//button[@data-test='close-modal']").should("be.visible").click()
+
+
+        },
+
         selectRandomValue: () => {
             var randomNumber = (Math.floor(Math.random() * 13) + 1).toString();
 
@@ -477,43 +483,43 @@ export default {
 
             switch (randomNumber) {
                 case '1':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(1)").should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(1)").should("be.visible").click();
                     break;
                 case '2':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(2)").should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(2)").should("be.visible").click();
                     break;
                 case '3':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(3)").should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(3)").should("be.visible").click();
                     break;
                 case '4':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(4)").scrollIntoView().should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(4)").scrollIntoView().should("be.visible").click();
                     break;
                 case '5':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(5)").scrollIntoView().should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(5)").scrollIntoView().should("be.visible").click();
                     break;
                 case '6':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(6)").scrollIntoView().should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(6)").scrollIntoView().should("be.visible").click();
                     break;
                 case '7':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(7)").scrollIntoView().should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(7)").scrollIntoView().should("be.visible").click();
                     break;
                 case '8':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(8)").scrollIntoView().should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(8)").scrollIntoView().should("be.visible").click();
                     break;
                 case '9':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(9)").scrollIntoView().should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(9)").scrollIntoView().should("be.visible").click();
                     break;
                 case '10':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(10)").scrollIntoView().should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(10)").scrollIntoView().should("be.visible").click();
                     break;
                 case '11':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(11)").scrollIntoView().should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(11)").scrollIntoView().should("be.visible").click();
                     break;
                 case '12':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(12)").scrollIntoView().should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(12)").scrollIntoView().should("be.visible").click();
                     break;
                 case '13':
-                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center list-group']>li:nth-child(13)").scrollIntoView().should("be.visible").click();
+                    cy.get("[class='mx-n3 overflow-auto border-bottom text-center font-weight-bold list-group']>li:nth-child(13)").scrollIntoView().should("be.visible").click();
                     break;
 
                 default:
@@ -527,10 +533,10 @@ export default {
 
         skipBothAttributionForms: () => {
             cy.xpath("//*[@class='modal-content']//button[contains(text(),'×')]").should("be.visible").click();
-            cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click();
+            cy.xpath("//button[contains(text(),'View my deliveries')]").should("be.visible").click();
 
-            cy.xpath("//*[@id = 'download-app-modal']//button[@data-test='close-modal']/span").should("be.visible").click() //download window is disappeared
-
+            //cy.xpath("//*[@id = 'download-app-modal']//button[@data-test='close-modal']/span").should("be.visible").click() //download window is disappeared
+            cy.xpath("//*[@class='modal-dialog modal-dialog-scrollable  modal-dialog-centered ']//button[@data-test='close-modal']").should("be.visible").click({multiple: true})
         },
 
         visitSubscriptionSettingsPage: () => {
@@ -594,7 +600,7 @@ export default {
             cy.get("[id='form_object_session_email']").should("be.visible");
             cy.get("[id='form_object_session_email']").type(email);
             cy.get("[id='form_object_session_password']").type(password);
-            cy.get("[value='Log in']").should("be.visible").click()
+            cy.get("[value='Log In']").should("be.visible").click()
 
         }
 

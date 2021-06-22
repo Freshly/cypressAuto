@@ -83,7 +83,7 @@ export default {
         },
 
         getSubscriptionRemovePromo: () => {
-            return cy.get("[class ='remove']")
+            return cy.get("[class ='remove align-self-end']")
         },
         getSubscriptionAddPromo: () => {
             return cy.get("[data-target ='#apply-promo-code']")
@@ -118,9 +118,11 @@ export default {
         },
 
         skipBothAttributionForms: () => {
-            cy.xpath("//*[@class='modal-content']//button[contains(text(),'×')]").should("be.visible").click()
-            cy.get("[class='border-0 rounded-3 ml-0 py-0 my-1 btn btn-primary btn-lg']").should("be.visible").click()
-            cy.xpath("//*[@id = 'download-app-modal']//button[@data-test='close-modal']/span").should("be.visible").click()
+            cy.xpath("//*[@class='modal-content']//button[contains(text(),'×')]").should("be.visible").click();
+            cy.xpath("//button[contains(text(),'View my deliveries')]").should("be.visible").click();
+
+            //cy.xpath("//*[@id = 'download-app-modal']//button[@data-test='close-modal']/span").should("be.visible").click() //download window is disappeared
+            cy.xpath("//*[@class='modal-dialog modal-dialog-scrollable  modal-dialog-centered ']//button[@data-test='close-modal']").should("be.visible").click({multiple: true})
         },
 
         insertPromoAndApply: promoCode => {
@@ -691,6 +693,27 @@ export default {
 
     },
 
+    referFriend: {
+        storeCreditForm: () => {
+            return cy.get("[data-fe='stored-credit']")
+
+        },
+        referFriendClick: () => {
+            cy.get("[data-fe='stored-credit'] > aside > div > a").should("be.visible").click()
+
+        },
+        checkReferFriendLink: () => {
+            return cy.get("[class='extole-js-share-link extole-js-copy extole-share-link__link']")
+
+        },
+        earnedSoFar: () => {
+            return cy.get("[class='refer-page-invites-total ml-auto pl-3 text-nowrap'] > b")
+
+        }
+
+
+    },
+
     calendar: {
         changeDeliveryDay: () => {
             cy.get("[data-fe='default-delivery-day'] > aside > a").should("be.visible").click()
@@ -721,6 +744,26 @@ export default {
         getDefaultDayFromSubscriptionPage: () => {
             return cy.get("[data-fe='default-delivery-day'] > main > p")
 
+        }
+
+    },
+
+    calendarDropDown: {
+
+        getAnyAvailableDayInDropdown: () => {
+            return cy.xpath("//*[@id = 'subscription_default_target_day']//option[not(contains(@selected, 'selected'))][1]");
+        },
+
+        getActualDayInDropdown: () => {
+            return cy.xpath("//*[@selected = 'selected']");
+        },
+
+        showListOfActualDaysInDropdown: () => {
+            cy.xpath("//*[@id = 'subscription_default_target_day']").should("be.visible").click({force: true});
+        },
+
+        dropDown: () => {
+            return cy.xpath("//*[@id = 'subscription_default_target_day']");
         }
 
     }

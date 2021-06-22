@@ -9,7 +9,7 @@ export default {
             cy.wait(1000)
             var selectMealNumber = Math.floor(Math.random() * 25)
             for (let i = 1; i <= mealPlan; i++) {
-                cy.get(".meal-card__container").eq(selectMealNumber).find("[data-test='add-meal']").click({force: true})
+                cy.get("[data-test='add-meal']").eq(selectMealNumber).click({force: true})
                 selectMealNumber = Math.floor(Math.random() * 25)
             }
         },
@@ -37,7 +37,7 @@ export default {
             return cy.get("[class='icon-warning']")
         },
         totalSumAtDelivery: () => {
-            return cy.get("[class='promo total-price']>strong")
+            return cy.get("[class='promo discount-price']>strong")
 
         },
         select6MealsPlanAtChangeMeals: () => {

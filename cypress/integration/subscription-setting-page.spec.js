@@ -150,16 +150,22 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         subscription.subscription.skipBothAttributionForms();
         cy.visitSubscriptionSettingsPage();
-        subscription.calendar.getDefaultDayFromSubscriptionPage().invoke('text').then((dayBeforeChanging) => {
-            subscription.calendar.changeDeliveryDay()
-            subscription.calendar.selectAnyDayInDropdown()
-            subscription.calendar.getDefaultDayFromSubscriptionPage().invoke('text').should((newDay) => {
-                expect(dayBeforeChanging).not.to.eq(newDay)
-                })
+        subscription.calendarDropDown.getActualDayInDropdown().invoke('text').then((dayBeforeChanging) => {
+            //subscription.calendarDropDown.showListOfActualDaysInDropdown();
+            subscription.calendarDropDown.getAnyAvailableDayInDropdown().invoke('text').then((dayForSelecting) => {
+                subscription.calendarDropDown.dropDown().select(dayForSelecting);
+                let message = 'Your preferred delivery day has been changed to ' + dayForSelecting;
+                joinNow.toastMessage.checkMessage(message);
+            })
+            cy.reload();
+            subscription.calendarDropDown.getActualDayInDropdown().invoke('text').should((dayAfterChanging) => {
+                expect(dayBeforeChanging).not.to.eq(dayAfterChanging);
+            })
+
         })
     })
 
-    it("15-User is able to select available delivery day from Calendar Subscription setting page", () => {
+    it.skip("15-User is able to select available delivery day from Calendar Subscription setting page(not actual with new implementation of selecting defaulf day)", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -185,7 +191,7 @@ describe("User is able to change parameters of subscrition ", () => {
         })
     })
 
-    it.only("16-User is able to add/select/delete new payment card from Subscription setting page", () => {
+    it("16-User is able to add/select/delete new payment card from Subscription setting page", () => {
         joinNow.planPicker.chooseMealPlan(mealPlan);
         joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
         joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
@@ -317,6 +323,25 @@ describe("User is able to change parameters of subscrition ", () => {
         joinNow.toastMessage.checkMessage("Promo code was applied successfully");
         subscription.subscription.getSubscriptionPromoCode().should("be.visible").should("contain", Cypress.env('PromoCode'));
         subscription.subscription.getSubscriptionRemovePromo().should('be.visible');
+    })
+
+    it("20-User is able to use refer friend functional-not finished", () => {
+        joinNow.planPicker.chooseMealPlan(mealPlan);
+        joinNow.dayPicker.chooseFirstDeliveryDayFromAvailable();
+        joinNow.mealsPicker.chooseMealsFromMealPlanner(mealPlan.meals);
+        joinNow.checkOut.fillRegistrationData.fillUserData(user, address);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
+        joinNow.checkOut.paymentPanel.submitPaymentForm(user);
+        joinNow.subscription.skipBothAttributionForms();
+        joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
+        cy.visitSubscriptionSettingsPage();
+        subscription.referFriend.storeCreditForm().should("be.visible");
+        subscription.referFriend.referFriendClick();
+        cy.url().should("include", "/refer");
+        subscription.referFriend.checkReferFriendLink().should("be.visible").should("contain", user.firstName);
+        subscription.referFriend.earnedSoFar().should("be.visible").should("have.text", '$0');
+
+
     })
 
 

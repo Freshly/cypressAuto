@@ -69,12 +69,13 @@ describe("Some tests connected to others parts of Freshly ", () => {
             expect(totalSum).to.eq("$0.00")
         })
         joinNow.checkOut.paymentPanel.getRemovePromo().should("be.visible");
-        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        //joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCard(paymentCard);
+        joinNow.checkOut.paymentPanel.fillOutPaymentInfoWithCardBrainTree(paymentCard);
         joinNow.checkOut.paymentPanel.submitPaymentForm(user);
         joinNow.subscription.skipBothAttributionForms();
         joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName);
         deliveries.deliveries.totalSumAtDelivery().should("be.visible").invoke('text').should((totalSum) => {
-            expect(totalSum).to.eq("$0.00")
+            expect(totalSum).to.eq(" Free ")
         })
 
 
@@ -110,7 +111,8 @@ describe("Some tests connected to others parts of Freshly ", () => {
             joinNow.checkOut.deliveryPanel.fillBillingAddressBtainTree(fullUserData, "90604", "90603");
             joinNow.checkOut.paymentPanel.submitPaymentForm(user);
             joinNow.subscription.selectRandomValue();
-            joinNow.subscription.dismissSelfAttributionForm2();
+            joinNow.subscription.dismissUpdateOrderForm();
+            //joinNow.subscription.dismissSelfAttributionForm2();
             //joinNow.subscription.skipBothAttributionForms();
             joinNow.subscription.getFirstNameHeader().should("be.visible").should("contain", user.firstName)
             deliveries.first_week.deliveryDay().should("be.visible").invoke('text').should((dayDelivery) => {
